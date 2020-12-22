@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "390443960832",
+    "project_id": "desichatkara-d7e5f",
+    "storage_bucket": "desichatkara-d7e5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:390443960832:android:d22d344d2aca495c8c66e5",
+        "android_client_info": {
+          "package_name": "com.inceptory.desichatkara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "390443960832-frtgi8jumcoquobqlkugi3u2qv2kjrnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inceptory.desichatkara",
+            "certificate_hash": "d7a752596cb100e3882d7206ac33730e305526e5"
+          }
+        },
+        {
+          "client_id": "390443960832-os18jl71edqa5hoi3od5qeh0ttfnu24a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlLunnzia3n11FxeV6aFl7NP1qQQEkfvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "390443960832-os18jl71edqa5hoi3od5qeh0ttfnu24a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

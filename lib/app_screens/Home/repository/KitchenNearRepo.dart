@@ -6,8 +6,11 @@ class KitchensNearRepository {
 
   ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<KitchensNearResponseModel> getAllKitchenNear(body) async {
-   
+  Future<KitchensNearResponseModel> getAllKitchenNear(String id) async {
+
+    Map body={
+      "category_id":"$id"
+    };
     final response = await _helper.post("vendors/all",body);
     return KitchensNearResponseModel.fromJson(response);
   }

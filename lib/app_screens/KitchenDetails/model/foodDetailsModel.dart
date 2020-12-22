@@ -175,12 +175,12 @@ class ProductDetails {
   int id;
   String name;
   String categoryId;
-  Null manufacturerId;
+  String manufacturerId;
   String productImage;
   String createdAt;
   String updatedAt;
   String isActive;
-  Null vendorId;
+  String vendorId;
   List<Skus> skus;
 
   ProductDetails(
@@ -242,7 +242,7 @@ class Skus {
   String vendorId;
   String createdAt;
   String updatedAt;
-  Null deletedAt;
+  String deletedAt;
   String isActive;
   Image image;
   List<SkuVariant> skuVariant;

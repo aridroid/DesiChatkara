@@ -1,10 +1,10 @@
 import 'package:desichatkara/app_screens/screens/AddressList.dart';
-import 'package:desichatkara/app_screens/screens/Cart.dart';
+import 'package:desichatkara/app_screens/screens/Cart1.dart';
 import 'package:desichatkara/app_screens/screens/Home.dart';
 import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu1.dart';
 import 'package:desichatkara/app_screens/screens/KitchensNearYou.dart';
 import 'package:desichatkara/app_screens/screens/Login.dart';
-import 'package:desichatkara/app_screens/screens/OrderHistory.dart';
+import 'file:///D:/STUDY/Android_flutter/desichatkara-flutter-main/desichatkara-flutter-main/lib/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/screens/SignUpLogin.dart';
 import 'package:desichatkara/app_screens/screens/Starting.dart';
 import 'package:desichatkara/app_screens/screens/UserProfile.dart';

@@ -3,9 +3,14 @@ import 'package:desichatkara/app_screens/UserLogin/model/LoginModel.dart';
 import 'package:desichatkara/app_screens/screens/Home.dart';
 import 'package:desichatkara/app_screens/screens/SignUpLogin.dart';
 import 'package:desichatkara/helper/api_response.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:desichatkara/app_screens/CartPage/Cart.dart';
+
 
 import '../../constants.dart';
 
@@ -18,8 +23,30 @@ class _LoginState extends State<Login> {
   LoginBloc _loginBloc;
   SharedPreferences prefs;
 
-  TextEditingController emailOrPhoneController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+
+  String DeviceID="";
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String _message = '';
+
+
+  _register() async {
+    //_firebaseMessaging.getToken().then((token) => print(token));
+    var tokenFirebase="";
+    _firebaseMessaging.getToken().then((token) async {
+      tokenFirebase=token;
+      print(token);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("device_id",tokenFirebase);
+      DeviceID=tokenFirebase;
+      print("sf");
+      String device_id = prefs.getString("device_id");
+      print(device_id);
+    });
+  }
+
 
   @override
   void initState() {
@@ -27,6 +54,7 @@ class _LoginState extends State<Login> {
     createSharedPref();
     _loginBloc = LoginBloc();
   }
+
   Future<void> createSharedPref() async {
     prefs = await SharedPreferences.getInstance();
     // DeviceID=prefs.getString("device_id");
@@ -34,7 +62,6 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> managedSharedPref(UserLoginResponseModel data) async {
-
     prefs.setString("coupon_code", "");
     prefs.setString("cart_id", "${data.cartId}");
     prefs.setString("user_id", "${data.data.id}");
@@ -45,7 +72,15 @@ class _LoginState extends State<Login> {
     prefs.setString("email", "${data.data.email}");
     prefs.setString("user_token", "${data.success.token}");
     prefs.setString("user_phone", "${data.data.mobileNumber}");
-    userLogin=true;
+    userLogin = true;
+  }
+
+  navToAttachList(context) async {
+    Future.delayed(Duration.zero, () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) {
+        return Home();
+      }));
+    });
   }
 
   @override
@@ -95,14 +130,14 @@ class _LoginState extends State<Login> {
                 Container(
                   margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
                   child: TextFormField(
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
-                    initialValue: '+91',
-
                     // maxLength: 20,
                     decoration: InputDecoration(
                       //icon: Icon(Icons.favorite),
-                      labelText: 'Email or Phone no',
+                      labelText: 'Your Email ID',
                       labelStyle: TextStyle(
                         color: Color(0xFFF7F7F7),
                       ),
@@ -126,6 +161,9 @@ class _LoginState extends State<Login> {
                 Container(
                   margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
                   child: TextFormField(
+                    controller: passwordController,
+                    obscureText: true,
+                    obscuringCharacter: "*",
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
 
@@ -167,8 +205,35 @@ class _LoginState extends State<Login> {
                 Center(
                   child: InkWell(
                     onTap: () {
-                      Map body = {"email": "sibasis@inceptorytech.zzzzzzz", "password": "123456", "deviceid": "7465"};
-                      _loginBloc.userLogin(body);
+                      if(emailController.text=="" ||
+                          passwordController.text=="")
+                      {
+                        Fluttertoast.showToast(
+                            msg: "Please Fill All Required Field",
+                            fontSize: 16,
+                            backgroundColor: Colors.orange[100],
+                            textColor: lightThemeRed,
+                            toastLength: Toast.LENGTH_LONG);
+                      }else if(!EmailValidator.validate(emailController.text)){
+                        Fluttertoast.showToast(
+                            msg: "Please Enter Correct Email ID",
+                            fontSize: 16,
+                            backgroundColor: Colors.white,
+                            textColor: lightThemeRed,
+                            toastLength: Toast.LENGTH_LONG);
+                      }else{
+                        Map body;
+                        body = {
+                          "email" : "${emailController.text}",
+                          "password" : "${passwordController.text}",
+                          "deviceid" : "$DeviceID"
+                        };
+                        _loginBloc.userLogin(body);
+                      }
+
+                      print("${emailController.text}");
+                      print("${passwordController.text}");
+
                     },
 
                     /*Navigator.push(
@@ -181,28 +246,42 @@ class _LoginState extends State<Login> {
                           if (snapshot.hasData) {
                             switch (snapshot.data.status) {
                               case Status.LOADING:
-                                Container(
-                                  height: 10.0,
-                                  width: 10.0,
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.cyan),
-                                  ),
+                                return CircularProgressIndicator(
+                                    backgroundColor: circularBGCol,
+                                    strokeWidth: strokeWidth,
+                                    valueColor: AlwaysStoppedAnimation<Color>(circularStrokeCol)
                                 );
-
                                 break;
 
                               case Status.COMPLETED:
                                 managedSharedPref(snapshot.data.data);
-                                Future.delayed(Duration(seconds: 1), () async {
-                                  // prefs = await SharedPreferences.getInstance();
-                                  prefs.setString("useriddesichatkara", snapshot.data.data.data.id.toString());
-                                  print(snapshot.data.data.data.id.toString());
-                                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                                    return Home();
-                                  }));
-                                });
+                                navToAttachList(context);
+                                // Future.delayed(Duration.zero, () async {
+                                //   // prefs = await SharedPreferences.getInstance();
+                                //   prefs.setString("useriddesichatkara", snapshot.data.data.data.id.toString());
+                                //   print(snapshot.data.data.data.id.toString());
+                                //   Navigator.pushReplacement(context,
+                                //       MaterialPageRoute(builder: (BuildContext context) {
+                                //         return Home();
+                                //       }));
+                                //   // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                                //   //   return Cart();
+                                //   // }));
+                                // });
+                                Fluttertoast.showToast(
+                                    msg: "Welcome ${snapshot.data.data.data.name}",
+                                    fontSize: 16,
+                                    backgroundColor: Colors.white,
+                                    textColor: lightThemeRed,
+                                    toastLength: Toast.LENGTH_LONG);
                                 break;
                               case Status.ERROR:
+                                Fluttertoast.showToast(
+                                    msg: "Please Enter Correct Email ID and Password",
+                                    fontSize: 16,
+                                    backgroundColor: Colors.white,
+                                    textColor: lightThemeRed,
+                                    toastLength: Toast.LENGTH_LONG);
                                 print("error");
                                 break;
                             }

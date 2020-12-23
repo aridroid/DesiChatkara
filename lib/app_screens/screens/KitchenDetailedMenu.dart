@@ -1,3 +1,4 @@
+import 'package:desichatkara/app_screens/CartPage/Cart.dart';
 import 'package:desichatkara/app_screens/CartPage/bloc/cartEmptyBloc.dart';
 import 'package:desichatkara/app_screens/CartPage/bloc/cartItemsAddBloc.dart';
 import 'package:desichatkara/app_screens/CartPage/bloc/cartItemsUpdateBloc.dart';
@@ -5,7 +6,6 @@ import 'package:desichatkara/app_screens/CartPage/model/cartItemsAddModel.dart';
 import 'package:desichatkara/app_screens/CartPage/model/cartItemsUpdateModel.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/Repository/foodHomeRepository.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/model/foodDetailsModel.dart' as fdm;
-import 'file:///D:/STUDY/Android_flutter/desichatkara-flutter-main/desichatkara-flutter-main/lib/app_screens/CartPage/Cart.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:desichatkara/helper/api_response.dart';
 import 'package:desichatkara/utility/Error.dart';

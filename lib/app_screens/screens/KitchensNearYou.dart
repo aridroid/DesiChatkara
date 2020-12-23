@@ -1,8 +1,8 @@
 //import 'dart:html';
 
+import 'package:desichatkara/app_screens/CartPage/Cart.dart';
 import 'package:desichatkara/app_screens/Home/model/KitchenNearModel.dart';
 import 'package:desichatkara/app_screens/Home/repository/KitchenNearRepo.dart';
-import 'file:///D:/STUDY/Android_flutter/desichatkara-flutter-main/desichatkara-flutter-main/lib/app_screens/CartPage/Cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

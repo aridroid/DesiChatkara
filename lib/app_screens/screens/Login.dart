@@ -256,18 +256,6 @@ class _LoginState extends State<Login> {
                               case Status.COMPLETED:
                                 managedSharedPref(snapshot.data.data);
                                 navToAttachList(context);
-                                // Future.delayed(Duration.zero, () async {
-                                //   // prefs = await SharedPreferences.getInstance();
-                                //   prefs.setString("useriddesichatkara", snapshot.data.data.data.id.toString());
-                                //   print(snapshot.data.data.data.id.toString());
-                                //   Navigator.pushReplacement(context,
-                                //       MaterialPageRoute(builder: (BuildContext context) {
-                                //         return Home();
-                                //       }));
-                                //   // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                                //   //   return Cart();
-                                //   // }));
-                                // });
                                 Fluttertoast.showToast(
                                     msg: "Welcome ${snapshot.data.data.data.name}",
                                     fontSize: 16,

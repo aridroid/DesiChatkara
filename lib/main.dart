@@ -4,17 +4,40 @@ import 'package:desichatkara/app_screens/screens/Home.dart';
 import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu1.dart';
 import 'package:desichatkara/app_screens/screens/KitchensNearYou.dart';
 import 'package:desichatkara/app_screens/screens/Login.dart';
-import 'file:///D:/STUDY/Android_flutter/desichatkara-flutter-main/desichatkara-flutter-main/lib/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/screens/SignUpLogin.dart';
 import 'package:desichatkara/app_screens/screens/Starting.dart';
 import 'package:desichatkara/app_screens/screens/UserProfile.dart';
+import 'package:desichatkara/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Set keys = prefs.getKeys();
+
+  if (keys.contains("user_token")) {
+    print("user_token exist"+prefs.getString("user_token"));
+    if (prefs.getString("user_token") != "")
+    {
+      // userLogin=prefs.getBool("user_login");
+      userLogin=true;
+    }
+  } else
+    prefs.setString("user_token", "");
+
+  runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      checkerboardOffscreenLayers: true,
+      home: (userLogin==true)?Home():Starting()));
 }
 
 class MyApp extends StatelessWidget {
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

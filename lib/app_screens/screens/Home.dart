@@ -1,6 +1,7 @@
 import 'package:desichatkara/app_screens/CartPage/Cart.dart';
 import 'package:desichatkara/app_screens/Home/model/KitchenNearModel.dart';
 import 'package:desichatkara/app_screens/Home/repository/KitchenNearRepo.dart';
+import 'package:desichatkara/app_screens/orderDetails_screen/OrderHistory.dart';
 
 //import 'package:desichatkara/app_screens/Home/model/KitchenNearModel.dart';
 import 'package:desichatkara/app_screens/screens/AddressList.dart';
@@ -8,13 +9,13 @@ import 'package:desichatkara/app_screens/screens/BestSellingKitchens.dart';
 import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu.dart';
 import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu1.dart';
 import 'package:desichatkara/app_screens/screens/KitchensNearYou.dart';
-import 'file:///D:/STUDY/Android_flutter/desichatkara-flutter-main/desichatkara-flutter-main/lib/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/screens/OrderYourChoice.dart';
 import 'package:desichatkara/app_screens/screens/UserProfile.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_indicator/page_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -31,14 +32,30 @@ class _HomeState extends State<Home> {
   Future<KitchensNearResponseModel> allKitchenNear;
   KitchensNearRepository _kitchenNearRepository;
 
+  SharedPreferences prefs;
+  String name="";
+  String email="";
+
+
+  Future<void> createSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+    name=prefs.getString("name");
+    email=prefs.getString("email");
+    print(prefs.getString("name"));
+    setState(() {
+
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    createSharedPref();
     controller = PageController();
     Map body;
 
     _kitchenNearRepository = KitchensNearRepository();
-    allKitchenNear = _kitchenNearRepository.getAllKitchenNear("16");
+    allKitchenNear = _kitchenNearRepository.getAllKitchenNear("2");
   }
 
   @override
@@ -84,14 +101,14 @@ class _HomeState extends State<Home> {
                         child: Column(
                           children: [
                             Text(
-                              "John Dongler",
-                              style: new TextStyle(color: Colors.white, fontSize: 17.0),
+                              "$name",
+                              style: new TextStyle(color: Colors.white, fontSize: 16.0),
                             ),
                             Container(
                               margin: EdgeInsets.only(top: 10.0),
                               child: Text(
-                                "Delhi",
-                                style: new TextStyle(color: Colors.white, fontSize: 17.0),
+                                "$email",
+                                style: new TextStyle(color: Colors.white, fontSize: 14.0),
                               ),
                             ),
                           ],
@@ -110,8 +127,8 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     /* react to the tile being tapped */
                   }),
-              Container(
-                margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
+              Padding(
+                padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
                 child: ListTile(
                     leading: const Icon(
                       Icons.favorite_outline,
@@ -122,8 +139,8 @@ class _HomeState extends State<Home> {
                       /* react to the tile being tapped */
                     }),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 3.0, bottom: 3.0),
+              Padding(
+                padding: EdgeInsets.only(top: 3.0, bottom: 3.0),
                 child: ListTile(
                     leading: const Icon(
                       Icons.list,
@@ -140,33 +157,34 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => AddressList()));
                   }),
-              Container(margin: EdgeInsets.only(top: 8.0, bottom: 8.0), child: Divider()),
-              Container(
-                  margin: EdgeInsets.only(left: 20.0),
+              Padding(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0), child: Divider()),
+              Padding(
+                  padding: EdgeInsets.only(left: 20.0),
                   child: Text(
                     "About us",
                     style: new TextStyle(color: Colors.grey),
                   )),
-              Container(
-                  margin: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
+              Padding(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
                   child: Text(
                     "Contact us",
                     style: new TextStyle(color: Colors.grey),
                   )),
-              Container(
-                  margin: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
+              Padding(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
                   child: Text(
                     "Concelations and refunds",
                     style: new TextStyle(color: Colors.grey),
                   )),
-              Container(
-                  margin: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
+              Padding(
+                  padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 20.0),
                   child: Text(
                     "FAQS",
                     style: new TextStyle(color: Colors.grey),
                   )),
-              Container(
-                  margin: EdgeInsets.only(left: 20.0),
+              Padding(
+                  padding: EdgeInsets.only(left: 20.0),
                   child: Text(
                     "Privacy",
                     style: new TextStyle(color: Colors.grey),
@@ -294,7 +312,7 @@ class _HomeState extends State<Home> {
                                         children: [
                                           Container(
                                             height: 100.0,
-
+                                            width: 150,
                                             clipBehavior: Clip.hardEdge,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
@@ -306,18 +324,19 @@ class _HomeState extends State<Home> {
                                                     imageBaseURL+ snapshot.data.data[index].vendorImage,
                                                   ),
                                                   placeholder: AssetImage("images/logo.jpeg"),
-                                                  fit: BoxFit.cover,
+                                                  fit: BoxFit.fill,
                                                 ),
                                             ),
                                           Padding(
                                             padding: EdgeInsets.only(left: 5.0, right: 5.0, top: 5.0, bottom: 2.0),
                                             child: Row(
                                               children: [
-                                                Expanded(
+                                                Flexible(
                                                     child: Text(
                                                   snapshot.data.data[index].shopName,
                                                   style: new TextStyle(color: Colors.black),
                                                 )),
+                                                Spacer(),
                                                 Text(
                                                   "4.2",
                                                   style: new TextStyle(color: Colors.green),
@@ -331,12 +350,12 @@ class _HomeState extends State<Home> {
                                                 "veg, Lunch",
                                                 style: new TextStyle(color: Colors.grey),
                                               )),
-                                          Padding(
-                                              padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                                              child: Text(
-                                                "brakefast, dinner",
-                                                style: new TextStyle(color: Colors.grey),
-                                              ))
+                                          // Padding(
+                                          //     padding: EdgeInsets.only(left: 5.0, right: 5.0),
+                                          //     child: Text(
+                                          //       "brakefast, dinner",
+                                          //       style: new TextStyle(color: Colors.grey),
+                                          //     ))
                                         ],
                                       ),
                                     ),

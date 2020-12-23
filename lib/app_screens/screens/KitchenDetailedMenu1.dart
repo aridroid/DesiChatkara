@@ -1,10 +1,10 @@
+import 'package:desichatkara/app_screens/CartPage/Cart.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/Repository/KitchenDetailsRepo.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/bloc/AddCartBloc.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/bloc/UpdateCartBloc.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/model/AddCartModel.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/model/KitchenDetailsModel.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/model/UpdateCartModel.dart';
-import 'file:///D:/STUDY/Android_flutter/desichatkara-flutter-main/desichatkara-flutter-main/lib/app_screens/CartPage/Cart.dart';
 import 'package:desichatkara/helper/api_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

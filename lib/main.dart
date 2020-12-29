@@ -30,6 +30,19 @@ Future<void> main() async{
   } else
     prefs.setString("user_token", "");
 
+  if (keys.contains("user_id")) {
+    // print("user_id exist"+prefs.getString("user_id"));
+  } else
+    prefs.setString("user_id", "");
+
+  if (keys.contains("cart_id")) {
+    print("cart_id exist"+prefs.getString("cart_id"));
+  } else{
+    prefs.setString("cart_id", "");
+    print("cart id create ${prefs.getString("cart_id")}");
+  }
+
+
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       checkerboardOffscreenLayers: true,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-const imageBaseURL="https://deliveryontime.co.in/api/public";
+// const imageBaseURL="https://deliveryontime.co.in/api/public";
+const imageBaseURL="http://eqsxerusrangoon.com/desichatkara/api/public";
 
 const FontWeight font_bold = FontWeight.w600;
 

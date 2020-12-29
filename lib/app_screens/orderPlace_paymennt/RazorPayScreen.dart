@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:desichatkara/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/screens/Home.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:desichatkara/helper/api_base_helper.dart';
@@ -130,23 +131,24 @@ class _RazorPayScreenState extends State<RazorPayScreen> {
   }
 
   void openCheckout() async {
-    var options = {
-      // 'key': 'rzp_test_BgJqsaZuDQ01OE',
-      'key': 'rzp_test_ehhzapZ5Arkz2H',
-      //  'amount': 100,
-      'name': 'Desi Chatkara',
-      'description': 'Desi Chatkara Order Payment',
+    // 'key': 'rzp_test_BgJqsaZuDQ01OE',
+    //  'amount': 100,
       // "image":
       //     "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftimesofindia.indiatimes.com%2Flife-style%2Ffood-news%2Fcoronaeffect-restros-food-aggregators-step-up-their-game-to-ensure-safe-delivery-and-pickup-of-food%2Farticleshow%2F75891020.cms&psig=AOvVaw0_DmeL0vcWqQtop0stSsvg&ust=1605856153360000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKDcgr-Gju0CFQAAAAAdAAAAABAI",
-      'order_id': widget.snapshotData.data.orderid.toString(),
+      // 'order_id': widget.snapshotData.data.orderid.toString(),
+    var options = {
+      'key': 'rzp_test_ehhzapZ5Arkz2H',
+
+      'name': 'Desi Chatkara',
+      'description': 'Desi Chatkara Order Payment',
+
       'prefill': {
         'contact': '${widget.snapshotData.data.phone}',
         'email': '${widget.snapshotData.data.email}',
         'name': '${widget.snapshotData.data.name}'
       },
       'external': {
-        'wallets': ['amazonpay']
-        // 'wallets' : ['amazonoay']
+        'wallets': ['paytm']
       },
       "theme": {"color": "#8f1723"}
     };
@@ -170,9 +172,9 @@ class _RazorPayScreenState extends State<RazorPayScreen> {
     prefs.setString("coupon_code", "");
     print("cart id at payment success 1 == ${prefs.getString("cart_id")}");
 
-    // Navigator.of(context).pushAndRemoveUntil(
-    //     MaterialPageRoute(builder: (context) => OrderDetailsPage()),
-    //     ModalRoute.withName("/HomePage"));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => OrderHistory()),
+        ModalRoute.withName("/HomePage"));
 
 
     // builder: (context) =>LoginScreen(title: 'MyDoc')));

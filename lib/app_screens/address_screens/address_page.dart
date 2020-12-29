@@ -1,4 +1,5 @@
 import 'package:desichatkara/app_screens/address_screens/repository/addressRepository.dart';
+import 'package:desichatkara/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/orderPlace_paymennt/RazorPayScreen.dart';
 import 'package:desichatkara/app_screens/orderPlace_paymennt/bloc/orderPlaceBloc.dart';
 import 'package:desichatkara/app_screens/orderPlace_paymennt/model/OrderPlaceResponseModel.dart';
@@ -53,6 +54,7 @@ class _AddressPageState extends State<AddressPage> {
    userToken = prefs.getString("user_token");
    userPhone = prefs.getString("user_phone");
    cartId = prefs.getString("cart_id");
+   print(cartId);
    userId = prefs.getString("user_id");
    totalCartAmount = prefs.getString("Total_cart_amount");
    coupon_code = prefs.getString("coupon_code");
@@ -152,9 +154,9 @@ class _AddressPageState extends State<AddressPage> {
                                 /*Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
                                   return OrderDetailsPage();
                                 }));*/
-                                // Navigator.of(context).pushAndRemoveUntil(
-                                //     MaterialPageRoute(
-                                //         builder: (context) => OrderDetailsPage()),ModalRoute.withName("/ShopDetail"));
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) => OrderHistory()),ModalRoute.withName("/ShopDetail"));
                               });
                               _orderplaced=false;
                               Fluttertoast.showToast(

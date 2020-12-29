@@ -64,13 +64,16 @@ class _LoginState extends State<Login> {
   Future<void> managedSharedPref(UserLoginResponseModel data) async {
     prefs.setString("coupon_code", "");
     prefs.setString("cart_id", "${data.cartId}");
+    print("cart id at login : ${data.cartId}");
     prefs.setString("user_id", "${data.data.id}");
     prefs.setString("name", "${data.data.name}");
-    // userName=data.data.name;
+    // userName=data.data.n/ame;
     print("${data.data.name}");
     prefs.setBool("user_login", true);
     prefs.setString("email", "${data.data.email}");
     prefs.setString("user_token", "${data.success.token}");
+    print(data.success.token);
+    print(prefs.getString("user_token"));
     prefs.setString("user_phone", "${data.data.mobileNumber}");
     userLogin = true;
   }

@@ -522,7 +522,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                       children: [
                                                                         InkWell(
                                                                           onTap: () {
-                                                                            if (currentVendorId != vendorId && prefs.getString("cart_id") != "") {
+                                                                            if (prefs.getString("cart_id") != "" && currentVendorId != vendorId) {
                                                                               showDialog(
                                                                                   context: context,
                                                                                   barrierDismissible: false,

@@ -225,25 +225,20 @@ class _AddressListPageState extends State<AddressListPage> {
                                       ),
                                     ),
                                     Expanded(
-                                        flex: 2,
-                                        child: ButtonTheme(
-                                          height: 25.0,
-                                          // minWidth: 10.0,
-                                          child: FlatButton(
-                                            shape: RoundedRectangleBorder(
-                                              side: BorderSide(
-                                                  color: lightThemeRed,
-                                                  width: 1.3,
-                                                  style: BorderStyle.solid),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
+                                        flex: 1,
+                                        child: Container(
+                                          height: 32.0,
+                                          // width: 10.0,
+                                          padding: EdgeInsets.only(right: 2,bottom: 2),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(color: lightThemeRed, width: 1.3,style: BorderStyle.solid),
+                                            borderRadius: BorderRadius.all(Radius.circular(100.0)),
                                             color: Colors.white,
-                                            textColor: Colors.white,
-                                            child: Text(
-                                              "edit",
-                                              style: TextStyle(
-                                                  color: lightThemeRed),
+                                          ),
+                                          child: IconButton(
+                                            icon: Icon(Icons.edit_outlined,
+                                              color: lightThemeRed,
+                                              size: 17,
                                             ),
                                           ),
                                         ))

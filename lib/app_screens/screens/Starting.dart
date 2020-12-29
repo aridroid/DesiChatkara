@@ -23,7 +23,7 @@ class _StartingState extends State<Starting> {
     "your binge and taste buds",
     "advanced location based search filter"
   ];
-  PageController controller;
+  // PageController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class _StartingState extends State<Starting> {
                     onPageChanged: (int page) {
                       //getChangedPageAndMoveBar(page);
                     },
-                    controller: controller,
+                    controller: new PageController(),
                     itemBuilder: (context, index) {
                       return Container(
                         child: Stack(

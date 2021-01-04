@@ -10,6 +10,7 @@ import 'package:desichatkara/app_screens/screens/UserProfile.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async{
@@ -46,7 +47,11 @@ Future<void> main() async{
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       checkerboardOffscreenLayers: true,
-      home: (userLogin==true)?Home():Starting()));
+      theme: ThemeData(
+        fontFamily: 'Poppins'
+      ),
+      home: (userLogin==true)?Home():Starting()
+  ));
 }
 
 class MyApp extends StatelessWidget {

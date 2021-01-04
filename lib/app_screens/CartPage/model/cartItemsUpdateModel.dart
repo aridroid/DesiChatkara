@@ -76,11 +76,13 @@ class CartItems {
   String skuId;
   String productId;
   String quantity;
+  String skuName;
   String unitPrice;
   String productIdentification;
   String productName;
   String productImage;
   String totalprice;
+  String detailedProductImages;
   String productDescription;
 
   CartItems(
@@ -89,11 +91,13 @@ class CartItems {
         this.skuId,
         this.productId,
         this.quantity,
+        this.skuName,
         this.unitPrice,
         this.productIdentification,
         this.productName,
         this.productImage,
         this.totalprice,
+        this.detailedProductImages,
         this.productDescription});
 
   CartItems.fromJson(Map<String, dynamic> json) {
@@ -102,11 +106,13 @@ class CartItems {
     skuId = json['sku_id'];
     productId = json['product_id'];
     quantity = json['quantity'];
+    skuName = json['sku_name'];
     unitPrice = json['unit_price'];
     productIdentification = json['product_identification'];
     productName = json['product_name'];
     productImage = json['product_image'];
     totalprice = json['totalprice'];
+    detailedProductImages = json['detailed_product_images'];
     productDescription = json['product_description'];
   }
 
@@ -117,11 +123,13 @@ class CartItems {
     data['sku_id'] = this.skuId;
     data['product_id'] = this.productId;
     data['quantity'] = this.quantity;
+    data['sku_name'] = this.skuName;
     data['unit_price'] = this.unitPrice;
     data['product_identification'] = this.productIdentification;
     data['product_name'] = this.productName;
     data['product_image'] = this.productImage;
     data['totalprice'] = this.totalprice;
+    data['detailed_product_images'] = this.detailedProductImages;
     data['product_description'] = this.productDescription;
     return data;
   }

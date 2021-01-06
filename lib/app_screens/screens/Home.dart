@@ -55,10 +55,10 @@ class _HomeState extends State<Home> {
   String email="";
   String address;
   List<String> bannerImages = [
-    'images/pav.png',
-    'images/momo.png',
+    'images/beverages.png',
+    'images/diet.png',
     'images/sweet.png',
-    'images/idly.png'
+    'images/snacks.png'
   ];
 
   List<String> vendorImages = [
@@ -330,7 +330,7 @@ class _HomeState extends State<Home> {
           "",
         ),
         body: ListView(
-          physics: ScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
             Container(
@@ -548,6 +548,7 @@ class _HomeState extends State<Home> {
                     height: 160.0,
                     padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
                     child: ListView.builder(
+                        cacheExtent: 10,
                         shrinkWrap: true,
                         scrollDirection:Axis.horizontal ,
                         itemCount: snapshot.data.data.length,
@@ -575,14 +576,18 @@ class _HomeState extends State<Home> {
                                       bottomLeft: Radius.circular(10.0),
                                       bottomRight: Radius.circular(10.0)),
                                   image: DecorationImage(
-                                    image: snapshot.data.data[index].couponBannerUrl == null
-                                        ? AssetImage("images/veg_meal.png")
-                                        : NetworkImage(
+                                    image: NetworkImage(
                                         imageBaseURL+snapshot.data.data[index].couponBannerUrl),
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
-                                //child: Image.asset("images/poke1.jpg")
+                                // child: FadeInImage(
+                                //   image: NetworkImage(
+                                //       imageBaseURL+snapshot.data.data[index].couponBannerUrl
+                                //     ),
+                                //     placeholder: AssetImage("images/veg_meal.png"),
+                                //     fit: BoxFit.fill,
+                                // ),
                               ),
                             ),
                           );
@@ -647,6 +652,7 @@ class _HomeState extends State<Home> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return ListView.builder(
+                            cacheExtent: 10,
                             scrollDirection: Axis.vertical,
                             itemCount: snapshot.data.data.length,
                             shrinkWrap: true,
@@ -963,6 +969,7 @@ class _HomeState extends State<Home> {
                       builder: (context, snapshot){
                         if(snapshot.hasData){
                           return GridView.builder(
+                            cacheExtent: 10,
                             shrinkWrap: true,
                             itemCount: snapshot.data.data[0].subcategory.length,
                             physics: NeverScrollableScrollPhysics(),
@@ -992,9 +999,7 @@ class _HomeState extends State<Home> {
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(topLeft: Radius.circular(7.5), topRight: Radius.circular(7.5)),
                                               image: DecorationImage(
-                                                image: snapshot.data.data[0].subcategory[index].categoryImage == null
-                                                    ? AssetImage("images/veg_meal.png")
-                                                    : NetworkImage(
+                                                image: NetworkImage(
                                                     imageBaseURL+snapshot.data.data[0].subcategory[index].categoryImage),
                                                 fit: BoxFit.fill,
                                               ),
@@ -1163,7 +1168,7 @@ class _HomeState extends State<Home> {
             InkWell(
               onTap: openPopUp,
               child: Container(
-                margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(top: 20, bottom: 20),
                 height: 180.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(

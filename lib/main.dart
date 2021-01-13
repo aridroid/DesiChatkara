@@ -1,17 +1,10 @@
-import 'package:desichatkara/app_screens/screens/AddressList.dart';
-import 'package:desichatkara/app_screens/screens/Cart1.dart';
-import 'package:desichatkara/app_screens/screens/Home.dart';
-import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu1.dart';
-import 'package:desichatkara/app_screens/screens/KitchensNearYou.dart';
-import 'package:desichatkara/app_screens/screens/Login.dart';
-import 'package:desichatkara/app_screens/screens/SignUpLogin.dart';
 import 'package:desichatkara/app_screens/screens/Starting.dart';
-import 'package:desichatkara/app_screens/screens/UserProfile.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'app_screens/screens/NavigationButton.dart';
 
 Future<void> main() async{
 
@@ -50,7 +43,7 @@ Future<void> main() async{
       theme: ThemeData(
         fontFamily: 'Poppins'
       ),
-      home: (userLogin==true)?Home():Starting()
+      home: (userLogin==true)?NavigationButton():Starting()
   ));
 }
 

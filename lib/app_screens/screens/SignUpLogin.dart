@@ -1,6 +1,7 @@
 import 'package:desichatkara/app_screens/UserLogin/sign_in_google.dart';
 import 'package:desichatkara/app_screens/screens/Home.dart';
 import 'package:desichatkara/app_screens/screens/Login.dart';
+import 'package:desichatkara/app_screens/screens/NavigationButton.dart';
 import 'package:desichatkara/app_screens/screens/Otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,7 +36,7 @@ class _SignUpLoginState extends State<SignUpLogin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Home(),
+                      builder: (context) => NavigationButton(),
                     ));
               },
               child: Container(

@@ -1,6 +1,6 @@
 import 'package:desichatkara/app_screens/UserLogin/bloc/LoginBloc.dart';
 import 'package:desichatkara/app_screens/UserLogin/model/LoginModel.dart';
-import 'package:desichatkara/app_screens/screens/Home.dart';
+import 'package:desichatkara/app_screens/screens/NavigationButton.dart';
 import 'package:desichatkara/app_screens/screens/SignUpLogin.dart';
 import 'package:desichatkara/helper/api_response.dart';
 import 'package:email_validator/email_validator.dart';
@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:desichatkara/app_screens/CartPage/Cart.dart';
 
 
 import '../../constants.dart';
@@ -81,7 +80,7 @@ class _LoginState extends State<Login> {
   navToAttachList(context) async {
     Future.delayed(Duration.zero, () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) {
-        return Home();
+        return NavigationButton();
       }));
     });
   }
@@ -280,7 +279,7 @@ class _LoginState extends State<Login> {
 
                           return Container(
                             width: MediaQuery.of(context).size.width * .85,
-                            margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 12.0),
+                            margin: EdgeInsets.only(left: 25.0, right: 25.0, top: 12.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(10.0)),
                               color: Colors.white,
@@ -308,7 +307,10 @@ class _LoginState extends State<Login> {
                                 MaterialPageRoute(builder: (context) => SignUpLogin()),
                               );
                             },
-                            child: Text("SignUp", style: new TextStyle(color: Colors.yellow[900], fontSize: 16.0)))
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:3.0),
+                              child: Text("SignUp", style: new TextStyle(color: Colors.yellow[900], fontSize: 16.0)),
+                            ))
                       ],
                     ),
                   ),

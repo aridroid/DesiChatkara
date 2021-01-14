@@ -1,4 +1,3 @@
-import 'package:desichatkara/app_screens/CartPage/Cart.dart';
 import 'package:desichatkara/app_screens/Home/model/ActiveCuponModel.dart';
 import 'package:desichatkara/app_screens/Home/model/AllCategoryModel.dart';
 import 'package:desichatkara/app_screens/Home/model/KitchenNearModel.dart';
@@ -177,7 +176,8 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: Scaffold(
         key: _key,
-        backgroundColor: Color.fromRGBO(243, 243, 243, 1),
+       // backgroundColor: Color.fromRGBO(243, 243, 243, 1),
+        backgroundColor: Colors.white,
         drawer: Drawer(
           child: ListView(
             //crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,16 +307,16 @@ class _HomeState extends State<Home> {
           ),
         ),
         appBar: CustomAppBar(
-          height: screenHeight * 0.13,
+          height: screenHeight * 0.14,
           child: Container(
-            height: 100.0,
+            height: 90.0,
             color: Colors.white,
             child: Stack(
               children: <Widget>[
                 Container(
                     color: Colors.white,
                     width: MediaQuery.of(context).size.width,
-                    height: 50.0,
+                    height: 35.0,
                     child: AppBar(
                       centerTitle: false,
                       titleSpacing: 0,
@@ -327,7 +327,7 @@ class _HomeState extends State<Home> {
                         onPressed: () => _key.currentState.openDrawer(),
                         icon: Icon(
                           Icons.menu,
-                          color: Color.fromRGBO(223, 148, 20, 1),
+                          color: Color.fromRGBO(143, 23, 35, 1),
                         ),
                       ),
                       title: Container(
@@ -338,15 +338,18 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              Icons.location_on,
-                              color: Color.fromRGBO(223, 148, 20, 1),
+                            Padding(
+                              padding: const EdgeInsets.only(right:8.0),
+                              child: Icon(
+                                Icons.location_on,
+                                color: Color.fromRGBO(90, 90, 90, 1),
+                              ),
                             ),
                             Expanded(
                                 child: address == null
                                     ? Text('',
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 15))
+                                            color: Colors.black, fontSize: 15,))
                                     : Text(address,
                                         style: TextStyle(
                                             color: Colors.black,
@@ -362,7 +365,7 @@ class _HomeState extends State<Home> {
                               child: Text(
                                 "change",
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 15),
+                                    color: Colors.black, fontSize: 15,fontFamily: "Poppins"),
                               ),
                             )
                           ],
@@ -375,7 +378,7 @@ class _HomeState extends State<Home> {
                             onPressed: () {},
                             icon: Icon(
                               Icons.notifications_active_outlined,
-                              color: Color.fromRGBO(223, 148, 20, 1),
+                              color: Color.fromRGBO(143, 23, 35, 1),
                             ),
                           ),
                         ),
@@ -384,7 +387,7 @@ class _HomeState extends State<Home> {
                 Positioned(
                   left: 0.0,
                   right: 0.0,
-                  bottom: 5,
+                  bottom: 3,
                   child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       height: 50.0,
@@ -453,9 +456,10 @@ class _HomeState extends State<Home> {
                   controller: controller,
                   itemBuilder: (context, index) {
                     return Container(
-                      //margin: EdgeInsets.only(right: 2, left: 2),
+                      margin: EdgeInsets.only(right: 10, left: 10,),
                       decoration: BoxDecoration(
                         //borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
                         image: DecorationImage(
                           image: AssetImage(bannerImages[index]),
                           fit: BoxFit.fill,
@@ -472,7 +476,7 @@ class _HomeState extends State<Home> {
               child: Text(
                 "Offers for you",
                 style: new TextStyle(
-                    color: Colors.black, fontWeight: font_bold, fontSize: 16),
+                    color: Colors.black, fontWeight: font_bold, fontSize: 16,fontFamily: "Poppins"),
               ),
             ),
             FutureBuilder<ActiveCuponResponseModel>(
@@ -559,7 +563,7 @@ class _HomeState extends State<Home> {
                           style: new TextStyle(
                               color: Colors.black,
                               fontWeight: font_bold,
-                              fontSize: 16),
+                              fontSize: 16,fontFamily: "Poppins"),
                         )),
                       ],
                     ),

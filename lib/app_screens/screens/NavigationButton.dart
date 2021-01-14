@@ -40,8 +40,8 @@ class _NavigationButtonState extends State<NavigationButton> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         showUnselectedLabels: true,
-        selectedItemColor: Colors.orangeAccent,
-        unselectedItemColor: Color.fromRGBO(143, 23, 35, 1),
+        selectedItemColor: Color.fromRGBO(143, 23, 35, 1),
+        unselectedItemColor: Colors.grey,
         backgroundColor: Colors.white,
 
         currentIndex: _pageIndex,
@@ -55,29 +55,29 @@ class _NavigationButtonState extends State<NavigationButton> {
           BottomNavigationBarItem(
               backgroundColor: Colors.white,
               icon: ImageIcon(
-                AssetImage("images/home.png"),
-                 color: Color.fromRGBO(143, 23, 35, 1),
+                AssetImage("images/home 3.png"),
+                // color: Color.fromRGBO(143, 23, 35, 1),
               ),
               label: "Home"),
           BottomNavigationBarItem(
               backgroundColor: Colors.white,
               icon: ImageIcon(
-                AssetImage("images/orders.png"),
-                 color:Color.fromRGBO(143, 23, 35, 1),
+                AssetImage("images/order 1.png"),
+                // color:Color.fromRGBO(143, 23, 35, 1),
               ),
               label: "Orders"),
           BottomNavigationBarItem(
               backgroundColor:Colors.white,
               icon: ImageIcon(
-                AssetImage("images/cart.png"),
-                 color: Color.fromRGBO(143, 23, 35, 1),
+                AssetImage("images/cart 1.png"),
+                // color: Color.fromRGBO(143, 23, 35, 1),
               ),
               label: "Cart"),
           BottomNavigationBarItem(
               backgroundColor: Colors.white,
               icon: ImageIcon(
-                AssetImage("images/profileB.png"),
-                 color: Color.fromRGBO(143, 23, 35, 1),
+                AssetImage("images/profile 1.png"),
+                // color: Color.fromRGBO(143, 23, 35, 1),
               ),
               label: "Profile"),
         ],

@@ -1,5 +1,9 @@
+import 'package:desichatkara/app_screens/SearchBarPage/SearchPageBloc/SearchPageBloc.dart';
+import 'package:desichatkara/app_screens/SearchBarPage/SearchPageModel/SearchPageModel.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:flutter/material.dart';
+
+import '../../helper/api_response.dart';
 
 class SearchBarPage extends StatefulWidget {
   @override
@@ -9,6 +13,14 @@ class SearchBarPage extends StatefulWidget {
 class _SearchBarPageState extends State<SearchBarPage> {
   final searchController = TextEditingController();
   bool isBlank = true;
+  SearchPageBloc _searchPageBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchPageBloc = SearchPageBloc();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +81,52 @@ class _SearchBarPageState extends State<SearchBarPage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Container(),
+      body: isBlank ?
+          Center(
+              child: Text(
+                "Type Something to Search",
+                style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+              )
+          ):
+          StreamBuilder<ApiResponse<SearchPageModel>>(
+              stream: _searchPageBloc.searchPageStream,
+              builder:(context, snapshot) {
+              if(snapshot.hasData)
+              {
+                switch(snapshot.data.status)
+                {
+                  case Status.LOADING:
+                    print("Case 1");
+                    print(snapshot);
+                    return Center(
+                      heightFactor: 5,
+                      widthFactor: 10,
+                      child: CircularProgressIndicator(
+                          backgroundColor: circularBGCol,
+                          strokeWidth: strokeWidth,
+                          valueColor: AlwaysStoppedAnimation<Color>(circularStrokeCol)),
+                    );
+                    break;
+                  case Status.COMPLETED:
+
+                    break;
+                  case Status.ERROR:
+                    print("Case 3");
+
+                    return Center(
+                      child: Text("Error", style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.grey
+                      )),
+                    );
+                    break;
+                }
+              }
+
+              return Container();
+
+            },
+      )
     );
   }
 }

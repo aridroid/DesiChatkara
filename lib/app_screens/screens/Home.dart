@@ -5,6 +5,7 @@ import 'package:desichatkara/app_screens/Home/repository/ActiveCuponRepo.dart';
 import 'package:desichatkara/app_screens/Home/repository/AllCategoryRepo.dart';
 import 'package:desichatkara/app_screens/Home/repository/KitchenNearRepo.dart';
 import 'package:desichatkara/app_screens/KitchenByCategory/KitchenByCategory.dart';
+import 'package:desichatkara/app_screens/SearchBarPage/SearchBarPage.dart';
 import 'package:desichatkara/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/screens/PickLocation.dart';
 import 'package:flutter/rendering.dart';
@@ -412,8 +413,12 @@ class _HomeState extends State<Home> {
                                       color: Colors.grey,
                                     )),
                                 Expanded(
-                                  child: TextField(
+                                  child: TextFormField(
                                     //controller: _searchQuery,
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder:
+                                          (context) => SearchBarPage()));
+                                    },
                                     style: TextStyle(
                                       color: Colors.grey[600],
                                     ),

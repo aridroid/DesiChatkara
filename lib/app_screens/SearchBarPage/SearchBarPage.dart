@@ -4,6 +4,8 @@ import 'package:desichatkara/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../helper/api_response.dart';
+import 'SearchFoodVendorPage.dart';
+// import 'SearchFoodVendorPage.dart';
 
 class SearchBarPage extends StatefulWidget {
   @override
@@ -14,6 +16,8 @@ class _SearchBarPageState extends State<SearchBarPage> {
   final searchController = TextEditingController();
   bool isBlank = true;
   SearchPageBloc _searchPageBloc;
+  String prev = "";
+  bool samePrev = false;
 
   @override
   void initState() {
@@ -38,14 +42,17 @@ class _SearchBarPageState extends State<SearchBarPage> {
           controller: searchController,
           onChanged: (value) {
             if(value.isEmpty){
-              isBlank = true;
+              setState(() {
+                isBlank = true;
+              });
             }
             else{
-              isBlank = false;
+              _searchPageBloc.search({"search_data": value});
+              setState(() {
+                isBlank = false;
+              });
             }
-            setState(() {
 
-            });
           },
           autofocus: true,
           style: TextStyle(
@@ -108,13 +115,54 @@ class _SearchBarPageState extends State<SearchBarPage> {
                     );
                     break;
                   case Status.COMPLETED:
-
+                    print("Case 2");
+                    return ListView.builder(
+                        itemCount: snapshot.data.data.data.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+                                    return SearchFoodVendorPage(snapshot.data.data.data[index]);
+                                  }));
+                                },
+                                child: ListTile(
+                                    leading: Container(
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                                      ),
+                                      child: FadeInImage(
+                                        height: 55,
+                                        width: 55,
+                                        image: NetworkImage(
+                                          "$imageBaseURL${snapshot.data.data.data[index].productImage}",
+                                        ),
+                                        placeholder: AssetImage("images/breakfast.png"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    title: Text(snapshot.data.data.data[index].productName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 15,
+                                      ),
+                                    )),
+                              ),
+                              Divider(
+                                color: Colors.orange,
+                                // thickness: 1,
+                              )
+                            ],
+                          );
+                        });
                     break;
                   case Status.ERROR:
                     print("Case 3");
-
                     return Center(
-                      child: Text("Error", style: TextStyle(
+                      child: Text("No Result Found", style: TextStyle(
                           fontSize: 15.0,
                           color: Colors.grey
                       )),

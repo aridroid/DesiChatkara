@@ -414,7 +414,10 @@ class _HomeState extends State<Home> {
                                     )),
                                 Expanded(
                                   child: TextFormField(
-                                    //controller: _searchQuery,
+                                    // onChanged: (_) {
+                                    //   Navigator.push(context, MaterialPageRoute(builder:
+                                    //       (context) => SearchBarPage()));
+                                    // },
                                     onTap: () {
                                       Navigator.push(context, MaterialPageRoute(builder:
                                           (context) => SearchBarPage()));
@@ -512,27 +515,18 @@ class _HomeState extends State<Home> {
                               elevation: 2.0,
                               child: Container(
                                 //height: 160.0,
-
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10.0),
-                                      topRight: Radius.circular(10.0),
-                                      bottomLeft: Radius.circular(10.0),
-                                      bottomRight: Radius.circular(10.0)),
-                                  image: DecorationImage(
-                                    image: NetworkImage(imageBaseURL +
-                                        snapshot
-                                            .data.data[index].couponBannerUrl),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: FadeInImage(
+                                    image: NetworkImage(
+                                      imageBaseURL +
+                                          snapshot
+                                              .data.data[index].couponBannerUrl,
+                                    ),
+                                    placeholder: AssetImage("images/veg_meal.png"),
                                     fit: BoxFit.fill,
                                   ),
-                                ),
-                                // child: FadeInImage(
-                                //   image: NetworkImage(
-                                //       imageBaseURL+snapshot.data.data[index].couponBannerUrl
-                                //     ),
-                                //     placeholder: AssetImage("images/veg_meal.png"),
-                                //     fit: BoxFit.fill,
-                                // ),
+                                )
                               ),
                             ),
                           );
@@ -815,24 +809,23 @@ class _HomeState extends State<Home> {
                                       child: Column(
                                         children: [
                                           Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(7.5),
-                                                    topRight:
-                                                        Radius.circular(7.5)),
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      imageBaseURL +
-                                                          snapshot
-                                                              .data
-                                                              .data[0]
-                                                              .subcategory[
-                                                                  index]
-                                                              .categoryImage),
-                                                  fit: BoxFit.fill,
-                                                ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                  Radius.circular(7.5),
+                                                  topRight:
+                                                  Radius.circular(7.5)),
+                                              child: FadeInImage(
+                                                image: NetworkImage(
+                                                    imageBaseURL +
+                                                        snapshot
+                                                            .data
+                                                            .data[0]
+                                                            .subcategory[
+                                                        index]
+                                                            .categoryImage),
+                                                placeholder: AssetImage("images/veg_meal.png"),
+                                                fit: BoxFit.fill,
                                               ),
                                             ),
                                           ),

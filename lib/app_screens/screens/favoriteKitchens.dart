@@ -36,6 +36,13 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
 
     setState(() {});
   }
+  List<Data> listFavorite=[];
+  removeDynamic(value) {
+    listFavorite.remove(value);
+    setState(() {
+
+    });
+  }
 
   @override
   void initState() {
@@ -78,6 +85,7 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
             FutureBuilder<FavoritekitchensModel>(
                 future: allfavorite,
            builder: (context, snapshot) {
+
                   if(snapshot.hasData) {
                     return Container(
                       padding: const EdgeInsets.all(10.0),
@@ -151,9 +159,9 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                                                               break;
                                                             case Status.COMPLETED:
                                                               print("Fav Deleted");
-                                                              Future.delayed(Duration.zero, () {
-                                                                Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteKitchens()));
-                                                              });
+                                                              // Future.delayed(Duration.zero, () {
+                                                              //   Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteKitchens()));
+                                                              // });
                                                               break;
                                                             case Status.ERROR:
                                                               print("Fav not deleted");
@@ -164,7 +172,7 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                                                           icon: Icon(Icons.close),
                                                           color: Colors.red,
                                                           onPressed: () {
-
+                                                            listFavorite=snapshot.data.data;
                                                               Map body={
                                                                 "userid": userId.toString(),
                                                                 "skuid": "${snapshot.data.data[index].skuId}",
@@ -173,6 +181,8 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                                                               setState(() {
 
                                                               });
+                                                              removeDynamic(listFavorite[index]);
+
                                                           },
                                                         );
                                                       }
@@ -228,10 +238,13 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                   }
                   else if (snapshot.hasError) {
                     return Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Center(child: Text(snapshot.error.toString())),
+                      padding: const EdgeInsets.all(50.0),
+                      child: Center(child: Text("No data", style: TextStyle(
+                        color: Colors.red, fontSize: 20,
+                      ),)),
                     );
-                  } else {
+                  }
+                  else {
                     return Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Center(child: CircularProgressIndicator()),

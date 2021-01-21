@@ -729,7 +729,7 @@ class _HomeState extends State<Home> {
                                             child: Text(
                                               "veg, Lunch",
                                               style: new TextStyle(
-                                                  color: Colors.grey),
+                                                  color: Colors.grey[700]),
                                             )),
                                       ],
                                     ),
@@ -844,8 +844,8 @@ class _HomeState extends State<Home> {
                                                     .subcategory[index]
                                                     .subcategoryname,
                                                 style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: font_bold,
+                                                    color: Colors.grey[700],
+                                                    fontWeight: FontWeight.w600,
                                                     fontSize: 12),
                                               ),
                                             ),
@@ -878,9 +878,11 @@ class _HomeState extends State<Home> {
             InkWell(
               onTap: openPopUp,
               child: Container(
-                margin: EdgeInsets.only(top: 20, bottom: 20),
+                margin: EdgeInsets.only(top: 20, bottom: 20,left: 10,right: 10),
                 height: 180.0,
                 decoration: BoxDecoration(
+                    //borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
                     image: DecorationImage(
                         image: AssetImage('images/orange_banner.png'),
                         fit: BoxFit.fill)),

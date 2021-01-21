@@ -25,7 +25,6 @@ dependencies:
     sdk: flutter
   checkbox_grouped: ^0.6.0+1
   grouped_buttons: ^1.0.4
-  shared_preferences: ^0.5.8
   sticky_headers: ^0.1.8
   fluttertoast: ^7.0.1+1
   geocoder: ^0.2.1
@@ -44,6 +43,7 @@ dependencies:
   google_fonts: ^1.1.1
   google_maps_place_picker: ^1.0.1
   carousel_slider: ^2.3.1
+  shared_preferences: ^0.5.12+4
 
 
 

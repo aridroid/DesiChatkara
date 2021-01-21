@@ -23,6 +23,8 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final scH = MediaQuery.of(context).size.height;
+    final scW = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         backgroundColor: lightThemeRed,
@@ -66,7 +68,7 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                             autoPlayInterval: Duration(seconds: 4),
                             autoPlay: true,
                             aspectRatio: 2.0,
-                            enlargeCenterPage: true,
+                           // enlargeCenterPage: true,
                             enlargeStrategy: CenterPageEnlargeStrategy.height,
                             autoPlayCurve: Curves.decelerate,
                             onPageChanged: (index, reason) {
@@ -79,17 +81,22 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                         itemBuilder: (BuildContext context, int index) {
                           print("Type"+_foodDetails.productImage.runtimeType.toString());
                           return Container(
-                            // width: screenWidth,
-                            color: Colors.white,
-                            child: FadeInImage(
-                              width: screenWidth,
-                              // height: screenHeight * 0.3,
-                              image: NetworkImage(
-                                "$imageBaseURL${_foodDetails.productImage}",
+                             //width: screenWidth*1,
+                            width: scW*1,
+                            margin: EdgeInsets.only(right: 10, left: 10,),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: FadeInImage(
+                                  width: screenWidth,
+                                  // height: screenHeight * 0.3,
+                                  image: NetworkImage(
+                                    "$imageBaseURL${_foodDetails.productImage}",
+                                  ),
+                                  placeholder: AssetImage("assets/images/placeHolder/square_white.png"),
+                                  fit: BoxFit.fill,
+                                ),
                               ),
-                              placeholder: AssetImage("assets/images/placeHolder/square_white.png"),
-                              fit: BoxFit.fitHeight,
-                            ),
+
                           );
                         }),
                     Row(
@@ -132,7 +139,7 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
               ),
 
               Text(
-                "All Shops ",
+                "All Shops",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange),
               ),
 

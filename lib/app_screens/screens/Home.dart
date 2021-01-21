@@ -21,6 +21,8 @@ import 'package:flutter/widgets.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'favoriteKitchens.dart';
+
 class Home extends StatefulWidget {
   String address;
 
@@ -245,7 +247,10 @@ class _HomeState extends State<Home> {
                     ),
                     title: const Text("Favourite Kitchens"),
                     onTap: () {
-                      /* react to the tile being tapped */
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FavoriteKitchens()));
                     }),
               ),
               Padding(

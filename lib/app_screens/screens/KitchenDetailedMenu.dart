@@ -4,6 +4,8 @@ import 'package:desichatkara/app_screens/CartPage/bloc/cartItemsAddBloc.dart';
 import 'package:desichatkara/app_screens/CartPage/bloc/cartItemsUpdateBloc.dart';
 import 'package:desichatkara/app_screens/CartPage/model/cartItemsAddModel.dart';
 import 'package:desichatkara/app_screens/CartPage/model/cartItemsUpdateModel.dart';
+import 'package:desichatkara/app_screens/Favorite/FavoriteAddBlock.dart';
+import 'package:desichatkara/app_screens/Favorite/FavoriteAddModel.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/Repository/foodHomeRepository.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/model/foodDetailsModel.dart' as fdm;
 import 'package:desichatkara/constants.dart';
@@ -26,6 +28,7 @@ class KitchenDetailedMenu extends StatefulWidget {
 }
 
 class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
+  FavoriteAddBloc _favoriteAddBloc = FavoriteAddBloc();
   final String vendorId;
   final String categoryId;
   final String vendorName;
@@ -40,6 +43,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
   List _addVisibility = new List();
   List _moreLessVisibility = new List();
   List _circularProgressVisibility = new List();
+  List _favCheck = new List();
 
   CartItemsAddBloc _cartItemsAddBloc;
   CartItemsUpdateBloc _cartItemsUpdateBloc;
@@ -263,8 +267,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                 ),
                 Column(
                   children: [
-                    //Icon(Icons.favorite, color: Colors.red[900]),
-                    Image.asset("images/heart.png",width: 20.0,height: 20.0,),
+                  Image.asset("images/heart.png",width: 25.0,height: 25.0,),
                     Text(
                       "Favorite",
                       style: new TextStyle(color: Colors.black, fontSize: 14.0),
@@ -442,6 +445,8 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                             _addVisibility.add(new List<List<bool>>());
                             _moreLessVisibility.add(new List<List<bool>>());
                             _circularProgressVisibility.add(new List<List<bool>>());
+                            _favCheck.add(new List<List<bool>>());
+
                             for (int i = 0; i < foodDetailsModelData.productDetails.length; i++) {
                               if (foodDetailsModelData.productDetails[i].categoryId == foodDetailsModelData.menu[0].subcategory[index0].id) {
                                 if (foodDetailsModelData.productDetails[i].skus.length > 0) {
@@ -475,12 +480,16 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
 
                                   print("_addVisibility");
 
+
                                   _moreLessVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
                                       (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? false : true));
 
                                   print("_moreLessVisibility");
 
                                   _circularProgressVisibility[index0]
+                                      .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
+
+                                  _favCheck[index0]
                                       .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
                                 }
                               }
@@ -576,6 +585,60 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                           color: Colors.black,
                                                                           fontWeight: font_semibold,
                                                                           fontSize: screenWidth * 0.04),
+                                                                    ),
+                                                                    Container(
+                                                                      margin: EdgeInsets.only(left: 18.0),
+                                                                      child:StreamBuilder<ApiResponse<FavoriteAddModel>>(
+                                                                          stream: _favoriteAddBloc.favoriteAddStream,
+                                                                          builder: (context, snapshot) {
+                                                                            if (snapshot.hasData) {
+                                                                              switch (snapshot.data.status) {
+                                                                                case Status.LOADING:
+                                                                                  print("Loading");
+                                                                                  // print(snapshot);
+                                                                                  // return SizedBox(
+                                                                                  //   height: 17,
+                                                                                  //   width: 17,
+                                                                                  //   child: CircularProgressIndicator(
+                                                                                  //     valueColor: new AlwaysStoppedAnimation<Color>(
+                                                                                  //       Color.fromRGBO(255, 241, 232, 1),
+                                                                                  //     ),
+                                                                                  //   ),
+                                                                                  // );
+                                                                                  break;
+                                                                                case Status.COMPLETED:
+                                                                                  print("Fav Added");
+                                                                                  // Future.delayed(Duration(seconds: 1),()
+                                                                                  // async {
+                                                                                  //
+                                                                                  //   // Navigator.pushReplacement(context,
+                                                                                  //   //     MaterialPageRoute(builder: (BuildContext context) {
+                                                                                  //   //       return Register();
+                                                                                  //   //     }));
+                                                                                  //   print("api call done");
+                                                                                  // });
+                                                                                  break;
+                                                                                case Status.ERROR:
+                                                                                  print("Fav not added");
+                                                                                  break;
+                                                                              }
+                                                                            }
+                                                                            return  InkWell(
+                                                                              onTap: (){
+                                                                                setState(() {
+                                                                                  _favCheck[index0][index1][index] = !_favCheck[index0][index1][index];
+                                                                                  Map body={
+                                                                                    "sku_id":"${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                  };
+                                                                                  _favoriteAddBloc.favoriteAdd(body,_userToken);
+                                                                                });
+                                                                              },
+                                                                              child: _favCheck[index0][index1][index] ? Image.asset("images/heart2.png",width: 25.0,height: 25.0,)
+                                                                                  : Image.asset("images/heart.png",width: 25.0,height: 25.0,),
+
+                                                                            );
+                                                                          }
+                                                                      ),
                                                                     ),
                                                                     Spacer(),
 

@@ -23,6 +23,23 @@ class ApiBaseHelper {
     return responseJson;
   }
 
+  Future<dynamic> getWithHeader(String url, String token) async {
+    //print('Api Post, url $_baseUrl+url');
+    print(_baseUrl+url);
+    print('Api token, token $token');
+    var responseJson;
+    try {
+      final response = await http.get(_baseUrl + url,headers: {"Authorization": token});
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      print('No net');
+      throw FetchDataException('No Internet connection');
+    }
+    print('api post.');
+    print(responseJson);
+    return responseJson;
+  }
+
   Future<dynamic> post(String url, Map body) async {
     print('Api Post, url $url');
     print(jsonEncode(body));

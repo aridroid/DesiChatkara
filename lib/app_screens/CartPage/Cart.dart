@@ -72,14 +72,7 @@ class _CartState extends State<Cart> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(143, 23, 35, 1),
-        leading: InkWell(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
+        automaticallyImplyLeading: false,
         title: Text(
           "Cart",
           style: new TextStyle(color: Colors.white, fontSize: 17.0),

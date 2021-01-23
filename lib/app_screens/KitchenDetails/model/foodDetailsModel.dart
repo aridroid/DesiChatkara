@@ -120,11 +120,13 @@ class CartItems {
   String skuId;
   String productId;
   String quantity;
+  String skuName;
   String unitPrice;
   String productIdentification;
   String productName;
   String productImage;
   String totalprice;
+  String detailedProductImages;
   String productDescription;
 
   CartItems(
@@ -133,11 +135,13 @@ class CartItems {
         this.skuId,
         this.productId,
         this.quantity,
+        this.skuName,
         this.unitPrice,
         this.productIdentification,
         this.productName,
         this.productImage,
         this.totalprice,
+        this.detailedProductImages,
         this.productDescription});
 
   CartItems.fromJson(Map<String, dynamic> json) {
@@ -146,11 +150,13 @@ class CartItems {
     skuId = json['sku_id'];
     productId = json['product_id'];
     quantity = json['quantity'];
+    skuName = json['sku_name'];
     unitPrice = json['unit_price'];
     productIdentification = json['product_identification'];
     productName = json['product_name'];
     productImage = json['product_image'];
     totalprice = json['totalprice'];
+    detailedProductImages = json['detailed_product_images'];
     productDescription = json['product_description'];
   }
 
@@ -161,11 +167,13 @@ class CartItems {
     data['sku_id'] = this.skuId;
     data['product_id'] = this.productId;
     data['quantity'] = this.quantity;
+    data['sku_name'] = this.skuName;
     data['unit_price'] = this.unitPrice;
     data['product_identification'] = this.productIdentification;
     data['product_name'] = this.productName;
     data['product_image'] = this.productImage;
     data['totalprice'] = this.totalprice;
+    data['detailed_product_images'] = this.detailedProductImages;
     data['product_description'] = this.productDescription;
     return data;
   }
@@ -175,12 +183,12 @@ class ProductDetails {
   int id;
   String name;
   String categoryId;
-  String manufacturerId;
+  Null manufacturerId;
   String productImage;
   String createdAt;
   String updatedAt;
   String isActive;
-  String vendorId;
+  Null vendorId;
   List<Skus> skus;
 
   ProductDetails(
@@ -242,8 +250,9 @@ class Skus {
   String vendorId;
   String createdAt;
   String updatedAt;
-  String deletedAt;
+  Null deletedAt;
   String isActive;
+  String wishlist;
   Image image;
   List<SkuVariant> skuVariant;
   CartItem cartItem;
@@ -261,6 +270,7 @@ class Skus {
         this.updatedAt,
         this.deletedAt,
         this.isActive,
+        this.wishlist,
         this.image,
         this.skuVariant,
         this.cartItem});
@@ -278,6 +288,7 @@ class Skus {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     isActive = json['is_active'];
+    wishlist = json['wishlist'];
     image = json['image'] != null ? new Image.fromJson(json['image']) : null;
     if (json['sku_variant'] != null) {
       skuVariant = new List<SkuVariant>();
@@ -304,6 +315,7 @@ class Skus {
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;
     data['is_active'] = this.isActive;
+    data['wishlist'] = this.wishlist;
     if (this.image != null) {
       data['image'] = this.image.toJson();
     }

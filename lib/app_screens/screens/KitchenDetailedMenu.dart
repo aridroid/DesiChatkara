@@ -61,6 +61,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
   bool setStateCheck = false;
 
   String _userToken = "";
+  String _userId = "";
   String _cartId = "";
   fdm.Data foodDetailsModelData;
   bool goToCart = false;
@@ -81,7 +82,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
     prefs = await SharedPreferences.getInstance();
     _cartId = prefs.getString("cart_id");
     _userToken = prefs.getString("user_token");
-    _foodDetailsFuture = _foodHomeRepository.foodDetails(categoryId, vendorId, _cartId);
+    _userId=prefs.getString("user_id");
+    print("user iddd :  ${prefs.getString("user_id")}");
+    _foodDetailsFuture = _foodHomeRepository.foodDetails(categoryId, vendorId, _cartId, _userId);
     currentVendorId = prefs.getString("vendor_id");
     currentCategoryId = prefs.getString("parent_category_id");
     setState(() {});
@@ -484,13 +487,17 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                   _moreLessVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
                                       (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? false : true));
 
+                                  _favCheck[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
+                                      (index) => (foodDetailsModelData.productDetails[i].skus[index].wishlist == "0") ? false : true));
+
+
                                   print("_moreLessVisibility");
 
                                   _circularProgressVisibility[index0]
                                       .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
 
-                                  _favCheck[index0]
-                                      .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
+                                  // _favCheck[index0]
+                                  //     .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
                                 }
                               }
                             }
@@ -590,9 +597,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                       margin: EdgeInsets.only(left: 18.0),
                                                                       child:StreamBuilder<ApiResponse<FavoriteAddModel>>(
                                                                           stream: _favoriteAddBloc.favoriteAddStream,
-                                                                          builder: (context, snapshot) {
-                                                                            if (snapshot.hasData) {
-                                                                              switch (snapshot.data.status) {
+                                                                          builder: (context, snapshot1) {
+                                                                            if (snapshot1.hasData) {
+                                                                              switch (snapshot1.data.status) {
                                                                                 case Status.LOADING:
                                                                                   print("Loading");
                                                                                   // print(snapshot);
@@ -630,7 +637,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                   Map body={
                                                                                     "sku_id":"${_productDetailsList[index0][index1].skus[index].id}",
                                                                                   };
-                                                                                  _favoriteAddBloc.favoriteAdd(body,_userToken);
+                                                                                  _favoriteAddBloc.favoriteAdd(body,_userToken);//
                                                                                 });
                                                                               },
                                                                               child: _favCheck[index0][index1][index] ? Image.asset("images/heart2.png",width: 25.0,height: 25.0,)

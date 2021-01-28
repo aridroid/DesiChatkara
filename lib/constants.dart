@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 const imageBaseURL="http://eqsxerusrangoon.com/desichatkara/api/public";
 
-const FontWeight font_bold = FontWeight.w600;
-const FontWeight font_semibold = FontWeight.w500;
+const FontWeight font_bold = FontWeight.w700;
+const FontWeight font_semibold = FontWeight.w600;
 
 double screenHeight=0;
 double screenWidth=0;

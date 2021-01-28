@@ -223,14 +223,14 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                                                                 style: TextStyle(
                                                                     color: Colors.black,
                                                                     fontWeight: font_semibold,
-                                                                    fontSize: screenWidth * 0.04),
+                                                                    fontSize: screenWidth * 0.032),
                                                               ),
                                                               Text(
                                                                 snapshot.data.data[index].sku.price,
                                                                 style: TextStyle(
                                                                     color: Colors.black,
                                                                     fontWeight: font_semibold,
-                                                                    fontSize: screenWidth * 0.04),
+                                                                    fontSize: screenWidth * 0.032),
                                                               ),
                                                             ],
                                                           ),

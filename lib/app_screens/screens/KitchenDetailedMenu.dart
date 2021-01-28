@@ -207,12 +207,12 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                   margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
                   child: Text(
                     "veg, lunch, breakfast, dinner",
-                    style: new TextStyle(color: Colors.grey, fontSize: 14.0),
+                    style: new TextStyle(color: Colors.grey[600], fontSize: 14.0),
                   ),
                 ),
                 Text(
                   "216 street, Raayal road kolkata 54",
-                  style: new TextStyle(color: Colors.grey, fontSize: 14.0),
+                  style: new TextStyle(color: Colors.grey[600], fontSize: 14.0),
                 ),
               ],
             ),
@@ -291,16 +291,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
           Container(
             padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
             color: Colors.white,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "Menu",
-                    style: new TextStyle(color: Colors.black, fontSize: 14.0),
-                  ),
-                ),
-                Icon(Icons.menu, color: Colors.grey),
-              ],
+            child: Text(
+              "Menu",
+              style: new TextStyle(color: Colors.black, fontSize: 18.0,fontWeight: font_bold),
             ),
           ),
           Divider(
@@ -547,54 +540,34 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                     children: [
                                                       Expanded(
                                                         flex: 2,
-                                                        child: Container(
-                                                          height: screenWidth * 0.2,
-                                                          // width: screenWidth * 0.20,
-                                                          // height: double.infinity,
-                                                          clipBehavior: Clip.hardEdge,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                                          ),
-                                                          child: FadeInImage(
-                                                            image: NetworkImage(
-                                                              "$imageBaseURL${_productDetailsList[index0][index1].skus[index].image.productImages}",
+                                                        child: Stack(
+                                                          children: [
+                                                            Container(
+                                                              height: screenWidth * 0.2,
+                                                               width: screenWidth * 0.2,
+                                                              // height: double.infinity,
+                                                              clipBehavior: Clip.hardEdge,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                                              ),
+                                                              child: FadeInImage(
+                                                                image: NetworkImage(
+                                                                  "$imageBaseURL${_productDetailsList[index0][index1].skus[index].image.productImages}",
+                                                                ),
+                                                                placeholder: AssetImage("images/logo.jpeg"),
+                                                                fit: BoxFit.fill,
+                                                              ),
                                                             ),
-                                                            placeholder: AssetImage("images/logo.jpeg"),
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        flex: 7,
-                                                        child: Container(
-                                                          // color: Colors.redAccent,
-                                                          // width: screenWidth * 0.6,
-                                                          margin: EdgeInsets.only(left: 15.0, top: 5.0, bottom: 5.0, right: 10.0),
-                                                          // 9647965502 149
-
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("${_productDetailsList[index0][index1].skus[index].skuName}",
-                                                                  style: TextStyle(
-                                                                      fontWeight: FontWeight.w600,
-                                                                      color: Colors.black,
-                                                                      fontSize: screenWidth * 0.04,
-                                                                  )),
-                                                              Container(
-                                                                // color: Colors.greenAccent,
-                                                                margin: EdgeInsets.only(top: 8.0),
-                                                                child: Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "Rs. ${_productDetailsList[index0][index1].skus[index].price}/-",
-                                                                      style: TextStyle(
-                                                                          color: Colors.black,
-                                                                          fontWeight: font_semibold,
-                                                                          fontSize: screenWidth * 0.04),
-                                                                    ),
-                                                                    Container(
-                                                                      margin: EdgeInsets.only(left: 18.0),
+                                                            Positioned(
+                                                                top: 5,
+                                                                right: 5,
+                                                                child: ClipOval(
+                                                                  child: Container(
+                                                                    padding: EdgeInsets.all(3),
+                                                                    decoration: BoxDecoration(
+                                                                        color: Colors.white70),
+                                                                    child: Container(
+                                                                      margin: EdgeInsets.only(right: 0),
                                                                       child:StreamBuilder<ApiResponse<FavoriteAddModel>>(
                                                                           stream: _favoriteAddBloc.favoriteAddStream,
                                                                           builder: (context, snapshot1) {
@@ -640,12 +613,50 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                   _favoriteAddBloc.favoriteAdd(body,_userToken);//
                                                                                 });
                                                                               },
-                                                                              child: _favCheck[index0][index1][index] ? Image.asset("images/heart2.png",width: 25.0,height: 25.0,)
-                                                                                  : Image.asset("images/heart.png",width: 25.0,height: 25.0,),
+                                                                              child: _favCheck[index0][index1][index] ? Image.asset("images/fav_fill.png",width: 17.0,height: 17.0,)
+                                                                                  : Image.asset("images/fav.png",width: 17.0,height:17.0,),
 
                                                                             );
                                                                           }
                                                                       ),
+                                                                    ),
+                                                                  ),
+                                                                ))
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 7,
+                                                        child: Container(
+                                                          // color: Colors.redAccent,
+                                                          // width: screenWidth * 0.6,
+                                                          margin: EdgeInsets.only(left: 15.0, top: 5.0, bottom: 5.0, right: 10.0),
+
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  Text("${_productDetailsList[index0][index1].skus[index].skuName}",
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight.w600,
+                                                                          color: Colors.black,
+                                                                          fontSize: screenWidth * 0.04,
+                                                                      )),
+
+                                                                ],
+                                                              ),
+                                                              Container(
+                                                                // color: Colors.greenAccent,
+                                                                margin: EdgeInsets.only(top: 8.0),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Rs. ${_productDetailsList[index0][index1].skus[index].price}/-",
+                                                                      style: TextStyle(
+                                                                          color: Colors.grey[700],
+                                                                          fontWeight: font_semibold,
+                                                                          fontSize: screenWidth * 0.035),
                                                                     ),
                                                                     Spacer(),
 

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
+import 'Otp.dart';
+
 class VerificationPage extends StatefulWidget {
   String mobileNumber;
 
@@ -24,6 +26,7 @@ class _VerificationPageState extends State<VerificationPage> {
   final FocusNode _pinPutFocusNode = FocusNode();
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
   String _verificationCode;
   RaisedButton button;
   String appSignature;
@@ -35,14 +38,30 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 
+
   _verifyPhone() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: '+91${widget.mobileNumber}',
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
-            print("Verification Completed Automatically");
+
+          User user = (await _auth.signInWithCredential(credential)).user;
+
+          if (user != null) {
+            var token = await user.getIdToken();
+            print("token heheheh : $token");
+            // var response = await httpClient.get(url,headers: {'Authorization':"Bearer $token"});
+            print(user.displayName);
+            print(user.email);
+            print(user.uid);
+
+            print("login success via firebase otp auto");
+
+            // Fluttertoast.showToast(msg: "OTP successfully verified", fontSize: 16, backgroundColor: Color.fromRGBO(1, 185, 255, 1), textColor: Colors.white, toastLength: Toast.LENGTH_LONG);
             success();
-          });
+          }
+          // await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
+          //   print("Verification Completed Automatically");
+          // });
         },
         verificationFailed: (FirebaseAuthException e) {
           print(e.message);
@@ -52,15 +71,14 @@ class _VerificationPageState extends State<VerificationPage> {
           print("Signed Code" + signedCode);
           _listenOtp();
           print("Verification Code Sent");
-          setState(() {
             appSignature = signedCode;
             _verificationCode = verficationID;
-          });
+
         },
         codeAutoRetrievalTimeout: (String verificationID) {
-          setState(() {
+
             _verificationCode = verificationID;
-          });
+
         },
         timeout: Duration(seconds: 120));
   }
@@ -79,7 +97,8 @@ class _VerificationPageState extends State<VerificationPage> {
         color: lightThemeRed,
         onPressed: () {
           if (_formKey.currentState.validate()) {
-            onSubmit();
+            // onSubmit();
+            otpVerification();
           }
         },
         child: Text(
@@ -89,20 +108,28 @@ class _VerificationPageState extends State<VerificationPage> {
     // _listenOtp();
   }
 
-  void onSubmit() async {
+  otpVerification() async {
     try {
-      await FirebaseAuth.instance
-          .signInWithCredential(PhoneAuthProvider.credential(verificationId: _verificationCode, smsCode: otpController.text))
-          .then((value) async {
-        if (value.user != null) {
-          success();
-        }
-      });
-    } catch (e) {
-      FocusScope.of(context).unfocus();
-      _scaffoldkey.currentState.showSnackBar(SnackBar(content: Text('invalid OTP')));
+      AuthCredential credential = PhoneAuthProvider.credential(verificationId: _verificationCode, smsCode: otpController.text);
+      User user = (await _auth.signInWithCredential(credential)).user;
+
+      if (user != null) {
+        print("successfully verify manually");
+        var token = await user.getIdToken();
+        print("token hehehehe : $token");
+        // var response = await httpClient.get(url,headers: {'Authorization':"Bearer $token"});
+        print(user.displayName);
+        print(user.email);
+        print(user.uid);
+        success();
+      } else {
+        print("Error");
+      }
+    } catch (PlatformException) {
+      print("$PlatformException");
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -180,33 +207,39 @@ class _VerificationPageState extends State<VerificationPage> {
                         child: ButtonTheme(height: 50.0, minWidth: MediaQuery.of(context).size.width * .87, child: button),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: 40,
-                        ),
-                        // alignment: Alignment.center,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Didn't receive otp code?",
-                              style: TextStyle(color: Colors.black, fontSize: 16),
-                            ),
-                            Text(
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 40,
+                      ),
+                      // alignment: Alignment.center,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Didn't receive otp code?",
+                            style: TextStyle(color: Colors.black, fontSize: 16),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => OtpPage(),
+                                  ));
+                            },
+                            child: Text(
                               " Resend OTP",
                               style: TextStyle(color: lightThemeRed, fontSize: 16),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ]),
                 )),
             Visibility(
-              visible: true,
+              visible: false,
               child: PinFieldAutoFill(
                   onCodeChanged: (val) {
                     print("Changed");
@@ -222,6 +255,7 @@ class _VerificationPageState extends State<VerificationPage> {
 
   void success() async {
     Future.delayed(Duration.zero, () async {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUp(phoneNumber: widget.mobileNumber,)));
       Fluttertoast.showToast(
           msg: "OTP Verified",
           toastLength: Toast.LENGTH_SHORT,
@@ -229,7 +263,6 @@ class _VerificationPageState extends State<VerificationPage> {
           backgroundColor: Colors.greenAccent,
           textColor: Colors.white,
           timeInSecForIosWeb: 1);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUp(phoneNumber: widget.mobileNumber,)));
     });
   }
 }

@@ -28,7 +28,8 @@ dependencies:
   sticky_headers: ^0.1.8
   fluttertoast: ^7.0.1+1
   geocoder: ^0.2.1
-  geolocator: ^6.1.13
+  geolocator: ^6.1.14
+  google_api_availability: ^2.0.4
   razorpay_flutter: ^1.2.2
   email_validator: ^1.0.5
   firebase_messaging: ^7.0.3
@@ -44,6 +45,7 @@ dependencies:
   google_maps_place_picker: ^1.0.1
   carousel_slider: ^2.3.1
   shared_preferences: ^0.5.12+4
+  rename: ^1.2.0
 
 
 
@@ -84,11 +86,13 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-  - family: Poppins
+  - family: HelveticaNeue
     fonts:
-     # - asset: fonts/Poppins-Bold.ttf
-      - asset: fonts/Poppins-Regular.ttf
-      - asset: fonts/Poppins-SemiBold.ttf
+      - asset: fonts/HelveticaNeue-Light.ttf
+      - asset: fonts/HelveticaNeue-Medium.ttf
+      - asset: fonts/HelveticaNeu-Bold.ttf
+
+
 #      style: italic
 #  #   - family: Trajan Pro
   #     fonts:

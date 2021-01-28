@@ -41,7 +41,7 @@ Future<void> main() async{
       debugShowCheckedModeBanner: false,
       checkerboardOffscreenLayers: true,
       theme: ThemeData(
-        fontFamily: 'Poppins'
+        fontFamily: 'HelveticaNeue'
       ),
       home: (userLogin==true)?NavigationButton():Starting()
   ));

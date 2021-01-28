@@ -1,4 +1,4 @@
-package com.inceptory.desichatkara
+package com.inceptory.desichatkarauser
 
 import io.flutter.embedding.android.FlutterActivity
 

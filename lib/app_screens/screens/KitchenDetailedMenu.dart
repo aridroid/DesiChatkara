@@ -84,7 +84,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
     _userToken = prefs.getString("user_token");
     _userId=prefs.getString("user_id");
     print("user iddd :  ${prefs.getString("user_id")}");
-    _foodDetailsFuture = _foodHomeRepository.foodDetails(categoryId, vendorId, _cartId, _userId);
+    _foodDetailsFuture = _foodHomeRepository.foodDetails(categoryId, vendorId, _cartId, _userId,_userToken);
     currentVendorId = prefs.getString("vendor_id");
     currentCategoryId = prefs.getString("parent_category_id");
     setState(() {});
@@ -268,19 +268,19 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                     ),
                   ],
                 ),
-                Column(
-                  children: [
-                  Image.asset("images/heart.png",width: 25.0,height: 25.0,),
-                    Text(
-                      "Favorite",
-                      style: new TextStyle(color: Colors.black, fontSize: 14.0),
-                    ),
-                    Text(
-                      "",
-                      style: new TextStyle(color: Colors.grey, fontSize: 12.0),
-                    ),
-                  ],
-                ),
+                // Column(
+                //   children: [
+                //   Image.asset("images/heart.png",width: 25.0,height: 25.0,),
+                //     Text(
+                //       "Favorite",
+                //       style: new TextStyle(color: Colors.black, fontSize: 14.0),
+                //     ),
+                //     Text(
+                //       "",
+                //       style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+                //     ),
+                //   ],
+                // ),
 
               ],
             ),
@@ -451,40 +451,41 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                   // Dynamically List Data Generate...
                                   // productsNumber = foodDetailsModelData.productDetails[i].skus.length;
 
-                                  if (foodDetailsModelData.productDetails[i].skus[0].cartItem == null) {
-                                    print("null as6e cart e");
-                                  } else {
-                                    print("ei tate cart count a6e");
-                                  }
+                                  // if (foodDetailsModelData.productDetails[i].skus[0].cartItem == null) {
+                                  //   print("null as6e cart e");
+                                  // } else {
+                                  //   print("ei tate cart count a6e");
+                                  // }
                                   _productAmount[index0].add(List.generate(
                                       foodDetailsModelData.productDetails[i].skus.length,
                                       (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)
                                           ? 0
                                           : int.parse(foodDetailsModelData.productDetails[i].skus[index].cartItem.quantity)));
 
-                                  print("_productAmount");
+                                  // print("_productAmount");
                                   _cartItemId[index0].add(List.generate(
                                       foodDetailsModelData.productDetails[i].skus.length,
                                       (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)
                                           ? "0"
                                           : foodDetailsModelData.productDetails[i].skus[index].cartItem.cartItemId.toString()));
 
-                                  print("_cartItemId");
+                                  // print("_cartItemId");
 
                                   _addVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
                                       (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? true : false));
 
-                                  print("_addVisibility");
+                                  // print("_addVisibility");
 
 
                                   _moreLessVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
                                       (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? false : true));
 
                                   _favCheck[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
-                                      (index) => (foodDetailsModelData.productDetails[i].skus[index].wishlist == "0") ? false : true));
+                                      (index) =>
+                                    (foodDetailsModelData.productDetails[i].skus[index].wishlist==null) ? false : true));
 
 
-                                  print("_moreLessVisibility");
+                                  // print("_moreLessVisibility");
 
                                   _circularProgressVisibility[index0]
                                       .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
@@ -496,7 +497,6 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                             }
                             if (foodDetailsModelData.menu[0].subcategory.length-1 == index0) {
                               check = false;
-                              print("same hye ge6e");
                             }
                           }
 
@@ -552,7 +552,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                               ),
                                                               child: FadeInImage(
                                                                 image: NetworkImage(
-                                                                  "$imageBaseURL${_productDetailsList[index0][index1].skus[index].image.productImages}",
+                                                                  "$imageBaseURL${(_productDetailsList[index0][index1].skus[index].image!=null)?_productDetailsList[index0][index1].skus[index].image.productImages:"null"}",
                                                                 ),
                                                                 placeholder: AssetImage("images/logo.jpeg"),
                                                                 fit: BoxFit.fill,

@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'NavigationButton.dart';
+
 class MapCurrentAddressPicker extends StatelessWidget {
   // Light Theme
   final ThemeData lightTheme = ThemeData.light().copyWith(
@@ -169,11 +171,12 @@ class _MapHomePageState extends State<MapHomePage1> {
                                         ),
                                         onPressed: () {
                                           userAddress = "${_selectedPlace.formattedAddress}";
+                                          changeAddress = "${_selectedPlace.formattedAddress}";
                                           userLat = _selectedPlace.geometry.location.lat;
                                           userLong = _selectedPlace.geometry.location.lng;
                                           // print("picker lat long $pickUpLat , $pickUpLong");
                                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) {
-                                            return Home(address: userAddress,);
+                                            return NavigationButton();
                                           }));
                                         },
                                         color: lightThemeRed,
@@ -210,25 +213,9 @@ class _MapHomePageState extends State<MapHomePage1> {
                     //   Icon(Icons.location_history);
                   }
                 },
-//dfdfh
               ),
             ),
           ),
         ));
   }
 }
-
-/*RaisedButton(
-                                child: Text("Pick Here"),
-                                onPressed: () {
-                                  // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
-                                  //            this will override default 'Select here' Button.
-                                  print(
-                                      "do something with [selectedPlace] data");
-                                  print(
-                                      "place :: ${_selectedPlace.geometry.location.lat}");
-                                  print(
-                                      "place :: ${_selectedPlace.geometry.location.lng}");
-                                  // Navigator.of(context).pop();
-                                },
-                              ),*/

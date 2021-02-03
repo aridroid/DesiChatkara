@@ -21,12 +21,11 @@ class FavoriteDeleteBloc {
 
   }
 
-  favoriteDelete(Map body,String token) async {
-    print("body");
-    print(body);
+  favoriteDelete(String id,String token) async {
+    //print("body");
     favoriteDeleteSink.add(ApiResponse.loading('Submitting'));
     try {
-      FavDeleteModel favdeleteModel = await _favoriteDeleteRepository.favoritedelete(body,token);
+      FavDeleteModel favdeleteModel = await _favoriteDeleteRepository.favoritedelete(id,token);
       favoriteDeleteSink.add(ApiResponse.completed(favdeleteModel));
     } catch (e) {
       favoriteDeleteSink.add(ApiResponse.error(e.toString()));

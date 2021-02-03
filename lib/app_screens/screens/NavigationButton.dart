@@ -7,11 +7,15 @@ import 'Home.dart';
 import 'UserProfile.dart';
 
 class NavigationButton extends StatefulWidget {
+  int currentIndex;
+  NavigationButton({this.currentIndex=0});
+
   @override
   _NavigationButtonState createState() => new _NavigationButtonState();
 }
 
 class _NavigationButtonState extends State<NavigationButton> {
+
   int _pageIndex = 0;
   PageController _pageController;
 
@@ -23,10 +27,12 @@ class _NavigationButtonState extends State<NavigationButton> {
 
   ];
 
+
+
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController(initialPage: widget.currentIndex);
   }
 
   @override

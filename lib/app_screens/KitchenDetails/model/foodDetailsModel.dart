@@ -121,6 +121,8 @@ class CartItems {
   String productId;
   String quantity;
   String skuName;
+  Null preparationTime;
+  String isOutOfStock;
   String unitPrice;
   String productIdentification;
   String productName;
@@ -136,6 +138,8 @@ class CartItems {
         this.productId,
         this.quantity,
         this.skuName,
+        this.preparationTime,
+        this.isOutOfStock,
         this.unitPrice,
         this.productIdentification,
         this.productName,
@@ -151,6 +155,8 @@ class CartItems {
     productId = json['product_id'];
     quantity = json['quantity'];
     skuName = json['sku_name'];
+    preparationTime = json['preparation_time'];
+    isOutOfStock = json['is_out_of_stock'];
     unitPrice = json['unit_price'];
     productIdentification = json['product_identification'];
     productName = json['product_name'];
@@ -168,6 +174,8 @@ class CartItems {
     data['product_id'] = this.productId;
     data['quantity'] = this.quantity;
     data['sku_name'] = this.skuName;
+    data['preparation_time'] = this.preparationTime;
+    data['is_out_of_stock'] = this.isOutOfStock;
     data['unit_price'] = this.unitPrice;
     data['product_identification'] = this.productIdentification;
     data['product_name'] = this.productName;
@@ -188,7 +196,6 @@ class ProductDetails {
   String createdAt;
   String updatedAt;
   String isActive;
-  Null vendorId;
   List<Skus> skus;
 
   ProductDetails(
@@ -200,7 +207,6 @@ class ProductDetails {
         this.createdAt,
         this.updatedAt,
         this.isActive,
-        this.vendorId,
         this.skus});
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
@@ -212,7 +218,6 @@ class ProductDetails {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isActive = json['is_active'];
-    vendorId = json['vendor_id'];
     if (json['skus'] != null) {
       skus = new List<Skus>();
       json['skus'].forEach((v) {
@@ -231,7 +236,6 @@ class ProductDetails {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['is_active'] = this.isActive;
-    data['vendor_id'] = this.vendorId;
     if (this.skus != null) {
       data['skus'] = this.skus.map((v) => v.toJson()).toList();
     }
@@ -248,13 +252,16 @@ class Skus {
   String skuName;
   String isVeg;
   String vendorId;
+  Null preparationTime;
   String createdAt;
   String updatedAt;
   Null deletedAt;
   String isActive;
-  String wishlist;
+  String isOutOfStock;
+  Vendor vendor;
   Image image;
   List<SkuVariant> skuVariant;
+  Wishlist wishlist;
   CartItem cartItem;
 
   Skus(
@@ -266,13 +273,16 @@ class Skus {
         this.skuName,
         this.isVeg,
         this.vendorId,
+        this.preparationTime,
         this.createdAt,
         this.updatedAt,
         this.deletedAt,
         this.isActive,
-        this.wishlist,
+        this.isOutOfStock,
+        this.vendor,
         this.image,
         this.skuVariant,
+        this.wishlist,
         this.cartItem});
 
   Skus.fromJson(Map<String, dynamic> json) {
@@ -284,11 +294,14 @@ class Skus {
     skuName = json['sku_name'];
     isVeg = json['is_veg'];
     vendorId = json['vendor_id'];
+    preparationTime = json['preparation_time'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     isActive = json['is_active'];
-    wishlist = json['wishlist'];
+    isOutOfStock = json['is_out_of_stock'];
+    vendor =
+    json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
     image = json['image'] != null ? new Image.fromJson(json['image']) : null;
     if (json['sku_variant'] != null) {
       skuVariant = new List<SkuVariant>();
@@ -296,6 +309,9 @@ class Skus {
         skuVariant.add(new SkuVariant.fromJson(v));
       });
     }
+    wishlist = json['wishlist'] != null
+        ? new Wishlist.fromJson(json['wishlist'])
+        : null;
     cartItem = json['cart_item'] != null
         ? new CartItem.fromJson(json['cart_item'])
         : null;
@@ -311,20 +327,120 @@ class Skus {
     data['sku_name'] = this.skuName;
     data['is_veg'] = this.isVeg;
     data['vendor_id'] = this.vendorId;
+    data['preparation_time'] = this.preparationTime;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;
     data['is_active'] = this.isActive;
-    data['wishlist'] = this.wishlist;
+    data['is_out_of_stock'] = this.isOutOfStock;
+    if (this.vendor != null) {
+      data['vendor'] = this.vendor.toJson();
+    }
     if (this.image != null) {
       data['image'] = this.image.toJson();
     }
     if (this.skuVariant != null) {
       data['sku_variant'] = this.skuVariant.map((v) => v.toJson()).toList();
     }
+    if (this.wishlist != null) {
+      data['wishlist'] = this.wishlist.toJson();
+    }
     if (this.cartItem != null) {
       data['cart_item'] = this.cartItem.toJson();
     }
+    return data;
+  }
+}
+
+class Vendor {
+  int id;
+  String shopName;
+  String mobileNumber;
+  String mobileVerifiedFlag;
+  String mobileVerifiedToken;
+  Null mobileVerifiedAt;
+  String address;
+  String city;
+  String state;
+  String zip;
+  String longitude;
+  String latitude;
+  String vendorImage;
+  String categoryId;
+  String createdAt;
+  String updatedAt;
+  String availableFrom;
+  String availableTo;
+  String isActive;
+  Null parentId;
+
+  Vendor(
+      {this.id,
+        this.shopName,
+        this.mobileNumber,
+        this.mobileVerifiedFlag,
+        this.mobileVerifiedToken,
+        this.mobileVerifiedAt,
+        this.address,
+        this.city,
+        this.state,
+        this.zip,
+        this.longitude,
+        this.latitude,
+        this.vendorImage,
+        this.categoryId,
+        this.createdAt,
+        this.updatedAt,
+        this.availableFrom,
+        this.availableTo,
+        this.isActive,
+        this.parentId});
+
+  Vendor.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    shopName = json['shop_name'];
+    mobileNumber = json['mobile_number'];
+    mobileVerifiedFlag = json['mobile_verified_flag'];
+    mobileVerifiedToken = json['mobile_verified_token'];
+    mobileVerifiedAt = json['mobile_verified_at'];
+    address = json['address'];
+    city = json['city'];
+    state = json['state'];
+    zip = json['zip'];
+    longitude = json['longitude'];
+    latitude = json['latitude'];
+    vendorImage = json['vendor_image'];
+    categoryId = json['category_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    availableFrom = json['available_from'];
+    availableTo = json['available_to'];
+    isActive = json['is_active'];
+    parentId = json['parent_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['shop_name'] = this.shopName;
+    data['mobile_number'] = this.mobileNumber;
+    data['mobile_verified_flag'] = this.mobileVerifiedFlag;
+    data['mobile_verified_token'] = this.mobileVerifiedToken;
+    data['mobile_verified_at'] = this.mobileVerifiedAt;
+    data['address'] = this.address;
+    data['city'] = this.city;
+    data['state'] = this.state;
+    data['zip'] = this.zip;
+    data['longitude'] = this.longitude;
+    data['latitude'] = this.latitude;
+    data['vendor_image'] = this.vendorImage;
+    data['category_id'] = this.categoryId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['available_from'] = this.availableFrom;
+    data['available_to'] = this.availableTo;
+    data['is_active'] = this.isActive;
+    data['parent_id'] = this.parentId;
     return data;
   }
 }
@@ -471,6 +587,34 @@ class ProductVariantOption {
     data['id'] = this.id;
     data['product_variant_id'] = this.productVariantId;
     data['name'] = this.name;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Wishlist {
+  int id;
+  String userId;
+  String skuId;
+  String createdAt;
+  String updatedAt;
+
+  Wishlist({this.id, this.userId, this.skuId, this.createdAt, this.updatedAt});
+
+  Wishlist.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    skuId = json['sku_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['sku_id'] = this.skuId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

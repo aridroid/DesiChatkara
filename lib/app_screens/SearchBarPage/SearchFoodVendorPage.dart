@@ -67,7 +67,7 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                         options: CarouselOptions(
                             autoPlayInterval: Duration(seconds: 4),
                             autoPlay: true,
-                            aspectRatio: 2.0,
+                            aspectRatio: 1.8,
                            // enlargeCenterPage: true,
                             enlargeStrategy: CenterPageEnlargeStrategy.height,
                             autoPlayCurve: Curves.decelerate,
@@ -87,7 +87,7 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: FadeInImage(
-                                  width: screenWidth,
+                                  width: scW,
                                   // height: screenHeight * 0.3,
                                   image: NetworkImage(
                                     "$imageBaseURL${_foodDetails.productImage}",
@@ -129,18 +129,24 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                 height: 5.0,
               ),
 
-              Text(
-                "${_foodDetails.skuName}",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Text(
+                  "${_foodDetails.skuName}",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
               ),
 
               SizedBox(
                 height: 10.0,
               ),
 
-              Text(
-                "All Shops",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange),
+              Padding(
+                padding: const EdgeInsets.only(left:8.0),
+                child: Text(
+                  "All Shops",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.orange),
+                ),
               ),
 
               ListView.builder(
@@ -162,7 +168,7 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                         );
                       },
                       child: Container(
-                          margin: EdgeInsets.all(7.0),
+                          margin: EdgeInsets.only(left:7.0,bottom: 7,right: 7,top: 10),
                           padding: EdgeInsets.all(5.0),
                           height: screenWidth * 0.27,
                           // width: screenWidth*0.05,

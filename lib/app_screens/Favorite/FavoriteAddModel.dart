@@ -23,7 +23,7 @@ class FavoriteAddModel {
 }
 
 class Data {
-  int skuId;
+  String skuId;
 
   Data({this.skuId});
 

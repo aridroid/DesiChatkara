@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 const imageBaseURL="http://eqsxerusrangoon.com/desichatkara/api/public";
+//const imageBaseURL="https://deliveryontime.co.in/api/public";
 
 const FontWeight font_bold = FontWeight.w700;
 const FontWeight font_semibold = FontWeight.w600;
@@ -7,6 +8,7 @@ const FontWeight font_semibold = FontWeight.w600;
 double screenHeight=0;
 double screenWidth=0;
 bool userLogin;
+String changeAddress;
 
 const darkThemeRed=Color.fromRGBO(130, 2, 14, 1);
 const lightThemeRed=Color.fromRGBO(143, 23, 35, 1);

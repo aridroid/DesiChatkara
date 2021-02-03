@@ -5,8 +5,8 @@ class FavoriteDeleteRepository {
 
   ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<FavDeleteModel> favoritedelete(Map body,String token) async {
-    final response = await _helper.postWithHeader('deletewishlist',body,"Bearer $token");
+  Future<FavDeleteModel> favoritedelete(String id,String token) async {
+    final response = await _helper.deleteWithHeader('wishlist/$id',"Bearer $token");
     return FavDeleteModel.fromJson(response);
   }
 

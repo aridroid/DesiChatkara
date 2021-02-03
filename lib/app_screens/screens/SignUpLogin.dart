@@ -3,10 +3,15 @@ import 'package:desichatkara/app_screens/screens/Home.dart';
 import 'package:desichatkara/app_screens/screens/Login.dart';
 import 'package:desichatkara/app_screens/screens/NavigationButton.dart';
 import 'package:desichatkara/app_screens/screens/Otp.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'LoginWithPhone.dart';
 
 class SignUpLogin extends StatefulWidget {
   @override
@@ -16,6 +21,21 @@ class SignUpLogin extends StatefulWidget {
 class _SignUpLoginState extends State<SignUpLogin> {
   bool isLoggedIn = false;
   Sign_in_google sg = new Sign_in_google();
+  final gooleSignIn = GoogleSignIn();
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  SharedPreferences prefs;
+
+
+  void initState() {
+    super.initState();
+    createSharedPref();
+  }
+
+  Future<void> createSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
 
   // PageController scontroller=new PageController();
   @override
@@ -31,25 +51,25 @@ class _SignUpLoginState extends State<SignUpLogin> {
         backgroundColor: Colors.transparent,
         body: ListView(
           children: [
-            // InkWell(
-            //   onTap: () {
-            //     Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => NavigationButton(),
-            //         ));
-            //   },
-            //   child: Container(
-            //     margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .05, left: MediaQuery.of(context).size.width * .85),
-            //     child: Text(
-            //       "Skip",
-            //       style: new TextStyle(color: Colors.white, fontSize: 14.0),
-            //     ),
-            //   ),
-            // ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NavigationButton(),
+                    ));
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .05, left: MediaQuery.of(context).size.width * .85),
+                child: Text(
+                  "Skip",
+                  style: new TextStyle(color: Colors.white, fontSize: 14.0),
+                ),
+              ),
+            ),
             Center(
                 child: Container(
-                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .10),
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .11),
                   child: Text(
                     "SWAD KA CHATKARA SEHAT K SATH",
                     style: new TextStyle(color: Colors.white, fontSize: 15.0),
@@ -86,8 +106,43 @@ class _SignUpLoginState extends State<SignUpLogin> {
                 ),
               ),
             ),
+            // Container(
+            //   margin: EdgeInsets.only(left: 30.0, right: 30.0, top: MediaQuery.of(context).size.height * .09),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            //     color: Colors.white,
+            //   ),
+            //
+            //   // color: Colors.white,
+            //   height: 50.0,
+            //   // padding: EdgeInsets.symmetric(horizontal: 20.0),
+            //   child: InkWell(
+            //     onTap: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //             builder: (context) => OtpPage(),
+            //           ));
+            //     },
+            //     child: Padding(
+            //       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           Image.asset(
+            //             "images/user.png",
+            //             height: 22.0,
+            //             width: 22.0,
+            //           ),
+            //           Expanded(child: Center(child: Text("SignUp", style: new TextStyle(color: Colors.black, fontSize: 14.0)))),
+            //           Container(margin: EdgeInsets.only(left: 30.0), child: Icon(Icons.arrow_forward))
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Container(
-              margin: EdgeInsets.only(left: 30.0, right: 30.0, top: MediaQuery.of(context).size.height * .09),
+              margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 color: Colors.white,
@@ -98,10 +153,10 @@ class _SignUpLoginState extends State<SignUpLogin> {
               // padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OtpPage(),
+                        builder: (context) => LoginWithPhone(),
                       ));
                 },
                 child: Padding(
@@ -114,42 +169,7 @@ class _SignUpLoginState extends State<SignUpLogin> {
                         height: 22.0,
                         width: 22.0,
                       ),
-                      Expanded(child: Center(child: Text("SignUp", style: new TextStyle(color: Colors.black, fontSize: 14.0)))),
-                      Container(margin: EdgeInsets.only(left: 30.0), child: Icon(Icons.arrow_forward))
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 12.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                color: Colors.white,
-              ),
-
-              // color: Colors.white,
-              height: 50.0,
-              // padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Login(),
-                      ));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Image.asset(
-                        "images/user.png",
-                        height: 22.0,
-                        width: 22.0,
-                      ),
-                      Expanded(child: Center(child: Text("Login", style: new TextStyle(color: Colors.black, fontSize: 14.0)))),
+                      Expanded(child: Center(child: Text("Login / SignUp", style: new TextStyle(color: Colors.black, fontSize: 14.0)))),
                       Container(margin: EdgeInsets.only(left: 30.0), child: Icon(Icons.arrow_forward))
                     ],
                   ),
@@ -158,20 +178,24 @@ class _SignUpLoginState extends State<SignUpLogin> {
             ),
             InkWell(
               onTap: () {
-                sg.signInWithGoogle().then((result) {
-                  if (result != null) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return NavigationButton();
-                        },
-                      ),
-                    );
-                  }
-                });
+                googleSignIn(context);
+                // sg.signInWithGoogle().then((result) {
+                //   if (result != null) {
+                //
+                //     print(result.);
+                //     // managedSharedPref();
+                //     // Navigator.of(context).push(
+                //     //   MaterialPageRoute(
+                //     //     builder: (context) {
+                //     //       return LoginWithPhone();
+                //     //     },
+                //     //   ),
+                //     // );
+                //   }
+                // });
               },
               child: Container(
-                margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 12.0),
+                margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   color: Colors.white,
@@ -202,7 +226,7 @@ class _SignUpLoginState extends State<SignUpLogin> {
                 initiateFacebookLogin();
               },
               child: Container(
-                margin: EdgeInsets.only(left: 30.0, right: 30.0, top: 12.0),
+                margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   color: Colors.white,
@@ -269,5 +293,47 @@ class _SignUpLoginState extends State<SignUpLogin> {
     setState(() {
       this.isLoggedIn = isLoggedIn;
     });
+  }
+  Future<bool> googleSignIn(context) async {
+    GoogleSignInAccount googleSignInAccount = await gooleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
+
+      AuthCredential credential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+
+      // AuthResult result = await auth.signInWithCredential(credential);
+      // FirebaseUser user = await auth.currentUser();
+
+      User user = (await auth.signInWithCredential(credential)).user;
+      print(user.uid);
+      print(user.photoURL);
+      print(user.phoneNumber);
+      print(user.displayName);
+      print(user.metadata);
+      print(user.email);
+      print(user.emailVerified);
+
+      prefs.setString("name", "${user.displayName}");
+        prefs.setString("email", "${user.email}");
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return LoginWithPhone(socialLogin: true,);
+              },
+            ),
+          );
+
+      // Map body={
+      //   "email": "${user.email}",
+      //   "password": "${user.uid}",
+      //   "name": "${user.displayName}"
+      // };
+      // print(body);
+      return Future.value(true);
+    }
   }
 }

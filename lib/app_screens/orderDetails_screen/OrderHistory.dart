@@ -44,14 +44,8 @@ class _OrderHistoryState extends State<OrderHistory> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(143, 23, 35, 1),
-        leading: InkWell(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
         title: Text(
           "Order History",
           style: new TextStyle(color: Colors.white, fontSize: 17.0),
@@ -62,13 +56,13 @@ class _OrderHistoryState extends State<OrderHistory> {
             color: Colors.white,
             onPressed: () {},
           ),
-          IconButton(
-            icon: Icon(Icons.shopping_cart_outlined),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Cart()));
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.shopping_cart_outlined),
+          //   color: Colors.white,
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) => Cart()));
+          //   },
+          // ),
         ],
       ),
       body: Padding(
@@ -139,7 +133,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                                             child: Text(
                                               "${snapshot.data.data[index].transactionStatus}",
-                                              style: new TextStyle(color: statusCol, fontSize: 14.0),
+                                              style: new TextStyle(color: statusCol, fontSize: 14.0,fontWeight: font_bold),
                                             ),
                                           ),
                                         ],
@@ -153,7 +147,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                       // width: 60.0,
                                       child: Text(
                                         "Rs.${snapshot.data.data[index].orderAmount}/-",
-                                        style: new TextStyle(color: Colors.black, fontSize: 14.0),
+                                        style: new TextStyle(color: Colors.black, fontSize: 14.0,fontWeight: font_bold),
                                       ),
                                     ),
                                   )
@@ -166,15 +160,16 @@ class _OrderHistoryState extends State<OrderHistory> {
                                   children: [
                                     Row(
                                       children: [
-                                        Expanded(
-                                          child: Text(
-                                            "Breakfast",
-                                            style: new TextStyle(color: Colors.grey, fontSize: 14.0),
-                                          ),
-                                        ),
+                                        // Expanded(
+                                        //   // child: Text(
+                                        //   //   "Breakfast",
+                                        //   //   style: new TextStyle(color: Colors.grey, fontSize: 14.0,fontWeight: font_semibold),
+                                        //   // ),
+                                        // ),
+                                        Spacer(),
                                         Text(
                                           "${DateFormat.yMMMMEEEEd().format(DateFormat("yyyy-MM-dd").parse(snapshot.data.data[index].createdAt, true))}",
-                                          style: new TextStyle(color: Colors.grey, fontSize: 14.0),
+                                          style: new TextStyle(color: Colors.grey, fontSize: 14.0,fontWeight: font_semibold),
                                         ),
                                       ],
                                     ),
@@ -185,13 +180,13 @@ class _OrderHistoryState extends State<OrderHistory> {
                                           Expanded(
                                             child: Text(
                                               "${snapshot.data.data[index].deliveryAddress}",
-                                              style: new TextStyle(color: Colors.black, fontSize: 15.0),
+                                              style: new TextStyle(color: Colors.black, fontSize: 12.0),
                                             ),
                                           ),
-                                          Text(
-                                            "Reorder",
-                                            style: new TextStyle(color: Colors.red[900], fontSize: 16.0),
-                                          ),
+                                          // Text(
+                                          //   "Reorder",
+                                          //   style: new TextStyle(color: Colors.red[900], fontSize: 16.0,fontWeight: font_bold),
+                                          // ),
                                         ],
                                       ),
                                     )

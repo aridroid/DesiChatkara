@@ -28,6 +28,7 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
   String userToken;
   String userId;
   bool deleteCheck=false;
+  Map idd;
 
   Future<void> createSharedPref() async {
     prefs = await SharedPreferences.getInstance();
@@ -156,59 +157,62 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                                                   children: [
                                                     Row(
                                                       children: [
-                                                        Text(
-                                                            snapshot.data.data[index].sku.skuName,
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.w600,
-                                                              color: Colors.black,
-                                                              fontSize: screenWidth * 0.04,
-                                                            )),
+                                                        Expanded(
+                                                          flex:6,
+                                                          child: Text(
+                                                              snapshot.data.data[index].sku.skuName,
+                                                              style: TextStyle(
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Colors.black,
+                                                                fontSize: screenWidth * 0.04,
+                                                              )),
+                                                        ),
                                                         Spacer(),
-                                                        StreamBuilder<ApiResponse<FavDeleteModel>>(
-                                                            stream: _favoriteDeleteBloc.favoriteDeleteStream,
-                                                            builder: (context, snapshot1) {
-                                                              if (snapshot1.hasData) {
-                                                                switch (snapshot1.data.status) {
-                                                                  case Status.LOADING:
-                                                                    print("Loading");
-                                                                    break;
-                                                                  case Status.COMPLETED:
-                                                                    print("Fav Deleted");
-                                                                    Future.delayed(Duration.zero, () {
-                                                                      //Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteKitchens()));
-                                                                        if(deleteCheck){
-                                                                          setState(() {
-                                                                            allfavorite = _favoriteKitchenRepository.getAllFavourite(userToken);
-                                                                          deleteCheck=false;
-                                                                          });
-                                                                        }
+                                                        Expanded(
+                                                          flex:1,
+                                                          child: StreamBuilder<ApiResponse<FavDeleteModel>>(
+                                                              stream: _favoriteDeleteBloc.favoriteDeleteStream,
+                                                              builder: (context, snapshot1) {
+                                                                //idd=snapshot.data.data[index].id.toString();
+                                                                if (snapshot1.hasData) {
+                                                                  switch (snapshot1.data.status) {
+                                                                    case Status.LOADING:
+                                                                      print("Loading");
+                                                                      break;
+                                                                    case Status.COMPLETED:
+                                                                      print("Fav Deleted");
+                                                                      Future.delayed(Duration.zero, () {
+                                                                        //Navigator.push(context, MaterialPageRoute(builder: (context) => FavoriteKitchens()));
+                                                                          if(deleteCheck){
+                                                                            setState(() {
+                                                                              allfavorite = _favoriteKitchenRepository.getAllFavourite(userToken);
+                                                                            deleteCheck=false;
+                                                                            });
+                                                                          }
 
-                                                                    });
-                                                                    break;
-                                                                  case Status.ERROR:
-                                                                    print("Fav not deleted");
-                                                                    break;
+                                                                      });
+                                                                      break;
+                                                                    case Status.ERROR:
+                                                                      print("Fav not deleted");
+                                                                      break;
+                                                                  }
                                                                 }
-                                                              }
-                                                              return IconButton(
-                                                                icon: Icon(Icons.delete_forever),
-                                                                color:Color.fromRGBO(143, 23, 35, 1),
-                                                                onPressed: () {
-                                                                  listFavorite=snapshot.data.data;
-                                                                  Map body={
-                                                                    "userid": userId.toString(),
-                                                                    "skuid": "${snapshot.data.data[index].skuId}",
-                                                                  };
-                                                                  _favoriteDeleteBloc.favoriteDelete(body,userToken);
-                                                                  deleteCheck=true;
-                                                                  // setState(() {
-                                                                  //
-                                                                  // });
-                                                                  // removeDynamic(listFavorite[index]);
+                                                                return IconButton(
+                                                                  icon: Icon(Icons.delete_forever),
+                                                                  color:Color.fromRGBO(143, 23, 35, 1),
+                                                                  onPressed: () {
+                                                                    listFavorite=snapshot.data.data;
+                                                                    _favoriteDeleteBloc.favoriteDelete(snapshot.data.data[index].id.toString(),userToken);
+                                                                    deleteCheck=true;
+                                                                    // setState(() {
+                                                                    //
+                                                                    // });
+                                                                    // removeDynamic(listFavorite[index]);
 
-                                                                },
-                                                              );
-                                                            }
+                                                                  },
+                                                                );
+                                                              }
+                                                          ),
                                                         ),
                                                       ],
                                                     ),

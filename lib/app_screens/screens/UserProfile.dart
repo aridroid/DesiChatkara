@@ -1,3 +1,4 @@
+import 'package:desichatkara/app_screens/profile_screen/profileManage.dart';
 import 'package:desichatkara/app_screens/screens/Starting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class _UserProfileState extends State<UserProfile> {
   SharedPreferences prefs;
   String name="";
   String email="";
+  String userPhoto="";
+
 
   void initState() {
     super.initState();
@@ -38,6 +41,7 @@ class _UserProfileState extends State<UserProfile> {
     }
     name=prefs.getString("name");
     email=prefs.getString("email");
+    userPhoto=prefs.getString("user_photo");
     print(prefs.getString("name"));
     setState(() {
 
@@ -50,17 +54,14 @@ class _UserProfileState extends State<UserProfile> {
       appBar: AppBar(
         backgroundColor: lightThemeRed,
         elevation: 0.0,
-        leading: InkWell(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            )),
-        title: Text(
-          "Profile",
-          style: new TextStyle(color: Colors.white, fontSize: 17.0),
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        title: Padding(
+          padding: const EdgeInsets.only(left:30.0),
+          child: Text(
+            "Profile",
+            style: new TextStyle(color: Colors.white, fontSize: 17.0),
+          ),
         ),
         actions: [
           IconButton(
@@ -68,11 +69,11 @@ class _UserProfileState extends State<UserProfile> {
             color: Colors.white,
             onPressed: () {},
           ),
-          IconButton(
-            icon: Icon(Icons.shopping_cart_outlined),
-            color: Colors.white,
-            onPressed: () {},
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.shopping_cart_outlined),
+          //   color: Colors.white,
+          //   onPressed: () {},
+          // ),
         ],
       ),
       body: ListView(
@@ -84,9 +85,11 @@ class _UserProfileState extends State<UserProfile> {
             child: Column(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    'images/profile.png',
+                  borderRadius: BorderRadius.circular(100.0),
+                  clipBehavior: Clip.hardEdge,
+                  child: Image.network(
+                    // 'images/profile.png',
+                  "$imageBaseURL$userPhoto",
                     width: 110.0,
                     height: 110.0,
                     fit: BoxFit.fill,
@@ -113,7 +116,12 @@ class _UserProfileState extends State<UserProfile> {
               ),
               title: const Text("Manage Profile"),
               onTap: () {
-                /* react to the tile being tapped */
+                Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfileManagePage(),
+                            ));
+                //ProfileManagePage
               }),
           ListTile(
               leading: const Icon(

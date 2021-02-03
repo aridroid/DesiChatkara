@@ -135,12 +135,12 @@ class _KitchenByCategoryState extends State<KitchenByCategory> {
                                              ),
                                            ),
 
-                                           Text(
-                                             snapshot.data.data[index].vendor[index1].address ,
-                                             style: new TextStyle(
-                                                 color: Colors.black,
-                                                 fontSize: 14.0),
-                                           ),
+                                           // Text(
+                                           //   snapshot.data.data[index].vendor[index1].address ,
+                                           //   style: new TextStyle(
+                                           //       color: Colors.black,
+                                           //       fontSize: 14.0),
+                                           // ),
 
                                          ],),
                                      )

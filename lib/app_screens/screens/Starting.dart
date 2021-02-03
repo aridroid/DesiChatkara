@@ -123,7 +123,7 @@ class _StartingState extends State<Starting> {
               // padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => SignUpLogin(),

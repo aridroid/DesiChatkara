@@ -481,7 +481,7 @@ class _VerificationPageLoginState extends State<VerificationPageLogin> {
           msg: "OTP Verified",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          backgroundColor: Colors.greenAccent,
+          backgroundColor: darkThemeRed,
           textColor: Colors.white,
           timeInSecForIosWeb: 1);
     });

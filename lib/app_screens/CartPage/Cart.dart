@@ -441,7 +441,7 @@ class _CartState extends State<Cart> {
                               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14.0),
                             )),
                         Image.asset(
-                          "assets/images/cart.png",
+                          "images/cart.png",
                           height: 150.0,
                         ),
                         SizedBox(

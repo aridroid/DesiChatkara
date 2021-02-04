@@ -39,23 +39,6 @@ class _AddressListPageState extends State<AddressListPage> {
     createSharedPref();
   }
 
-  /*Map body = {"userid": "26"};
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9."
-      "eyJhdWQiOiIxIiwianRpIjoiYTJiYzljNWY5Yzgy"
-      "NzY1NjI2NDE1Nzc0Y2U4NjVkNmRlNWRmNGNmZGEyYTFhZDh"
-      "iN2E0MGFmMWZhMTgzZGM0NjY3ZDA0ZWM1NzcxOTU1ZDkiLCJpY"
-      "XQiOjE2MDI5NDk2NDYsIm5iZiI6MTYwMjk0OTY0NiwiZXhwIjoxNj"
-      "M0NDg1NjQ2LCJzdWIiOiIyNiIsInNjb3BlcyI6W119.hs1EhLfMfUxM"
-      "ACFuLfMP73lPaeDmtvh4xDPpg84jqOJQa7-j9wbrRSLnsXe-FCFsIyyTS"
-      "GYJ54lEnCbiLeK3XThpeA-2R7H5jcThHMcCvF8hAg6jr8esAelMyhh10HNvD"
-      "dtkZs_Sg6Aa7TtiviQFo6jCQqJPNgsTsr_SRrrcC0WmYE_RnrGb6mBwW4_Lvv8"
-      "Ab7F5Yuch6dDLvdEC-_P0jtjdqQZdL7UypSZEN0CqxfG5Z278X-IfpP7_aEOXIZs1"
-      "Q1YgKLhvmoZeRefiuAOR3UTp7AReFJOlIwvynOkFPFvzHWKe8mtGekuNV477M7t0q3u"
-      "SYwNqmvtZcAib6uSRKXcjGVxEIKh6btCfNvorNrbjjc-QzR6eLx13qdyB99OlUSYs2_xA1"
-      "xDM4ARPdzPEeXaxmk1CXZBSaw4jlSVbAc6TloiaGLL_KXxeQmWQIlLgLtdXRM5_DtOcefDTA"
-      "hVRHuc7RxFaaqO_N-qjzOadFP80SKdBehap8Bw0NK_xMIy05lSVcU70HGSaiFT4LHbwAlBnK8oK"
-      "43D6VcqNDGBopwevi-su0zaeyDaoVkob5bAv4X-3r4pXP7c0d1-AN6DwzNFL4RZAqz2YB7oRn7jmAO"
-      "4f1dPqPf7LVK4WBk3OAWpo8_lZBOsplUnFSf4mo-9F4zPFmrRRMmaNGGBaAWZMH98";*/
   AddressRepository _addressRepository = new AddressRepository();
   List val = [10, 20, 30, 40, 50];
   String _addressId="";

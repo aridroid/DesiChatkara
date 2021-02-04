@@ -109,7 +109,7 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               KitchenDetailedMenu(
-                                                //categoryId: snapshot.data.data[index].sku.,
+                                                //categoryId: snapshot.data.data[index].sku.
                                                   vendorId: snapshot.data.data[index].sku.vendorId,
                                                   vendorName: snapshot.data
                                                       .data[index].sku.vendor.shopName)),

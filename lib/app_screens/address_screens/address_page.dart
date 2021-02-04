@@ -507,7 +507,7 @@ class _AddressPageState extends State<AddressPage> {
                                           child: Text(
                                             "Cash On Delivery",
                                             style: TextStyle(
-                                                color: Colors.lightBlue[900],
+                                                color: Colors.black,
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.w600),
                                           ),
@@ -546,7 +546,7 @@ class _AddressPageState extends State<AddressPage> {
                                           child: Text(
                                             "Online Payment",
                                             style: TextStyle(
-                                                color: Colors.lightBlue[900],
+                                                color: Colors.black,
                                                 fontSize: 16.0,
                                                 fontWeight: FontWeight.w600),
                                           ),

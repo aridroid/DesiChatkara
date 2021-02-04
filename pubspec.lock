@@ -309,7 +309,7 @@ packages:
       name: google_maps_flutter_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   google_maps_place_picker:
     dependency: "direct main"
     description:
@@ -380,13 +380,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
-  image_picker_saver:
-    dependency: "direct main"
-    description:
-      name: image_picker_saver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   intl:
     dependency: "direct main"
     description:
@@ -491,14 +484,14 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.1+1"
+    version: "5.1.0+1"
   permission_handler_platform_interface:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   pin_input_text_field:
     dependency: transitive
     description:

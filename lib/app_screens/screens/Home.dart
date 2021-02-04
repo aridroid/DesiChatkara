@@ -53,6 +53,7 @@ class _HomeState extends State<Home> {
   SharedPreferences prefs;
   String name = "";
   String email = "";
+  String userPhoto = "";
   String address;
   List<String> bannerImages = [
     'images/diet.png',
@@ -78,6 +79,8 @@ class _HomeState extends State<Home> {
     "Pro",
     "Trending",
   ];
+
+
 
 
   openPopUp() {
@@ -140,6 +143,7 @@ class _HomeState extends State<Home> {
     name = prefs.getString("name");
     email = prefs.getString("email");
     print(prefs.getString("name"));
+    userPhoto = prefs.getString("user_photo");
     setState(() {});
   }
 
@@ -188,6 +192,7 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     screenHeight = MediaQuery.of(context).size.height;
@@ -214,10 +219,13 @@ class _HomeState extends State<Home> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'images/profile.png',
-                          width: 75.0,
+                        child: FadeInImage(
                           height: 75.0,
+                          width: 75.0,
+                          image: NetworkImage(
+                            "$imageBaseURL$userPhoto",
+                          ),
+                          placeholder: AssetImage("images/profile.png"),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -470,7 +478,8 @@ class _HomeState extends State<Home> {
           ),
         ),
         body: ListView(
-          physics: AlwaysScrollableScrollPhysics(),
+         // physics: AlwaysScrollableScrollPhysics(),
+          physics: ScrollPhysics(),
           shrinkWrap: true,
           children: [
             Container(
@@ -506,7 +515,7 @@ class _HomeState extends State<Home> {
               height: screenHeight*0.115,
               //color: Colors.red,
               child: ListView.builder(
-                  cacheExtent: 10,
+                  // cacheExtent: 10,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: PureName.length,
@@ -561,10 +570,10 @@ class _HomeState extends State<Home> {
             ),
 
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 0, 5),
+              padding: EdgeInsets.fromLTRB(13, 10, 0, 5),
               child: Text(
                 "Offers For You",
-                style: new TextStyle(
+                style:TextStyle(
                   color: Colors.black,
                   fontWeight: font_bold,
                   fontSize: 16,),
@@ -574,23 +583,21 @@ class _HomeState extends State<Home> {
               future: activeCupon,
               builder: (context, snapshot) {
                 List<acm.Data> data=new List<acm.Data>();
-
                 if (snapshot.hasData) {
                   data=filterCupon(snapshot);
-                  print("iaaaaaaaa----------");
+                  print("number of coupons for restaurant  ");
                   print(data.length);
                   return Container(
                     height: 160.0,
-                    padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                    padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                     child: ListView.builder(
-                        cacheExtent: 10,
+                        // cacheExtent: 10,
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         //itemCount: snapshot.data.data.length,
                         itemCount: data.length,
-
+                        physics: ScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
-
                           return Container(
                             width: 140.0,
                             height: 160.0,
@@ -600,21 +607,18 @@ class _HomeState extends State<Home> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               elevation: 2.0,
-                              child: Container(
-                                //height: 160.0,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  child: FadeInImage(
-                                    image: NetworkImage(
-                                     // imageBaseURL + snapshot.data.data[index].couponBannerUrl,
-                                        imageBaseURL+ data[index].couponBannerUrl,
-                                    ),
-
-                                    placeholder: AssetImage("images/veg_meal.png"),
-                                    fit: BoxFit.fill,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: FadeInImage(
+                                  image: NetworkImage(
+                                   // imageBaseURL + snapshot.data.data[index].couponBannerUrl,
+                                      imageBaseURL+ data[index].couponBannerUrl,
                                   ),
 
-                                )
+                                  placeholder: AssetImage("images/veg_meal.png"),
+                                  fit: BoxFit.fill,
+                                ),
+
                               ),
                             ),
                           );
@@ -635,140 +639,123 @@ class _HomeState extends State<Home> {
                 }
               },
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10.0),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                        left: 10.0, right: 10.0, top: 5, bottom: 10),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Text(
-                              "Order Your Choice",
-                              style: new TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: font_bold,
-                                  fontSize: 16),
-                            )),
-                      ],
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: FutureBuilder<AllCategoryResponseModel>(
-                        future: allCategory,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return GridView.builder(
-                              cacheExtent: 10,
-                              shrinkWrap: true,
-                              itemCount:
-                              snapshot.data.data[0].subcategory.length,
-                              physics: NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 5,
-                                  mainAxisSpacing: 5,
-                                  childAspectRatio: .9),
-                              itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              KitchenByCategory(snapshot.data
-                                                  .data[0].subcategory[index].id
-                                                  .toString())),
-                                    );
-                                  },
-                                  child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(7.5),
-                                      ),
-                                      elevation: 1.0,
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft:
-                                                  Radius.circular(7.5),
-                                                  topRight:
-                                                  Radius.circular(7.5)),
-                                              child: FadeInImage(
-                                                image: NetworkImage(
-                                                    imageBaseURL +
-                                                        snapshot
-                                                            .data
-                                                            .data[0]
-                                                            .subcategory[
-                                                        index]
-                                                            .categoryImage),
-                                                placeholder: AssetImage("images/veg_meal.png"),
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            height: 30,
-                                            child: Center(
-                                              child: Text(
-                                                snapshot
-                                                    .data
-                                                    .data[0]
-                                                    .subcategory[index]
-                                                    .subcategoryname,
-                                                style: TextStyle(
-                                                    color: Colors.grey[900],
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 12),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    // ignore: dead_code
-                                  ),
-                                );
-                              },
-                            );
-                          } else if (snapshot.hasError) {
-                            print("hello");
-                            return Container(
-                              child: Center(
-                                  child: Text(
-                                    "No Data ",
-                                    style: TextStyle(
-                                        fontSize: 17, fontWeight: FontWeight.bold),
-                                  )),
-                            );
-                          } else {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                        },
-                      ))
-                ],
+            Padding(
+              padding: EdgeInsets.fromLTRB(13, 10, 0, 5),
+              child: Text(
+                "Order Your Choice",
+                style:TextStyle(
+                  color: Colors.black,
+                  fontWeight: font_bold,
+                  fontSize: 16,),
               ),
             ),
-            Container(
-              margin:
-                  EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0,top:10),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                    "Kitchens Near You",
-                    style: new TextStyle(
-                        color: Colors.black,
-                        fontWeight: font_bold,
-                        fontSize: 16,),
-                  )),
-                ],
+            Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: FutureBuilder<AllCategoryResponseModel>(
+                  future: allCategory,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return GridView.builder(
+                        // cacheExtent: 10,
+                        shrinkWrap: true,
+                        itemCount:
+                        snapshot.data.data[0].subcategory.length,
+                        physics: ScrollPhysics(),
+                        // physics: NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: .9),
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        KitchenByCategory(snapshot.data
+                                            .data[0].subcategory[index].id
+                                            .toString())),
+                              );
+                            },
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(7.5),
+                                ),
+                                elevation: 1.0,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft:
+                                            Radius.circular(7.5),
+                                            topRight:
+                                            Radius.circular(7.5)),
+                                        child: FadeInImage(
+                                          image: NetworkImage(
+                                              imageBaseURL +
+                                                  snapshot
+                                                      .data
+                                                      .data[0]
+                                                      .subcategory[
+                                                  index]
+                                                      .categoryImage),
+                                          placeholder: AssetImage("images/veg_meal.png"),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 30,
+                                      child: Center(
+                                        child: Text(
+                                          snapshot
+                                              .data
+                                              .data[0]
+                                              .subcategory[index]
+                                              .subcategoryname,
+                                          style: TextStyle(
+                                              color: Colors.grey[900],
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              // ignore: dead_code
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      print("hello");
+                      return Container(
+                        child: Center(
+                            child: Text(
+                              "No Data ",
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            )),
+                      );
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                )),
+            Padding(
+              padding:
+                  EdgeInsets.only(left: 13.0, right: 0,top:10),
+              child: Text(
+                "Kitchens Near You",
+                style: new TextStyle(
+                color: Colors.black,
+                fontWeight: font_bold,
+                fontSize: 16,),
               ),
             ),
             FutureBuilder<KitchensNearResponseModel>(
@@ -776,13 +763,13 @@ class _HomeState extends State<Home> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
-                      cacheExtent: 10,
-                      scrollDirection: Axis.vertical,
+                      // cacheExtent: 10,
+                      // scrollDirection: Axis.vertical,
                       itemCount: snapshot.data.data.length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
 
-                     // physics: ScrollPhysics(),
+                      // physics: NeverScrollableScrollPhysics(),
+                     physics: ScrollPhysics(),
                       itemBuilder: (BuildContext ctxt, int index) {
                         return InkWell(
                           onTap: () {
@@ -801,11 +788,11 @@ class _HomeState extends State<Home> {
                           },
                           child: Container(
                             height: 220,
-                            margin: index == snapshot.data.data.length - 1
+                            margin: /*index == snapshot.data.data.length - 1
                                 ? EdgeInsets.only(
                                     left: 10.0, right: 10.0, bottom: 0)
-                                : EdgeInsets.only(
-                                    left: 10.0, right: 10.0, bottom: 20),
+                                : */EdgeInsets.only(
+                                    left: 10.0, right: 10.0, bottom: 20,top:10),
                             child: Card(
                               margin: EdgeInsets.zero,
                               shape: RoundedRectangleBorder(
@@ -813,8 +800,8 @@ class _HomeState extends State<Home> {
                               ),
                               elevation: 2.0,
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                               // mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Stack(
                                     children: [
@@ -833,7 +820,7 @@ class _HomeState extends State<Home> {
                                         child: FadeInImage(
                                           image:
                                               // NetworkImage(
-                                              //   // imageBaseURL+ snapshot.data.data[index].vendorImage,
+                                              //imageBaseURL+ snapshot.data.data[index].vendorImage,
                                               // ),
                                               AssetImage(vendorImages[
                                                   index % 3]),
@@ -844,6 +831,7 @@ class _HomeState extends State<Home> {
                                       ),
                                       Positioned(
                                           bottom: 0,
+                                          left: 0,
                                           child: Container(
                                             padding: EdgeInsets.fromLTRB(
                                                 5, 2.5, 5, 2.5),
@@ -894,14 +882,14 @@ class _HomeState extends State<Home> {
                                         right: 10.0),
                                     child: Row(
                                       children: [
-                                        Expanded(
-                                            child: Text(
+                                        Text(
                                           snapshot
-                                              .data.data[index].shopName,
+                                          .data.data[index].shopName,
                                           style: new TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14,fontWeight: font_semibold),
-                                        )),
+                                          color: Colors.black,
+                                          fontSize: 14,fontWeight: font_semibold),
+                                        ),
+                                        Spacer(),
                                         Icon(
                                           Icons.star,
                                           color: Color.fromRGBO(
@@ -928,7 +916,7 @@ class _HomeState extends State<Home> {
                                           right: 10.0,
                                           top: 5.0),
                                       child: Text(
-                                        "veg, Lunch",
+                                        "veg, Lunch, Dinner",
                                         style: new TextStyle(
                                             color: Colors.grey[700]),
                                       )),

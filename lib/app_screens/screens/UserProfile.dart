@@ -87,13 +87,24 @@ class _UserProfileState extends State<UserProfile> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(100.0),
                   clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    // 'images/profile.png',
-                  "$imageBaseURL$userPhoto",
+                   child: //Image.network(
+                  //   // 'images/profile.png',
+                  // "$imageBaseURL$userPhoto",
+                  //   width: 110.0,
+                  //   height: 110.0,
+                  //   fit: BoxFit.fill,),
+                  FadeInImage(
+                    image: NetworkImage(
+                      // imageBaseURL + snapshot.data.data[index].couponBannerUrl,
+                      "$imageBaseURL$userPhoto",
+                    ),
                     width: 110.0,
                     height: 110.0,
+                    placeholder: AssetImage('images/profile.png',),
                     fit: BoxFit.fill,
                   ),
+
+
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 3.0),

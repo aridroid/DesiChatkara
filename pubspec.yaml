@@ -49,6 +49,10 @@ dependencies:
   dio: ^3.0.10
   image_picker: ^0.6.7+22
   http: any
+  camera: 0.5.8+17
+  path_provider: ^1.6.27
+  path: ^1.7.0
+  esys_flutter_share: ^1.0.2
 
 
 

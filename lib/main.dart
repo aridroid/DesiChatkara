@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_screens/screens/NavigationButton.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async{
 
@@ -49,9 +50,13 @@ Future<void> main() async{
 
 class MyApp extends StatelessWidget {
 
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black
+    ));
     return MaterialApp(
        // theme: new ThemeData(scaffoldBackgroundColor: Color.fromRGBO(2, 4, 16, 0.0)),
         debugShowCheckedModeBanner: false,

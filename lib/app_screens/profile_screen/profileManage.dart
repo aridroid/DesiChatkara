@@ -11,11 +11,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:flutter/services.dart';
 
+import 'CameraScreen.dart';
 import 'bloc/profileUpdateBloc.dart';
 import 'model/profileUpdateModel.dart';
 
 class ProfileManagePage extends StatefulWidget {
+  final String imgPath;
+
+  ProfileManagePage({this.imgPath});
+
   @override
   _ProfileManagePageState createState() => _ProfileManagePageState();
 }
@@ -35,7 +41,7 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
   String userPhoto="";
 
 
-  File imageFile1;
+  File imageFile1;//change from File to string
   final Dio _dio = Dio();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   ProfileUpdateBloc _profileUpdateBloc;
@@ -44,8 +50,12 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
 
   void initState() {
     super.initState();
+    // if(widget.imgPath!=null){
+    //   userPhoto=widget.imgPath;
+    // }
     _profileUpdateBloc=new ProfileUpdateBloc();
     createSharedPref();
+
   }
 
   Future<void> createSharedPref() async {
@@ -81,6 +91,9 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black
+    ));
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -420,12 +433,18 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
                       },
                     ),
                     Padding(padding: EdgeInsets.all(8.0)),
-                    // GestureDetector(
-                    //   child: Text("Camera"),
-                    //   onTap: () {
-                    //     _openCamera1(context);
-                    //   },
-                    // )
+                    GestureDetector(
+                      child: Text("Camera"),
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => CameraScreen(),
+                        //     ));
+                        _openCamera1(context);
+
+                      },
+                    )
                   ],
                 ),
               ));
@@ -435,6 +454,12 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
   void _openGallery1(BuildContext context) async {
     // ignore: deprecated_member_use
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 30);
+    // Navigator.push(
+    //       context,
+    //        MaterialPageRoute(
+    //          builder: (context) => CameraScreen(),
+    //        ));
+
 
     this.setState(() {
       if (imageFile1 == null)
@@ -448,14 +473,20 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
 
   void _openCamera1(BuildContext context) async {
     // ignore: deprecated_member_use
-    var picture = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 30);
+   // var picture = await ImagePicker.pickImage(source: ImageSource.camera,imageQuality: 30);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CameraScreen(),
+        ));
     this.setState(() {
-      imageFile1 = picture;
+      imageFile1 = File(widget.imgPath);//
     });
     Navigator.of(context).pop();
   }
 
   _buildImage1() {
+   // imageFile1=File(widget.imgPath);
     if (imageFile1 != null) {
       // uploadFile1(imageFile1);
       return Container(

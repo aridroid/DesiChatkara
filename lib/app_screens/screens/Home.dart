@@ -218,7 +218,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(100.0),
                         child: FadeInImage(
                           height: 75.0,
                           width: 75.0,

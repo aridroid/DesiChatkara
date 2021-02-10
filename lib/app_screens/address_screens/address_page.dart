@@ -153,7 +153,7 @@ class _AddressPageState extends State<AddressPage> {
                                 prefs.setString("cart_item_number","");
                                 prefs.setString("coupon_code","");
                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-                                  return NavigationButton();
+                                  return NavigationButton(currentIndex: 1,);
                                 }));
                                 // Navigator.of(context).pushAndRemoveUntil(
                                 //     MaterialPageRoute(
@@ -477,255 +477,98 @@ class _AddressPageState extends State<AddressPage> {
                           // margin: EdgeInsets.fromLTRB(5.0, 3.0, 5.0, 3.0),
                           height: 100.0,
                           width: screenWidth,
-                          child: Column(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  // height: 20.0,
-                                  width: screenWidth,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Radio(
-                                          value: "cod",
-                                          groupValue: _paymentMode,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _paymentMode = value;
-                                              print(_paymentMode);
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 8,
-                                        child: Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              8.0, 0.0, 8.0, 0.0),
-                                          child: Text(
-                                            "Cash On Delivery",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  // height: 20.0,
-                                  width: screenWidth,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Radio(
-                                          value: "online",
-                                          groupValue: _paymentMode,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _paymentMode = value;
-                                              print(_paymentMode);
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 8,
-                                        child: Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              8.0, 0.0, 8.0, 0.0),
-                                          child: Text(
-                                            "Online Payment",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        //Home and Office Button Container
-                        /*Row(
-                          children: [
-
-                            // Home Container...
-                            Container(
-                              padding: EdgeInsets.fromLTRB(
-                                  screenHeight * 0.020,
-                                  screenHeight * 0.010,
-                                  screenHeight * 0.020,
-                                  screenHeight * 0.010),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                                  color: orangeCol),
-                              child: Text(
-                                "Home",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: screenWidth * 0.035,
-                                ),
-                              ),
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                unselectedWidgetColor: Colors.black,
+                                disabledColor: Colors.red,
                             ),
-                            SizedBox(width: screenWidth * 0.05,),
-
-                            // Office Container...
-                            Container(
-                              padding: EdgeInsets.fromLTRB(
-                                  screenHeight * 0.020,
-                                  screenHeight * 0.010,
-                                  screenHeight * 0.020,
-                                  screenHeight * 0.010),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                                border: Border.all(color: lightTextBlue),
-                              ),
-                              child: Text(
-                                "Office",
-                                style: TextStyle(
-                                  color: lightTextBlue,
-                                  fontSize: screenWidth * 0.035,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),*/
-
-                        //Total Amount Price Container
-                        /*Padding(
-                          padding: EdgeInsets.only(top: screenWidth * .09),
-                          child: Container(
-                            padding: EdgeInsets.all(screenWidth * .025),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: orangeCol),
-                            width: screenWidth * .94,
-                            height: screenHeight * .10,
-                            child: Row(
+                            child: Column(
                               children: [
-                                Column(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        " Total Amount",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: screenWidth * 0.04
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    // height: 20.0,
+                                    width: screenWidth,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Radio(
+                                            activeColor: darkThemeRed,
+                                            value: "cod",
+                                            groupValue: _paymentMode,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _paymentMode = value;
+                                                print(_paymentMode);
+                                              });
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        "Rs.$totalCartAmount",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: screenWidth * 0.05,
-                                            fontWeight: FontWeight.bold),
-
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Spacer(),
-                                StreamBuilder<ApiResponse<OrderPlaceResponseModel>>(
-                                  stream: _orderPlaceBloc.orderPlaceStream,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      switch (snapshot.data.status) {
-                                        case Status.LOADING:
-                                          return CircularProgressIndicator(
-                                              backgroundColor: Colors.blue[700],
-                                              strokeWidth: 7,
-                                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue[200])
-                                          );
-
-                                          break;
-                                        case Status.COMPLETED:
-                                          // if (snapshot.data.data.success != null)
-                                          {
-                                            print("complete");
-                                            // managedSharedPref(snapshot.data.data);
-                                            navToAttachList(context,snapshot.data.data);
-                                            Fluttertoast.showToast(
-                                                msg: "${snapshot.data.data.data.name} You are Redirecting to Payment Gateway",
-                                                fontSize: 14,
-                                                backgroundColor: Colors.white,
-                                                textColor: darkThemeBlue,
-                                                toastLength: Toast.LENGTH_LONG);
-                                          }
-                                          break;
-                                        case Status.ERROR:
-                                          Fluttertoast.showToast(
-                                              msg: "${snapshot.data.message}",
-                                              fontSize: 16,
-                                              backgroundColor: Colors.orange[100],
-                                              textColor: darkThemeBlue,
-                                              toastLength: Toast.LENGTH_LONG);
-                                          //   Error(
-                                          //   errorMessage: snapshot.data.message,
-                                          // );
-                                          break;
-                                      }
-                                    } else if (snapshot.hasError) {
-                                      print("error");
-                                    }
-
-                                    return InkWell(
-                                      onTap: (){
-                                        Map _body={
-                                          "userid":"$userId",
-                                          "cartid":"$cartId",
-                                          "addressid":"$addressId"
-                                        };
-                                        _orderPlaceBloc.orderPlace(_body, userToken);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 0.0),
+                                        Expanded(
+                                          flex: 8,
+                                          child: Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                8.0, 0.0, 8.0, 0.0),
                                             child: Text(
-                                              " Checkout",
+                                              "Cash On Delivery",
                                               style: TextStyle(
-                                                color: Colors.white,
-                                              ),
+                                                  color: Colors.black,
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 10.0),
-                                            child: Icon(
-                                              Icons.arrow_forward,
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-
-
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    // height: 20.0,
+                                    width: screenWidth,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Radio(
+                                            activeColor: darkThemeRed,
+                                            value: "online",
+                                            groupValue: _paymentMode,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _paymentMode = value;
+                                                print(_paymentMode);
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 8,
+                                          child: Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                8.0, 0.0, 8.0, 0.0),
+                                            child: Text(
+                                              "Online Payment",
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                        ),*/
+                        ),
+
                         SizedBox(height: screenHeight * .2)
                       ],
                     );

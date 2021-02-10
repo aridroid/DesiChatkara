@@ -65,7 +65,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
                 child: Center(
                   child: Text(
-                    "Order Placed on Friday on Friday, November 27,2020",
+                    "Order Placed on Friday, November 27,2020",
                     style: new TextStyle(color: darkThemeRed, fontSize: 14.0),
                   ),
                 ),

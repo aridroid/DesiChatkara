@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:desichatkara/app_screens/orderDetails_screen/OrderHistory.dart';
-import 'package:desichatkara/app_screens/screens/Home.dart';
+import 'package:desichatkara/app_screens/screens/NavigationButton.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:desichatkara/helper/api_base_helper.dart';
 import 'package:flutter/material.dart';
@@ -175,7 +175,7 @@ class _RazorPayScreenState extends State<RazorPayScreen> {
     print("cart id at payment success 1 == ${prefs.getString("cart_id")}");
 
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => OrderHistory()),
+        MaterialPageRoute(builder: (context) => NavigationButton(currentIndex: 1,)),
         ModalRoute.withName("/HomePage"));
 
 
@@ -212,7 +212,7 @@ class _RazorPayScreenState extends State<RazorPayScreen> {
 
     print("cart id at payment success 2 == ${prefs.getString("cart_id")}");
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Home()));
+        .push(MaterialPageRoute(builder: (context) => NavigationButton()));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {

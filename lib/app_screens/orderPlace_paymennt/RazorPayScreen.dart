@@ -136,8 +136,10 @@ class _RazorPayScreenState extends State<RazorPayScreen> {
       // "image":
       //     "https://www.google.com/url?sa=i&url=https%3A%2F%2Ftimesofindia.indiatimes.com%2Flife-style%2Ffood-news%2Fcoronaeffect-restros-food-aggregators-step-up-their-game-to-ensure-safe-delivery-and-pickup-of-food%2Farticleshow%2F75891020.cms&psig=AOvVaw0_DmeL0vcWqQtop0stSsvg&ust=1605856153360000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKDcgr-Gju0CFQAAAAAdAAAAABAI",
       // 'order_id': widget.snapshotData.data.orderid.toString(),
+
+    // 'key': 'rzp_test_ehhzapZ5Arkz2H',
     var options = {
-      'key': 'rzp_test_ehhzapZ5Arkz2H',
+      'key': 'rzp_live_EPBLraRD1BiZMD',
 
       'name': 'Desi Chatkara',
       'description': 'Desi Chatkara Order Payment',

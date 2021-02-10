@@ -7,9 +7,9 @@ import 'dart:async';
 import 'app_exceptions.dart';
 
 class ApiBaseHelper {
- // static String _baseUrl = "https://deliveryontime.co.in/api/public/api/";
+  //static String _baseUrl = "https://deliveryontime.co.in/api/public/api/";
    final String _baseUrl = "http://eqsxerusrangoon.com/desichatkara/api/public/api/";
-   static String baseUrl = "http://eqsxerusrangoon.com/desichatkara/api/public/api/";
+  static String baseUrl = "http://eqsxerusrangoon.com/desichatkara/api/public/api/";
 
   Future<dynamic> get(String url) async {
     print('Api Get, url $url');

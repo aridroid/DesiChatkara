@@ -1,5 +1,6 @@
 import 'package:desichatkara/app_screens/orderDetails_screen/model/orderDetailsModel.dart';
 import 'package:desichatkara/app_screens/orderDetails_screen/repository/orderDetailsRepository.dart';
+import 'package:desichatkara/app_screens/screens/OrderDetails.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -146,7 +147,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                       padding: EdgeInsets.only(top: 15),
                                       // width: 60.0,
                                       child: Text(
-                                        "Rs.${snapshot.data.data[index].orderAmount}/-",
+                                        "Rs.${snapshot.data.data[index].transactionAmount}/-",
                                         style: new TextStyle(color: Colors.black, fontSize: 14.0,fontWeight: font_bold),
                                       ),
                                     ),
@@ -189,7 +190,34 @@ class _OrderHistoryState extends State<OrderHistory> {
                                           // ),
                                         ],
                                       ),
-                                    )
+                                    ),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: (){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => OrderDetails(),
+                                                ));
+                                            //OrderDetails
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width * .28,
+                                            margin: EdgeInsets.only(left: 5.0, right: 0.0, top: 13.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                              color: lightThemeRed,
+                                            ),
+
+                                            // color: Colors.white,
+                                            height: 50.0,
+                                            // padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                            child: Center(child: Text("Order Details", style: new TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: font_bold))),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               )

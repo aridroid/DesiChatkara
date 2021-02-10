@@ -6,6 +6,7 @@ import 'package:desichatkara/app_screens/Home/repository/AllCategoryRepo.dart';
 import 'package:desichatkara/app_screens/Home/repository/KitchenNearRepo.dart';
 import 'package:desichatkara/app_screens/KitchenByCategory/KitchenByCategory.dart';
 import 'package:desichatkara/app_screens/SearchBarPage/SearchBarPage.dart';
+import 'package:desichatkara/app_screens/address_screens/addressListPage.dart';
 import 'package:desichatkara/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/screens/PickLocation.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'SendMail.dart';
 import 'favoriteKitchens.dart';
 
 class Home extends StatefulWidget {
@@ -40,6 +41,7 @@ class _HomeState extends State<Home> {
   // int currentPageValue = 0;
   // int currentPageValue2 = 0;
   GlobalKey<ScaffoldState> _key = GlobalKey();
+  var _emailFormKey = GlobalKey<FormState>();
 
   Future<KitchensNearResponseModel> allKitchenNear;
   KitchensNearRepository _kitchenNearRepository;
@@ -80,63 +82,99 @@ class _HomeState extends State<Home> {
     "Trending",
   ];
 
+  List<String> CouponImages = [
+    'free.png',
+    'paneer.png',
+    'offer3.png',
+  ];
+
+  // TextEditingController emailController = new TextEditingController();
+  // TextEditingController _phoneController = new TextEditingController();
+  // TextEditingController messageController = new TextEditingController();
 
 
 
-  openPopUp() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Form(
-                  // key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              labelText: 'Enter your Email',
-                              prefixIcon: Icon(Icons.email_outlined)),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              labelText: 'Enter your number',
-                              prefixIcon: Icon(Icons.phone)),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(
-                          color: Colors.red[900],
-                          child: Text(
-                            "Submit",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            print("Close Submit");
-                            Navigator.pop(context);
-                            // if (_formKey.currentState.validate()) {
-                            //   _formKey.currentState.save();
-                            // }
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
-  }
+  // openPopUp() {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         screenHeight = MediaQuery.of(context).size.height;
+  //         screenWidth = MediaQuery.of(context).size.width;
+  //         return AlertDialog(
+  //           content: Stack(
+  //             overflow: Overflow.visible,
+  //             children: <Widget>[
+  //               Form(
+  //                  key: _emailFormKey,
+  //                 child: Column(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: <Widget>[
+  //                     Padding(
+  //                       padding: EdgeInsets.all(8.0),
+  //                       child: TextFormField(
+  //                         controller: emailController,
+  //                         decoration: InputDecoration(
+  //                             labelText: 'Enter your Email',
+  //                             prefixIcon: Icon(Icons.email_outlined)),
+  //                       ),
+  //                     ),
+  //                     Padding(
+  //                       padding: EdgeInsets.all(8.0),
+  //                       child: TextFormField(
+  //                         controller: _phoneController,
+  //                         decoration: InputDecoration(
+  //                             labelText: 'Enter your number',
+  //                             prefixIcon: Icon(Icons.phone)),
+  //                       ),
+  //                     ),
+  //                     Container(
+  //                         height: screenHeight * 0.18,
+  //                        //padding: EdgeInsets.only(left: screenWidth * 0.05, right: screenWidth * 0.05, top: screenHeight * 0.01),
+  //                         child: TextFormField(
+  //                           maxLines: 10,
+  //                           keyboardType: TextInputType.multiline,
+  //                           controller: messageController,
+  //
+  //                           decoration: InputDecoration(
+  //                               fillColor: Colors.white,
+  //                               filled: true,
+  //                               labelText: 'enter your query',
+  //                               labelStyle: TextStyle(
+  //                                 color: Colors.grey[600],
+  //                               ),
+  //                               border: OutlineInputBorder(
+  //                                 borderRadius: BorderRadius.circular(10.0),
+  //                               )),
+  //                         )),
+  //                     Padding(
+  //                       padding: const EdgeInsets.all(8.0),
+  //                       child: RaisedButton(
+  //                         color: Colors.red[900],
+  //                         child: Text(
+  //                           "Submit",
+  //                           style: TextStyle(color: Colors.white),
+  //                         ),
+  //                         onPressed: () {
+  //                           print("Close Submit");
+  //                           Navigator.pop(context);
+  //                           // if (_formKey.currentState.validate()) {
+  //                           //   _formKey.currentState.save();
+  //                           // }
+  //                           if(_emailFormKey.currentState.validate()){
+  //                            // sendMessage();
+  //                           }
+  //                         },
+  //                       ),
+  //                     )
+  //
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       });
+  // }
 
   Future<void> createSharedPref() async {
     prefs = await SharedPreferences.getInstance();
@@ -292,14 +330,16 @@ class _HomeState extends State<Home> {
                               builder: (context) => OrderHistory()));
                     }),
               ),
-              ListTile(
-                  leading: const Icon(Icons.location_on_outlined,
-                      color: Colors.black),
-                  title: const Text("My address"),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddressList()));
-                  }),
+              // ListTile(
+              //     leading: const Icon(Icons.location_on_outlined,
+              //         color: Colors.black),
+              //     title: const Text("My address"),
+              //     onTap: () {
+              //       Navigator.push(context,
+              //           MaterialPageRoute(builder: (context) => //AddressListPage()
+              //             AddressList()
+              //           ));
+              //     }),
               Padding(
                   padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                   child: Divider()),
@@ -579,174 +619,100 @@ class _HomeState extends State<Home> {
                   fontSize: 16,),
               ),
             ),
-            FutureBuilder<acm.ActiveCuponResponseModel>(
-              future: activeCupon,
-              builder: (context, snapshot) {
-                List<acm.Data> data=new List<acm.Data>();
-                if (snapshot.hasData) {
-                  data=filterCupon(snapshot);
-                  print("number of coupons for restaurant  ");
-                  print(data.length);
-                  return Container(
-                    height: 160.0,
-                    padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-                    child: ListView.builder(
-                        // cacheExtent: 10,
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        //itemCount: snapshot.data.data.length,
-                        itemCount: data.length,
-                        physics: ScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            width: 140.0,
-                            height: 160.0,
-                            margin: EdgeInsets.only(left: 3.0, right: 3.0),
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 2.0,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: FadeInImage(
-                                  image: NetworkImage(
-                                   // imageBaseURL + snapshot.data.data[index].couponBannerUrl,
-                                      imageBaseURL+ data[index].couponBannerUrl,
-                                  ),
 
-                                  placeholder: AssetImage("images/veg_meal.png"),
-                                  fit: BoxFit.fill,
-                                ),
+            // FutureBuilder<acm.ActiveCuponResponseModel>(
+            //   future: activeCupon,
+            //   builder: (context, snapshot) {
+            //     List<acm.Data> data=new List<acm.Data>();
+            //     if (snapshot.hasData) {
+            //       data=filterCupon(snapshot);
+            //       print("number of coupons for restaurant  ");
+            //       print(data.length);
+            //       return Container(
+            //         height: 160.0,
+            //         padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+            //         child: ListView.builder(
+            //             // cacheExtent: 10,
+            //             shrinkWrap: true,
+            //             scrollDirection: Axis.horizontal,
+            //             //itemCount: snapshot.data.data.length,
+            //             itemCount: data.length,
+            //             physics: ScrollPhysics(),
+            //             itemBuilder: (BuildContext context, int index) {
+            //               return Container(
+            //                 width: 140.0,
+            //                 height: 160.0,
+            //                 margin: EdgeInsets.only(left: 3.0, right: 3.0),
+            //                 child: Card(
+            //                   shape: RoundedRectangleBorder(
+            //                     borderRadius: BorderRadius.circular(10.0),
+            //                   ),
+            //                   elevation: 2.0,
+            //                   child: ClipRRect(
+            //                     borderRadius: BorderRadius.circular(10.0),
+            //                     child: FadeInImage(
+            //                       image: NetworkImage(
+            //                        // imageBaseURL + snapshot.data.data[index].couponBannerUrl,
+            //                           imageBaseURL+ data[index].couponBannerUrl,
+            //                       ),
+            //
+            //                       placeholder: AssetImage("images/veg_meal.png"),
+            //                       fit: BoxFit.fill,
+            //                     ),
+            //
+            //                   ),
+            //                 ),
+            //               );
+            //             }),
+            //       );
+            //     } else if (snapshot.hasError) {
+            //       print("error");
+            //       return Container(
+            //         child: Center(
+            //             child: Text(
+            //           "No Data ",
+            //           style:
+            //               TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            //         )),
+            //       );
+            //     } else {
+            //       return Center(child: CircularProgressIndicator());
+            //     }
+            //   },
+            // ),
 
-                              ),
-                            ),
-                          );
-                        }),
-                  );
-                } else if (snapshot.hasError) {
-                  print("error");
-                  return Container(
-                    child: Center(
-                        child: Text(
-                      "No Data ",
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                    )),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
+            Container(
+              height: 160.0,
+              padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+              child: ListView.builder(
+                // cacheExtent: 10,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  //itemCount: snapshot.data.data.length,
+                  itemCount: 3,
+                  physics: ScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: 140.0,
+                      height: 160.0,
+                      margin: EdgeInsets.only(left: 3.0, right: 3.0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 2.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image.asset(
+                            "images/${CouponImages[index]}",
+                            //fit: BoxFit.fill,
+                          ),
+
+                        ),
+                      ),
+                    );
+                  }),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(13, 10, 0, 5),
-              child: Text(
-                "Order Your Choice",
-                style:TextStyle(
-                  color: Colors.black,
-                  fontWeight: font_bold,
-                  fontSize: 16,),
-              ),
-            ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: FutureBuilder<AllCategoryResponseModel>(
-                  future: allCategory,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return GridView.builder(
-                        // cacheExtent: 10,
-                        shrinkWrap: true,
-                        itemCount:
-                        snapshot.data.data[0].subcategory.length,
-                        physics: ScrollPhysics(),
-                        // physics: NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5,
-                            childAspectRatio: .9),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        KitchenByCategory(snapshot.data
-                                            .data[0].subcategory[index].id
-                                            .toString())),
-                              );
-                            },
-                            child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(7.5),
-                                ),
-                                elevation: 1.0,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft:
-                                            Radius.circular(7.5),
-                                            topRight:
-                                            Radius.circular(7.5)),
-                                        child: FadeInImage(
-                                          image: NetworkImage(
-                                              imageBaseURL +
-                                                  snapshot
-                                                      .data
-                                                      .data[0]
-                                                      .subcategory[
-                                                  index]
-                                                      .categoryImage),
-                                          placeholder: AssetImage("images/veg_meal.png"),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 30,
-                                      child: Center(
-                                        child: Text(
-                                          snapshot
-                                              .data
-                                              .data[0]
-                                              .subcategory[index]
-                                              .subcategoryname,
-                                          style: TextStyle(
-                                              color: Colors.grey[900],
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              // ignore: dead_code
-                            ),
-                          );
-                        },
-                      );
-                    } else if (snapshot.hasError) {
-                      print("hello");
-                      return Container(
-                        child: Center(
-                            child: Text(
-                              "No Data ",
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
-                            )),
-                      );
-                    } else {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                  },
-                )),
             Padding(
               padding:
                   EdgeInsets.only(left: 13.0, right: 0,top:10),
@@ -778,12 +744,9 @@ class _HomeState extends State<Home> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       KitchenDetailedMenu(
-                                          categoryId: snapshot.data
-                                              .data[index].categoryId,
-                                          vendorId: snapshot
-                                              .data.data[index].vendorId,
-                                          vendorName: snapshot.data
-                                              .data[index].shopName)),
+                                          categoryId: snapshot.data.data[index].categoryId,
+                                          vendorId: snapshot.data.data[index].vendorId,
+                                          vendorName: snapshot.data.data[index].shopName)),
                             );
                           },
                           child: Container(
@@ -941,9 +904,113 @@ class _HomeState extends State<Home> {
                 }
               },
             ),
-
+            Padding(
+              padding: EdgeInsets.fromLTRB(13, 10, 0, 5),
+              child: Text(
+                "Order Your Choice",
+                style:TextStyle(
+                  color: Colors.black,
+                  fontWeight: font_bold,
+                  fontSize: 16,),
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                child: FutureBuilder<AllCategoryResponseModel>(
+                  future: allCategory,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return GridView.builder(
+                        // cacheExtent: 10,
+                        shrinkWrap: true,
+                        itemCount:
+                        snapshot.data.data[0].subcategory.length,
+                        physics: ScrollPhysics(),
+                        // physics: NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: .9),
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        KitchenByCategory(snapshot.data.data[0].subcategory[index].id.toString())),
+                              );
+                            },
+                            child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(7.5),
+                                ),
+                                elevation: 1.0,
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      clipBehavior: Clip.hardEdge,
+                                      borderRadius: BorderRadius.only(topLeft:Radius.circular(7.5),
+                                          topRight: Radius.circular(7.5)),
+                                      child: FadeInImage(
+                                        image: NetworkImage(
+                                            imageBaseURL + snapshot.data.data[0].subcategory[index].categoryImage),
+                                        width: 120.0,
+                                        height: 95.0,
+                                        placeholder: AssetImage("images/veg_meal.png"),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                        child: Text(
+                                          snapshot
+                                              .data
+                                              .data[0]
+                                              .subcategory[index]
+                                              .subcategoryname,
+                                          style: TextStyle(
+                                              color: Colors.grey[900],
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              // ignore: dead_code
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      print("hello");
+                      return Container(
+                        child: Center(
+                            child: Text(
+                              "No Data ",
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            )),
+                      );
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
+                )),
             InkWell(
-              onTap: openPopUp,
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SendMail(),
+                    ));
+                //OrderDetails
+              },
               child: Container(
                 margin: EdgeInsets.only(top: 20, bottom: 20,left: 10,right: 10),
                 height: 180.0,
@@ -973,7 +1040,10 @@ class _HomeState extends State<Home> {
     return data;
 
   }
-}
+
+
+
+  }
 
 class CustomAppBar extends PreferredSize {
   final Widget child;

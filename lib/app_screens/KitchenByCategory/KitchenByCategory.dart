@@ -68,6 +68,8 @@ class _KitchenByCategoryState extends State<KitchenByCategory> {
                                );
                              },
                              child: Card(
+                               elevation: 3,
+                                 shadowColor: Colors.red,
                                  shape: RoundedRectangleBorder(
                                    borderRadius: BorderRadius.circular(10.0),
                                  ),
@@ -85,20 +87,7 @@ class _KitchenByCategoryState extends State<KitchenByCategory> {
                                              bottomLeft: Radius.circular(10.0),
                                              bottomRight: Radius.circular(
                                                  10.0)),
-                                         // image: DecorationImage(
-                                         //   image: //AssetImage("images/veg_meal.png"),
-                                         //   snapshot.data.data[index]
-                                         //       .productImage == null
-                                         //       ? AssetImage(
-                                         //       "images/veg_meal.png")
-                                         //       : NetworkImage(
-                                         //       imageBaseURL+
-                                         //           snapshot.data.data[index]
-                                         //               .productImage),
-                                         //
-                                         //   //AssetImage("images/pizza.png"),
-                                         //   fit: BoxFit.cover,
-                                         // ),
+
                                        ),
                                        child: FadeInImage(
                                          image: NetworkImage(
@@ -109,40 +98,43 @@ class _KitchenByCategoryState extends State<KitchenByCategory> {
                                        ),
                                      ),
 
-                                     Padding(
-                                       padding: EdgeInsets.fromLTRB(
-                                           10.0, 5.0, 5.0, 5.0),
-                                       child: Column(
-                                         crossAxisAlignment: CrossAxisAlignment
-                                             .start,
-                                         children: [
-                                           Text(
-                                             snapshot.data.data[index].productName,
-                                             style: new TextStyle(
-                                                 color: Colors.black,
-                                                 fontSize: 16.0,
-                                             fontWeight: font_bold),
-                                           ),
-
-                                           Padding(
-                                             padding: const EdgeInsets.fromLTRB(
-                                                 0.0, 5.0, 0.0, 5.0),
-                                             child: Text(
-                                             "From  "+snapshot.data.data[index].vendor[index1].shopName,
+                                     Expanded(
+                                      // flex: 3,
+                                       child: Padding(
+                                         padding: EdgeInsets.fromLTRB(
+                                             10.0, 5.0, 5.0, 5.0),
+                                         child: Column(
+                                           crossAxisAlignment: CrossAxisAlignment
+                                               .start,
+                                           children: [
+                                             Text(
+                                               snapshot.data.data[index].productName,
                                                style: new TextStyle(
-                                                   color: Colors.black38,
-                                                   fontSize: 14.0),
+                                                   color: Colors.black,
+                                                   fontSize: 16.0,
+                                               fontWeight: font_bold),
                                              ),
-                                           ),
 
-                                           // Text(
-                                           //   snapshot.data.data[index].vendor[index1].address ,
-                                           //   style: new TextStyle(
-                                           //       color: Colors.black,
-                                           //       fontSize: 14.0),
-                                           // ),
+                                             Padding(
+                                               padding: const EdgeInsets.fromLTRB(
+                                                   0.0, 5.0, 0.0, 5.0),
+                                               child: Text(
+                                               "From  "+snapshot.data.data[index].vendor[index1].shopName,
+                                                 style: new TextStyle(
+                                                     color: Colors.black38,
+                                                     fontSize: 14.0),
+                                               ),
+                                             ),
 
-                                         ],),
+                                             // Text(
+                                             //   snapshot.data.data[index].vendor[index1].address ,
+                                             //   style: new TextStyle(
+                                             //       color: Colors.black,
+                                             //       fontSize: 14.0),
+                                             // ),
+
+                                           ],),
+                                       ),
                                      )
                                    ]
                                    ,

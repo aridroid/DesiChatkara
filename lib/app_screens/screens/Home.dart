@@ -579,8 +579,8 @@ class _HomeState extends State<Home> {
                             children: [
                               Container(
                                 padding: EdgeInsets.only(top: screenHeight * 0.015),
-                                height: 48,
-                                width: 48,
+                                height: screenHeight*0.06,
+                                width: screenWidth*0.08,
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(),
                                 child: Image.asset(
@@ -589,7 +589,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top:12.0),
+                                padding:  EdgeInsets.only(top: screenHeight*0.013),
                                 child: Text(
                                   PureName[index],
                                   textAlign: TextAlign.center,
@@ -755,7 +755,7 @@ class _HomeState extends State<Home> {
                                 ? EdgeInsets.only(
                                     left: 10.0, right: 10.0, bottom: 0)
                                 : */EdgeInsets.only(
-                                    left: 10.0, right: 10.0, bottom: 20,top:10),
+                                    left: 10.0, right: 10.0, bottom: 10,top:10),
                             child: Card(
                               margin: EdgeInsets.zero,
                               shape: RoundedRectangleBorder(
@@ -948,7 +948,7 @@ class _HomeState extends State<Home> {
                                   borderRadius:
                                   BorderRadius.circular(7.5),
                                 ),
-                                elevation: 1.0,
+                                elevation: 2.0,
                                 child: Column(
                                   children: [
                                     ClipRRect(
@@ -958,14 +958,14 @@ class _HomeState extends State<Home> {
                                       child: FadeInImage(
                                         image: NetworkImage(
                                             imageBaseURL + snapshot.data.data[0].subcategory[index].categoryImage),
-                                        width: 120.0,
-                                        height: 95.0,
+                                        width: screenWidth*0.29,//120.0,
+                                        height: screenHeight*0.123,
                                         placeholder: AssetImage("images/veg_meal.png"),
                                         fit: BoxFit.fill,
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding:  EdgeInsets.all(screenHeight*0.0048),
                                       child: Center(
                                         child: Text(
                                           snapshot
@@ -976,7 +976,7 @@ class _HomeState extends State<Home> {
                                           style: TextStyle(
                                               color: Colors.grey[900],
                                               fontWeight: FontWeight.w600,
-                                              fontSize: 12),
+                                              fontSize: 14),
                                         ),
                                       ),
                                     )

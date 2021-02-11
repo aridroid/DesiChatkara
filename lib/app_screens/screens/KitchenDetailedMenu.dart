@@ -526,7 +526,8 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                           itemCount: _productDetailsList[index0][index1].skus.length,
                                           itemBuilder: (context, index) {
                                             return Card(
-                                              elevation: 2.0,
+                                              elevation: 3.0,
+                                                //shadowColor: Colors.red,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.circular(5.0),
                                                 ),

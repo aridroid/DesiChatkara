@@ -20,16 +20,19 @@ class _SendMailState extends State<SendMail> {
   );
 
   final _subjectController = TextEditingController();
-
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _bodyController = TextEditingController(
-    text: 'Enter your Message.',
+    // text: 'your Message.',
   );
+  String _body="";
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> send() async {
+    _body= ("name :  ") + _nameController.text + (",") +("  Phone No :  ")  + _phoneController.text+ (",")  +("  message : ") + _bodyController.text;
     final Email email = Email(
-      body: _bodyController.text,
+      body: _body,
       subject: _subjectController.text,
       recipients: [_recipientController.text],
       attachmentPaths: attachments,
@@ -55,6 +58,7 @@ class _SendMailState extends State<SendMail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         key: _scaffoldKey,
         appBar: AppBar(
           backgroundColor: darkThemeRed,
@@ -71,8 +75,34 @@ class _SendMailState extends State<SendMail> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Get In Touch",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Your Name',
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Your Phone',
+                  ),
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: TextField(

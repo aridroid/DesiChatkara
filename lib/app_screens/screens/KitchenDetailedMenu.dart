@@ -109,7 +109,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
           floatingActionButton:
           goToCart == false ? null :
           FloatingActionButton.extended(
-            backgroundColor: Colors.red[900],
+            backgroundColor: darkThemeRed,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Cart()));
             },

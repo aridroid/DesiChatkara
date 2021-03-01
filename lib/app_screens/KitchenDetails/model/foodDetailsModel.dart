@@ -121,7 +121,7 @@ class CartItems {
   String productId;
   String quantity;
   String skuName;
-  Null preparationTime;
+  String preparationTime;
   String isOutOfStock;
   String unitPrice;
   String productIdentification;
@@ -252,10 +252,10 @@ class Skus {
   String skuName;
   String isVeg;
   String vendorId;
-  Null preparationTime;
+  String preparationTime;
   String createdAt;
   String updatedAt;
-  Null deletedAt;
+  String deletedAt;
   String isActive;
   String isOutOfStock;
   Vendor vendor;

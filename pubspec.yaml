@@ -56,6 +56,8 @@ dependencies:
   page_indicator: ^0.2.0
   carousel_pro: ^1.0.0
   flutter_email_sender: ^4.0.0
+  flutter_open_whatsapp: ^0.1.2
+  custom_switch: ^0.0.1
 
 
 

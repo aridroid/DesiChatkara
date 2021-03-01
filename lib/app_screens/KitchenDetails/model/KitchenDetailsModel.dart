@@ -242,7 +242,7 @@ class Skus {
   String vendorId;
   String createdAt;
   String updatedAt;
-  Null deletedAt;
+  String deletedAt;
   String isActive;
   Image image;
   List<SkuVariant> skuVariant;

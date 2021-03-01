@@ -40,24 +40,38 @@ class Data {
   String city;
   String state;
   String zip;
+  String longitude;
+  String latitude;
   String isActive;
   String vendorImage;
+  String availableFrom;
+  String availableTo;
+  String parentId;
+  String totalNumberOfFeedback;
+  String averageRating;
 
   Data(
       {this.userId,
-      this.userEmail,
-      this.mobileNumber,
-      this.categoryId,
-      this.vendorId,
-      this.name,
-      this.categoryName,
-      this.shopName,
-      this.address,
-      this.city,
-      this.state,
-      this.zip,
-      this.isActive,
-      this.vendorImage});
+        this.userEmail,
+        this.mobileNumber,
+        this.categoryId,
+        this.vendorId,
+        this.name,
+        this.categoryName,
+        this.shopName,
+        this.address,
+        this.city,
+        this.state,
+        this.zip,
+        this.longitude,
+        this.latitude,
+        this.isActive,
+        this.vendorImage,
+        this.availableFrom,
+        this.availableTo,
+        this.parentId,
+        this.totalNumberOfFeedback,
+        this.averageRating});
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -72,8 +86,15 @@ class Data {
     city = json['city'];
     state = json['state'];
     zip = json['zip'];
+    longitude = json['longitude'];
+    latitude = json['latitude'];
     isActive = json['is_active'];
     vendorImage = json['vendor_image'];
+    availableFrom = json['available_from'];
+    availableTo = json['available_to'];
+    parentId = json['parent_id'];
+    totalNumberOfFeedback = json['total_number_of_feedback'];
+    averageRating = json['average_rating'];
   }
 
   Map<String, dynamic> toJson() {
@@ -90,8 +111,15 @@ class Data {
     data['city'] = this.city;
     data['state'] = this.state;
     data['zip'] = this.zip;
+    data['longitude'] = this.longitude;
+    data['latitude'] = this.latitude;
     data['is_active'] = this.isActive;
     data['vendor_image'] = this.vendorImage;
+    data['available_from'] = this.availableFrom;
+    data['available_to'] = this.availableTo;
+    data['parent_id'] = this.parentId;
+    data['total_number_of_feedback'] = this.totalNumberOfFeedback;
+    data['average_rating'] = this.averageRating;
     return data;
   }
 }

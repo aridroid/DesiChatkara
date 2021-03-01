@@ -454,13 +454,6 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
   void _openGallery1(BuildContext context) async {
     // ignore: deprecated_member_use
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 30);
-    // Navigator.push(
-    //       context,
-    //        MaterialPageRoute(
-    //          builder: (context) => CameraScreen(),
-    //        ));
-
-
     this.setState(() {
       if (imageFile1 == null)
         print("img null");

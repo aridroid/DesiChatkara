@@ -23,6 +23,7 @@ import 'package:flutter/widgets.dart';
 import 'package:page_indicator/page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'SendMail.dart';
+import 'WhatsapSendMssage.dart';
 import 'favoriteKitchens.dart';
 
 class Home extends StatefulWidget {
@@ -746,7 +747,11 @@ class _HomeState extends State<Home> {
                                       KitchenDetailedMenu(
                                           categoryId: snapshot.data.data[index].categoryId,
                                           vendorId: snapshot.data.data[index].vendorId,
-                                          vendorName: snapshot.data.data[index].shopName)),
+                                          vendorName: snapshot.data.data[index].shopName,
+                                          address: snapshot.data.data[index].address,
+
+
+                                      )),
                             );
                           },
                           child: Container(
@@ -1007,7 +1012,7 @@ class _HomeState extends State<Home> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SendMail(),
+                      builder: (context) => Whatsaap(),
                     ));
                 //OrderDetails
               },

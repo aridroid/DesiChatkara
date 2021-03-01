@@ -126,45 +126,7 @@ class _SendMailState extends State<SendMail> {
                   ),
                 ),
               ),
-              // CheckboxListTile(
-              //   contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-              //   title: Text('HTML'),
-              //   onChanged: (bool value) {
-              //     setState(() {
-              //       isHTML = value;
-              //     });
-              //   },
-              //   value: isHTML,
-              // ),
-              // Padding(
-              //   padding: EdgeInsets.all(8.0),
-              //   child: Column(
-              //     children: <Widget>[
-              //       for (var i = 0; i < attachments.length; i++) Row(
-              //         children: <Widget>[
-              //           Expanded(
-              //             child: Text(
-              //               attachments[i],
-              //               softWrap: false,
-              //               overflow: TextOverflow.fade,
-              //             ),
-              //           ),
-              //           IconButton(
-              //             icon: Icon(Icons.remove_circle),
-              //             onPressed: () => { _removeAttachment(i) },
-              //           )
-              //         ],
-              //       ),
-              //       Align(
-              //         alignment: Alignment.centerRight,
-              //         child: IconButton(
-              //           icon: Icon(Icons.attach_file),
-              //           onPressed: _openImagePicker,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+
             ],
           ),
         ),
@@ -172,18 +134,4 @@ class _SendMailState extends State<SendMail> {
 
   }
 
-  //void _openImagePicker() async {
-    // File pick = await ImagePicker.pickImage(source: ImageSource.gallery);
-    // if (pick != null) {
-    //   setState(() {
-    //     attachments.add(pick.path);
-    //   });
-    // }
-  //}
-
-  // void _removeAttachment(int index) {
-  //   setState(() {
-  //     attachments.removeAt(index);
-  //   });
-  // }
 }

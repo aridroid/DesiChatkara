@@ -7,6 +7,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:102923854957:android:4090661c3f952cf3cc0b64",
+        "android_client_info": {
+          "package_name": "com.inceptory.desichatkara_seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102923854957-5oie7c5apcfp9si3ccgjsmig389kds4v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3dTWwIDUm8JjBpQ_j75cul4XwlXtZ9QE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102923854957-5oie7c5apcfp9si3ccgjsmig389kds4v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:102923854957:android:50784b42c3271e7bcc0b64",
         "android_client_info": {
           "package_name": "com.inceptory.desichatkarauser"

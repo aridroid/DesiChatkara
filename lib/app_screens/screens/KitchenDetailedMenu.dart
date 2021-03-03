@@ -7,7 +7,8 @@ import 'package:desichatkara/app_screens/CartPage/model/cartItemsUpdateModel.dar
 import 'package:desichatkara/app_screens/Favorite/FavoriteAddBlock.dart';
 import 'package:desichatkara/app_screens/Favorite/FavoriteAddModel.dart';
 import 'package:desichatkara/app_screens/KitchenDetails/Repository/foodHomeRepository.dart';
-import 'package:desichatkara/app_screens/KitchenDetails/model/foodDetailsModel.dart' as fdm;
+import 'package:desichatkara/app_screens/KitchenDetails/model/foodDetailsModel.dart'
+    as fdm;
 import 'package:desichatkara/constants.dart';
 import 'package:desichatkara/helper/api_response.dart';
 import 'package:desichatkara/utility/Error.dart';
@@ -17,18 +18,29 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:custom_switch/custom_switch.dart';
+import 'package:intl/intl.dart';
 
 class KitchenDetailedMenu extends StatefulWidget {
   final String vendorId;
   final String categoryId;
   final String vendorName;
   final String address;
+  final String availableFrom;
+  final String availableTo;
 
-
-  const KitchenDetailedMenu({Key key, this.vendorId, this.categoryId, this.vendorName, this.address}) : super(key: key);
+  const KitchenDetailedMenu(
+      {Key key,
+      this.vendorId,
+      this.categoryId,
+      this.vendorName,
+      this.address,
+      this.availableFrom,
+      this.availableTo})
+      : super(key: key);
 
   @override
-  _KitchenDetailedMenuState createState() => _KitchenDetailedMenuState(vendorId, categoryId, vendorName);
+  _KitchenDetailedMenuState createState() =>
+      _KitchenDetailedMenuState(vendorId, categoryId, vendorName);
 }
 
 class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
@@ -37,13 +49,14 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
   final String categoryId;
   final String vendorName;
   bool _isVeg = false;
-  var filtered=[];
+  var filtered = [];
 
   _KitchenDetailedMenuState(this.vendorId, this.categoryId, this.vendorName);
 
   FoodHomeRepository _foodHomeRepository = new FoodHomeRepository();
   Future<fdm.FoodDetailsModel> _foodDetailsFuture;
-  List<List<fdm.ProductDetails>> _productDetailsList = new List<List<fdm.ProductDetails>>();
+  List<List<fdm.ProductDetails>> _productDetailsList =
+      new List<List<fdm.ProductDetails>>();
   List<List<List<int>>> _productAmount = [];
   List<List<List<String>>> _cartItemId = new List();
   List _addVisibility = new List();
@@ -74,6 +87,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
   bool cartAdded = false;
   bool cartUpdated = false;
   bool firstEntry = true;
+  DateTime availableFrom;
+  DateTime availableTo;
+  bool shopOpen=true;
 
   @override
   void initState() {
@@ -88,9 +104,10 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
     prefs = await SharedPreferences.getInstance();
     _cartId = prefs.getString("cart_id");
     _userToken = prefs.getString("user_token");
-    _userId=prefs.getString("user_id");
+    _userId = prefs.getString("user_id");
     print("user iddd :  ${prefs.getString("user_id")}");
-    _foodDetailsFuture = _foodHomeRepository.foodDetails(categoryId, vendorId, _cartId, _userId,_userToken);
+    _foodDetailsFuture = _foodHomeRepository.foodDetails(
+        categoryId, vendorId, _cartId, _userId, _userToken);
     currentVendorId = prefs.getString("vendor_id");
     currentCategoryId = prefs.getString("parent_category_id");
     setState(() {});
@@ -109,28 +126,29 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
     return SafeArea(
       child: Scaffold(
           backgroundColor: lightThemeWhite,
-          floatingActionButtonLocation:
-          goToCart == false ? null :
-          FloatingActionButtonLocation.centerFloat,
-          floatingActionButton:
-          goToCart == false ? null :
-          FloatingActionButton.extended(
-            backgroundColor: Colors.red[900],
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Cart()));
-            },
-            elevation: 5.0,
-            label: Container(
-              height: 35.0,
-              child: Center(
-                child: Text(
-                  "  Go to cart  ",
-                  style:
-                  TextStyle(fontSize: screenWidth * 0.04, color: Colors.white),
+          floatingActionButtonLocation: goToCart == false
+              ? null
+              : FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: goToCart == false
+              ? null
+              : FloatingActionButton.extended(
+                  backgroundColor: Colors.red[900],
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Cart()));
+                  },
+                  elevation: 5.0,
+                  label: Container(
+                    height: 35.0,
+                    child: Center(
+                      child: Text(
+                        "  Go to cart  ",
+                        style: TextStyle(
+                            fontSize: screenWidth * 0.04, color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
           body: ListView(
             children: [
               Container(
@@ -170,7 +188,10 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                           icon: Icon(Icons.shopping_cart_outlined),
                           color: Colors.white,
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Cart()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Cart()));
                           },
                         ),
                       ],
@@ -179,7 +200,8 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
+                padding: EdgeInsets.only(
+                    left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
                 color: Colors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,9 +211,10 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                         Expanded(
                           child: Text(
                             "${vendorName}",
-                            style: new TextStyle(color: Colors.black, fontSize: 14.0
-                                ,fontWeight: font_bold),
-
+                            style: new TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.0,
+                                fontWeight: font_bold),
                           ),
                         ),
                         Container(
@@ -200,10 +223,12 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.star, color: Colors.white, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.white, size: 10.0),
                                 Text(
                                   "4.2",
-                                  style: new TextStyle(color: Colors.white, fontSize: 10.0),
+                                  style: new TextStyle(
+                                      color: Colors.white, fontSize: 10.0),
                                 ),
                               ],
                             ))
@@ -213,12 +238,14 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                       margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
                       child: Text(
                         "veg, lunch, breakfast, dinner",
-                        style: new TextStyle(color: Colors.grey[600], fontSize: 14.0),
+                        style: new TextStyle(
+                            color: Colors.grey[600], fontSize: 14.0),
                       ),
                     ),
                     Text(
                       "${widget.address}",
-                      style: new TextStyle(color: Colors.grey[600], fontSize: 14.0),
+                      style: new TextStyle(
+                          color: Colors.grey[600], fontSize: 14.0),
                     ),
                   ],
                 ),
@@ -227,7 +254,8 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                 height: 1.0,
               ),
               Container(
-                padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
+                padding: EdgeInsets.only(
+                    left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
                 color: Colors.white,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -235,45 +263,63 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                     Column(
                       children: [
                         //Icon(Icons.call, color: Colors.red[900]),
-                        Image.asset("images/phone.png",width: 20.0,height: 20.0,),
+                        Image.asset(
+                          "images/phone.png",
+                          width: 20.0,
+                          height: 20.0,
+                        ),
                         Text(
                           "Call",
-                          style: new TextStyle(color: Colors.black, fontSize: 14.0),
+                          style: new TextStyle(
+                              color: Colors.black, fontSize: 14.0),
                         ),
                         Text(
                           "for catering",
-                          style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+                          style:
+                              new TextStyle(color: Colors.grey, fontSize: 12.0),
                         ),
                       ],
                     ),
                     Column(
                       children: [
                         //Icon(Icons.star, color: Colors.red[900]),
-                        Image.asset("images/star.png",width: 20.0,height: 20.0,),
+                        Image.asset(
+                          "images/star.png",
+                          width: 20.0,
+                          height: 20.0,
+                        ),
                         Text(
                           "Review",
-                          style: new TextStyle(color: Colors.black, fontSize: 14.0),
+                          style: new TextStyle(
+                              color: Colors.black, fontSize: 14.0),
                         ),
                         Text(
                           "564",
-                          style: new TextStyle(color: Colors.grey, fontSize: 12.0),
+                          style:
+                              new TextStyle(color: Colors.grey, fontSize: 12.0),
                         ),
                       ],
                     ),
                     Column(
                       children: [
                         //Icon(Icons.delivery_dining, color: Colors.red[900]),
-                        Image.asset("images/truck.png",width: 20.0,height: 20.0,),
+                        Image.asset(
+                          "images/truck.png",
+                          width: 20.0,
+                          height: 20.0,
+                        ),
                         Text(
                           "Delivery",
-                          style: new TextStyle(color: Colors.black, fontSize: 14.0),
+                          style: new TextStyle(
+                              color: Colors.black, fontSize: 14.0),
                         ),
-                        Text(
-                          "9am-9pm",
-                          style: new TextStyle(color: Colors.grey, fontSize: 12.0),
-                        ),
+                        currentWidget(),
                       ],
                     ),
+                    // Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: currentWidget()),
+                    /* hii*/
                     // Column(
                     //   children: [
                     //   Image.asset("images/heart.png",width: 25.0,height: 25.0,),
@@ -287,7 +333,6 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                     //     ),
                     //   ],
                     // ),
-
                   ],
                 ),
               ),
@@ -295,20 +340,23 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                 height: 1.0,
               ),
               Container(
-                padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
+                padding: EdgeInsets.only(
+                    left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
                 color: Colors.white,
                 child: Row(
                   children: [
                     Text(
                       "Menu",
-                      style: new TextStyle(color: Colors.black, fontSize: 18.0,fontWeight: font_bold),
+                      style: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontWeight: font_bold),
                     ),
                     Spacer(),
-
                     Padding(
-                      padding:  EdgeInsets.only(right:10.0),
+                      padding: EdgeInsets.only(right: 10.0),
                       child: Text(
-                        "With out Onion",
+                        "Onion",
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18.0,
@@ -319,23 +367,25 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                       width: 70,
                       height: 30,
                       child: CustomSwitch(
-                        activeColor: darkThemeRed,//Colors.pinkAccent,
+                        activeColor: darkThemeRed, //Colors.pinkAccent,
                         value: _isVeg,
                         onChanged: (value) {
-                          if(_isVeg==false){
-                            _isVeg=true;
+                          if (_isVeg == false) {
+                            _isVeg = true;
                             filtered.clear();
-                            _foodDetailsFuture = _foodHomeRepository.foodDetails(categoryId, vendorId, _cartId, _userId,_userToken);
-                          }
-                          else{
-                            _isVeg=false;
+                            _foodDetailsFuture =
+                                _foodHomeRepository.foodDetails(categoryId,
+                                    vendorId, _cartId, _userId, _userToken);
+                          } else {
+                            _isVeg = false;
                             filtered.clear();
-                            _foodDetailsFuture = _foodHomeRepository.foodDetails(categoryId, vendorId, _cartId, _userId,_userToken);
+                            _foodDetailsFuture =
+                                _foodHomeRepository.foodDetails(categoryId,
+                                    vendorId, _cartId, _userId, _userToken);
                           }
                         },
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -348,54 +398,59 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                   if (snapshot.hasData) {
                     switch (snapshot.data.status) {
                       case Status.LOADING:
-                      // alertDialogue(context);
+                        // alertDialogue(context);
                         break;
                       case Status.COMPLETED:
-                        {if(snapshot.data.data.data.cartItems!=null){
-                          prefs.setString("cart_id", "${snapshot.data.data.data.cartItems[0].cartId}");
-                          print("cart id ${snapshot.data.data.data.cartItems[0].cartId}");
-                          _cartItemId[_index0][_index1][_index] = snapshot.data.data.data.cartItemId;
-                          print("complete111");
-                          print(_cartItemId[_index0][_index1][_index]);
-                          print("$_index1 $_index");
-                          print(_cartItemId);
-                          print(snapshot.data.data.data.cartItemId);
-                          managedSharedPref(snapshot.data.data);
-                          if (setStateCheck) {
-                            Future.delayed(Duration.zero, () {
-                              setState(() {
-                                _moreLessVisibility[_index0][_index1][_index] = !_moreLessVisibility[_index0][_index1][_index];
-                                _circularProgressVisibility[_index0][_index1][_index] = !_circularProgressVisibility[_index0][_index1][_index];
+                        {
+                          if (snapshot.data.data.data.cartItems != null) {
+                            prefs.setString("cart_id",
+                                "${snapshot.data.data.data.cartItems[0].cartId}");
+                            print(
+                                "cart id ${snapshot.data.data.data.cartItems[0].cartId}");
+                            _cartItemId[_index0][_index1][_index] =
+                                snapshot.data.data.data.cartItemId;
+                            print("complete111");
+                            print(_cartItemId[_index0][_index1][_index]);
+                            print("$_index1 $_index");
+                            print(_cartItemId);
+                            print(snapshot.data.data.data.cartItemId);
+                            managedSharedPref(snapshot.data.data);
+                            if (setStateCheck) {
+                              Future.delayed(Duration.zero, () {
+                                setState(() {
+                                  _moreLessVisibility[_index0][_index1]
+                                          [_index] =
+                                      !_moreLessVisibility[_index0][_index1]
+                                          [_index];
+                                  _circularProgressVisibility[_index0][_index1]
+                                          [_index] =
+                                      !_circularProgressVisibility[_index0]
+                                          [_index1][_index];
+                                });
                               });
-                            });
-                            setStateCheck = false;
-                          }
-                          if(cartAdded) {
-                            Future.delayed(Duration.zero, () {
-                              if (snapshot.data.data.message != "Success") {
-                                goToCart = false;
-                              }
-                              else {
-                                goToCart = true;
-                              }
-                              cartAdded = false;
-                              setState(() {
-
+                              setStateCheck = false;
+                            }
+                            if (cartAdded) {
+                              Future.delayed(Duration.zero, () {
+                                if (snapshot.data.data.message != "Success") {
+                                  goToCart = false;
+                                } else {
+                                  goToCart = true;
+                                }
+                                cartAdded = false;
+                                setState(() {});
+                                print("GO to Cart 309:" + goToCart.toString());
+                                print(snapshot.data.data.message.toString());
                               });
-                              print("GO to Cart 309:"+goToCart.toString());
-                              print(snapshot.data.data.message.toString());
-                            });
+                            }
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "Please try again!!",
+                                fontSize: 14,
+                                backgroundColor: Colors.white,
+                                textColor: darkThemeRed,
+                                toastLength: Toast.LENGTH_LONG);
                           }
-                        }else{
-                          Fluttertoast.showToast(
-                              msg: "Please try again!!",
-                              fontSize: 14,
-                              backgroundColor: Colors.white,
-                              textColor: darkThemeRed,
-                              toastLength: Toast.LENGTH_LONG);
-
-                        }
-
                         }
                         break;
                       case Status.ERROR:
@@ -425,17 +480,16 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                           // prefs.setString("cart_id", "${snapshot.data.data.data.cartItems[0].cartId}");
                           // cartId=snapshot.data.data.data.cartItems[0].cartId;
                           // print(snapshot.data.data.data.cartItems[0].cartId);
-                          if(cartUpdated) {
+                          if (cartUpdated) {
                             Future.delayed(Duration.zero, () async {
                               setState(() {
-                                if(snapshot.data.data.message != "Success"){
+                                if (snapshot.data.data.message != "Success") {
                                   goToCart = false;
-                                }
-                                else {
+                                } else {
                                   goToCart = true;
                                 }
                                 cartUpdated = false;
-                                print("GO to Cart 356:"+goToCart.toString());
+                                print("GO to Cart 356:" + goToCart.toString());
                                 print(snapshot.data.data.message.toString());
                               });
                             });
@@ -463,18 +517,18 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                     if (snapshot.hasData) {
                       if (snapshot.data.data.menu.isNotEmpty) {
                         foodDetailsModelData = snapshot.data.data;
-                        if(firstEntry) {
-                          Future.delayed(Duration.zero , () async {
+                        if (firstEntry) {
+                          Future.delayed(Duration.zero, () async {
                             setState(() {
-                              print("Hello"+snapshot.data.data.cartItemCount.toString());
-                              if(snapshot.data.data.cartItems == null) {
+                              print("Hello" +
+                                  snapshot.data.data.cartItemCount.toString());
+                              if (snapshot.data.data.cartItems == null) {
                                 goToCart = false;
-                              }
-                              else {
+                              } else {
                                 goToCart = true;
                               }
                               firstEntry = false;
-                              print("GO to Cart 393:"+goToCart.toString());
+                              print("GO to Cart 393:" + goToCart.toString());
                               print(snapshot.data.data.cartItems.toString());
                             });
                           });
@@ -488,18 +542,31 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                             itemCount: foodDetailsModelData.menu[0].subcategory.length,
                             itemBuilder: (context, index0) {
                               if (check) {
-                                _productDetailsList.add(new List<fdm.ProductDetails>());
+                                _productDetailsList
+                                    .add(new List<fdm.ProductDetails>());
                                 _productAmount.add(new List<List<int>>());
                                 _cartItemId.add(new List<List<String>>());
                                 _addVisibility.add(new List<List<bool>>());
                                 _moreLessVisibility.add(new List<List<bool>>());
-                                _circularProgressVisibility.add(new List<List<bool>>());
+                                _circularProgressVisibility
+                                    .add(new List<List<bool>>());
                                 _favCheck.add(new List<List<bool>>());
 
-                                for (int i = 0; i < foodDetailsModelData.productDetails.length; i++) {
-                                  if (foodDetailsModelData.productDetails[i].categoryId == foodDetailsModelData.menu[0].subcategory[index0].id) {
-                                    if (foodDetailsModelData.productDetails[i].skus.length > 0) {
-                                      _productDetailsList[index0].add(foodDetailsModelData.productDetails[i]);
+                                for (int i = 0;
+                                    i <
+                                        foodDetailsModelData
+                                            .productDetails.length;
+                                    i++) {
+                                  if (foodDetailsModelData
+                                          .productDetails[i].categoryId ==
+                                      foodDetailsModelData
+                                          .menu[0].subcategory[index0].id) {
+                                    if (foodDetailsModelData
+                                            .productDetails[i].skus.length >
+                                        0) {
+                                      _productDetailsList[index0].add(
+                                          foodDetailsModelData
+                                              .productDetails[i]);
 
                                       // Dynamically List Data Generate...
                                       // productsNumber = foodDetailsModelData.productDetails[i].skus.length;
@@ -510,45 +577,89 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                       //   print("ei tate cart count a6e");
                                       // }
                                       _productAmount[index0].add(List.generate(
-                                          foodDetailsModelData.productDetails[i].skus.length,
-                                              (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)
+                                          foodDetailsModelData
+                                              .productDetails[i].skus.length,
+                                          (index) => (foodDetailsModelData
+                                                      .productDetails[i]
+                                                      .skus[index]
+                                                      .cartItem ==
+                                                  null)
                                               ? 0
-                                              : int.parse(foodDetailsModelData.productDetails[i].skus[index].cartItem.quantity)));
+                                              : int.parse(foodDetailsModelData
+                                                  .productDetails[i]
+                                                  .skus[index]
+                                                  .cartItem
+                                                  .quantity)));
 
                                       // print("_productAmount");
                                       _cartItemId[index0].add(List.generate(
-                                          foodDetailsModelData.productDetails[i].skus.length,
-                                              (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)
+                                          foodDetailsModelData
+                                              .productDetails[i].skus.length,
+                                          (index) => (foodDetailsModelData
+                                                      .productDetails[i]
+                                                      .skus[index]
+                                                      .cartItem ==
+                                                  null)
                                               ? "0"
-                                              : foodDetailsModelData.productDetails[i].skus[index].cartItem.cartItemId.toString()));
+                                              : foodDetailsModelData
+                                                  .productDetails[i]
+                                                  .skus[index]
+                                                  .cartItem
+                                                  .cartItemId
+                                                  .toString()));
 
                                       // print("_cartItemId");
 
                                       _addVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
-                                              (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? true : false));
+                                          (index) => (shopOpen?
+                                          (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)? true: false :false)));
 
                                       // print("_addVisibility");
 
+                                      _moreLessVisibility[index0].add(
+                                          List.generate(
+                                              foodDetailsModelData
+                                                  .productDetails[i]
+                                                  .skus
+                                                  .length,
+                                              (index) => (foodDetailsModelData
+                                                          .productDetails[i]
+                                                          .skus[index]
+                                                          .cartItem ==
+                                                      null)
+                                                  ? false
+                                                  : true));
 
-                                      _moreLessVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
-                                              (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? false : true));
-
-                                      _favCheck[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
-                                              (index) =>
-                                          (foodDetailsModelData.productDetails[i].skus[index].wishlist==null) ? false : true));
-
+                                      _favCheck[index0].add(List.generate(
+                                          foodDetailsModelData
+                                              .productDetails[i].skus.length,
+                                          (index) => (foodDetailsModelData
+                                                      .productDetails[i]
+                                                      .skus[index]
+                                                      .wishlist ==
+                                                  null)
+                                              ? false
+                                              : true));
 
                                       // print("_moreLessVisibility");
 
-                                      _circularProgressVisibility[index0]
-                                          .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
+                                      _circularProgressVisibility[index0].add(
+                                          List.generate(
+                                              foodDetailsModelData
+                                                  .productDetails[i]
+                                                  .skus
+                                                  .length,
+                                              (index) => false));
 
                                       // _favCheck[index0]
                                       //     .add(List.generate(foodDetailsModelData.productDetails[i].skus.length, (index) => false));
                                     }
                                   }
                                 }
-                                if (foodDetailsModelData.menu[0].subcategory.length-1 == index0) {
+                                if (foodDetailsModelData
+                                            .menu[0].subcategory.length -
+                                        1 ==
+                                    index0) {
                                   check = false;
                                 }
                               }
@@ -559,36 +670,47 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    padding: EdgeInsets.fromLTRB(0,8,8,8),
+                                    padding: EdgeInsets.fromLTRB(0, 8, 8, 8),
                                     // color: Colors.red[900],
                                     width: screenWidth,
-                                    child: Text("${foodDetailsModelData.menu[0].subcategory[index0].subcategoryname}",
+                                    child: Text(
+                                      "${foodDetailsModelData.menu[0].subcategory[index0].subcategoryname}",
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontWeight:font_semibold
-                                      ),),
+                                          fontWeight: font_semibold),
+                                    ),
                                   ),
                                   ListView.builder(
                                       physics: ScrollPhysics(),
                                       shrinkWrap: true,
-                                      itemCount: _productDetailsList[index0].length,
+                                      itemCount:
+                                          _productDetailsList[index0].length,
                                       itemBuilder: (context, index1) {
                                         return ListView.builder(
                                             shrinkWrap: true,
                                             physics: ScrollPhysics(),
-                                            itemCount: _productDetailsList[index0][index1].skus.length,
+                                            itemCount:
+                                                _productDetailsList[index0]
+                                                        [index1]
+                                                    .skus
+                                                    .length,
                                             itemBuilder: (context, index) {
                                               return Card(
                                                   elevation: 2.0,
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(5.0),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5.0),
                                                   ),
-                                                  margin: EdgeInsets.only(top: 4.0, bottom: 14.0),
+                                                  margin: EdgeInsets.only(
+                                                      top: 4.0, bottom: 14.0),
                                                   // height: screenWidth * 0.22,
                                                   // width: screenWidth*0.05,
                                                   // height: 100.0,
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Row(
                                                       children: [
                                                         Expanded(
@@ -596,32 +718,54 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                           child: Stack(
                                                             children: [
                                                               Container(
-                                                                height: screenWidth * 0.2,
-                                                                width: screenWidth * 0.2,
+                                                                height:
+                                                                    screenWidth *
+                                                                        0.2,
+                                                                width:
+                                                                    screenWidth *
+                                                                        0.2,
                                                                 // height: double.infinity,
-                                                                clipBehavior: Clip.hardEdge,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                                                clipBehavior:
+                                                                    Clip.hardEdge,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              5.0)),
                                                                 ),
-                                                                child: FadeInImage(
-                                                                  image: NetworkImage(
-                                                                    "$imageBaseURL${(_productDetailsList[index0][index1].skus[index].image!=null)?_productDetailsList[index0][index1].skus[index].image.productImages:"null"}",
+                                                                child:
+                                                                    FadeInImage(
+                                                                  image:
+                                                                      NetworkImage(
+                                                                    "$imageBaseURL${(_productDetailsList[index0][index1].skus[index].image != null) ? _productDetailsList[index0][index1].skus[index].image.productImages : "null"}",
                                                                   ),
-                                                                  placeholder: AssetImage("images/logo.jpeg"),
-                                                                  fit: BoxFit.fill,
+                                                                  placeholder:
+                                                                      AssetImage(
+                                                                          "images/logo.jpeg"),
+                                                                  fit: BoxFit
+                                                                      .fill,
                                                                 ),
                                                               ),
                                                               Positioned(
                                                                   top: 5,
                                                                   right: 5,
-                                                                  child: ClipOval(
-                                                                    child: Container(
-                                                                      padding: EdgeInsets.all(3),
-                                                                      decoration: BoxDecoration(
-                                                                          color: Colors.white70),
-                                                                      child: Container(
-                                                                        margin: EdgeInsets.only(right: 0),
-                                                                        child:StreamBuilder<ApiResponse<FavoriteAddModel>>(
+                                                                  child:
+                                                                      ClipOval(
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              3),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                              color: Colors.white70),
+                                                                      child:
+                                                                          Container(
+                                                                        margin: EdgeInsets.only(
+                                                                            right:
+                                                                                0),
+                                                                        child: StreamBuilder<ApiResponse<FavoriteAddModel>>(
                                                                             stream: _favoriteAddBloc.favoriteAddStream,
                                                                             builder: (context, snapshot1) {
                                                                               if (snapshot1.hasData) {
@@ -656,22 +800,29 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                     break;
                                                                                 }
                                                                               }
-                                                                              return  InkWell(
-                                                                                onTap: (){
+                                                                              return InkWell(
+                                                                                onTap: () {
                                                                                   setState(() {
                                                                                     _favCheck[index0][index1][index] = !_favCheck[index0][index1][index];
-                                                                                    Map body={
-                                                                                      "sku_id":"${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                    Map body = {
+                                                                                      "sku_id": "${_productDetailsList[index0][index1].skus[index].id}",
                                                                                     };
-                                                                                    _favoriteAddBloc.favoriteAdd(body,_userToken);//
+                                                                                    _favoriteAddBloc.favoriteAdd(body, _userToken); //
                                                                                   });
                                                                                 },
-                                                                                child: _favCheck[index0][index1][index] ? Image.asset("images/fav_fill.png",width: 17.0,height: 17.0,)
-                                                                                    : Image.asset("images/fav.png",width: 17.0,height:17.0,),
-
+                                                                                child: _favCheck[index0][index1][index]
+                                                                                    ? Image.asset(
+                                                                                        "images/fav_fill.png",
+                                                                                        width: 17.0,
+                                                                                        height: 17.0,
+                                                                                      )
+                                                                                    : Image.asset(
+                                                                                        "images/fav.png",
+                                                                                        width: 17.0,
+                                                                                        height: 17.0,
+                                                                                      ),
                                                                               );
-                                                                            }
-                                                                        ),
+                                                                            }),
                                                                       ),
                                                                     ),
                                                                   ))
@@ -683,39 +834,59 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                           child: Container(
                                                             // color: Colors.redAccent,
                                                             // width: screenWidth * 0.6,
-                                                            margin: EdgeInsets.only(left: 15.0, top: 5.0, bottom: 5.0, right: 10.0),
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    left: 15.0,
+                                                                    top: 5.0,
+                                                                    bottom: 5.0,
+                                                                    right:
+                                                                        10.0),
 
                                                             child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
                                                               children: [
                                                                 Row(
                                                                   children: [
-                                                                    Text("${_productDetailsList[index0][index1].skus[index].skuName}",
-                                                                        style: TextStyle(
-                                                                          fontWeight: FontWeight.w600,
-                                                                          color: Colors.black,
-                                                                          fontSize: screenWidth * 0.04,
+                                                                    Text(
+                                                                        "${_productDetailsList[index0][index1].skus[index].skuName}",
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontSize:
+                                                                              screenWidth * 0.04,
                                                                         )),
-
                                                                   ],
                                                                 ),
                                                                 Container(
                                                                   // color: Colors.greenAccent,
-                                                                  margin: EdgeInsets.only(top: 8.0),
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          top:
+                                                                              8.0),
                                                                   child: Row(
                                                                     children: [
                                                                       Text(
                                                                         "Rs. ${_productDetailsList[index0][index1].skus[index].price}/-",
                                                                         style: TextStyle(
-                                                                            color: Colors.grey[700],
-                                                                            fontWeight: font_semibold,
-                                                                            fontSize: screenWidth * 0.035),
+                                                                            color: Colors.grey[
+                                                                                700],
+                                                                            fontWeight:
+                                                                                font_semibold,
+                                                                            fontSize:
+                                                                                screenWidth * 0.035),
                                                                       ),
                                                                       Spacer(),
 
                                                                       Visibility(
-                                                                        visible: _circularProgressVisibility[index0][index1][index],
-                                                                        child: Row(
+                                                                        visible:
+                                                                            _circularProgressVisibility[index0][index1][index],
+                                                                        child:
+                                                                            Row(
                                                                           children: [
                                                                             SizedBox(
                                                                               width: 17.0,
@@ -735,8 +906,10 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
 
                                                                       //addVisibility Product Icon
                                                                       Visibility(
-                                                                        visible: _addVisibility[index0][index1][index],
-                                                                        child: Row(
+                                                                        visible:
+                                                                            _addVisibility[index0][index1][index],
+                                                                        child:
+                                                                            Row(
                                                                           children: [
                                                                             InkWell(
                                                                                 onTap: () {
@@ -751,7 +924,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                               padding: const EdgeInsets.only(top: 10.0),
                                                                                               child: Text(
                                                                                                 "You Have Product in Your Cart of Another Seller.\n"
-                                                                                                    "Do You Want to Clear Your Cart?",
+                                                                                                "Do You Want to Clear Your Cart?",
                                                                                                 style: TextStyle(
                                                                                                   color: Colors.black,
                                                                                                   fontSize: 14.0,
@@ -770,7 +943,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                                     ),
                                                                                                   ),
                                                                                                   onPressed: () {
-                                                                                                    Map _body = {"cartid": prefs.getString("cart_id")};
+                                                                                                    Map _body = {
+                                                                                                      "cartid": prefs.getString("cart_id")
+                                                                                                    };
                                                                                                     _cartEmptyBloc.cartItemsEmpty(_body);
                                                                                                     currentVendorId = "";
                                                                                                     currentCategoryId = "";
@@ -797,11 +972,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                   } else {
                                                                                     setState(() {
                                                                                       ++_productAmount[index0][index1][index];
-                                                                                      _circularProgressVisibility[index0][index1][index] =
-                                                                                      !_circularProgressVisibility[index0][index1][index];
+                                                                                      _circularProgressVisibility[index0][index1][index] = !_circularProgressVisibility[index0][index1][index];
 
-                                                                                      _addVisibility[index0][index1][index] =
-                                                                                      !_addVisibility[index0][index1][index];
+                                                                                      _addVisibility[index0][index1][index] = !_addVisibility[index0][index1][index];
 
                                                                                       setStateCheck = true;
                                                                                       cartAdded = true;
@@ -817,15 +990,13 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                     if (prefs.getString("cart_id") != "") {
                                                                                       if (prefs.getString("user_id") == "") {
                                                                                         body = {
-                                                                                          "skuid":
-                                                                                          "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
                                                                                           "quantity": "${_productAmount[index0][index1][index]}",
                                                                                           "cartid": prefs.getString("cart_id")
                                                                                         };
                                                                                       } else if (prefs.getString("user_id") != "") {
                                                                                         body = {
-                                                                                          "skuid":
-                                                                                          "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
                                                                                           "quantity": "${_productAmount[index0][index1][index]}",
                                                                                           "userid": "${prefs.getString("user_id")}",
                                                                                           "cartid": prefs.getString("cart_id")
@@ -834,20 +1005,18 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                     } else if (prefs.getString("cart_id") == "") {
                                                                                       if (prefs.getString("user_id") == "") {
                                                                                         body = {
-                                                                                          "skuid":
-                                                                                          "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
                                                                                           "quantity": "${_productAmount[index0][index1][index]}"
                                                                                         };
                                                                                       } else if (prefs.getString("user_id") != "") {
                                                                                         body = {
-                                                                                          "skuid":
-                                                                                          "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
                                                                                           "quantity": "${_productAmount[index0][index1][index]}",
                                                                                           "userid": "${prefs.getString("user_id")}"
                                                                                         };
                                                                                       }
                                                                                     }
-                                                                                    print("BODY:"+body.toString());
+                                                                                    print("BODY:" + body.toString());
                                                                                     _cartItemsAddBloc.cartItemsAdd(body);
                                                                                   }
                                                                                 },
@@ -858,11 +1027,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                     borderRadius: BorderRadius.circular(5.0),
                                                                                   ),
                                                                                   child: Container(
-                                                                                    decoration: BoxDecoration(
-                                                                                        border: Border.all(
-                                                                                            color: Colors.red[900],width: 1
-                                                                                        ),
-                                                                                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                                                                                    decoration: BoxDecoration(border: Border.all(color: Colors.red[900], width: 1), borderRadius: BorderRadius.all(Radius.circular(5))),
                                                                                     child: Row(
                                                                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                                                       children: [
@@ -875,18 +1040,16 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                           ),
                                                                                         ),
                                                                                         Padding(
-                                                                                          padding: const EdgeInsets.fromLTRB(3.0,3.0,5.0,3.0),
+                                                                                          padding: const EdgeInsets.fromLTRB(3.0, 3.0, 5.0, 3.0),
                                                                                           child: Text(
                                                                                             "ADD",
-                                                                                            style: new TextStyle(color: Colors.red[900], fontSize: 13.0,
-                                                                                                fontWeight: FontWeight.bold),
+                                                                                            style: new TextStyle(color: Colors.red[900], fontSize: 13.0, fontWeight: FontWeight.bold),
                                                                                           ),
                                                                                         ),
                                                                                       ],
                                                                                     ),
                                                                                   ),
-                                                                                )
-                                                                            ),
+                                                                                )),
                                                                             SizedBox(
                                                                               width: screenWidth * 0.02,
                                                                             ),
@@ -896,17 +1059,17 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
 
                                                                       //addVisibility and Less Product 2 Icons and Number
                                                                       Visibility(
-                                                                        visible: _moreLessVisibility[index0][index1][index],
-                                                                        child: Row(
+                                                                        visible:
+                                                                            _moreLessVisibility[index0][index1][index],
+                                                                        child:
+                                                                            Row(
                                                                           children: [
                                                                             InkWell(
                                                                               onTap: () {
                                                                                 setState(() {
                                                                                   if (_productAmount[index0][index1][index] == 1) {
-                                                                                    _moreLessVisibility[index0][index1][index] =
-                                                                                    !_moreLessVisibility[index0][index1][index];
-                                                                                    _addVisibility[index0][index1][index] =
-                                                                                    !_addVisibility[index0][index1][index];
+                                                                                    _moreLessVisibility[index0][index1][index] = !_moreLessVisibility[index0][index1][index];
+                                                                                    _addVisibility[index0][index1][index] = !_addVisibility[index0][index1][index];
                                                                                   }
                                                                                   cartUpdated = true;
                                                                                   --_productAmount[index0][index1][index];
@@ -915,7 +1078,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                   "cart_item_id": "${_cartItemId[index0][index1][index]}",
                                                                                   "quantity": "${_productAmount[index0][index1][index]}"
                                                                                 };
-                                                                                print("BODY:"+body.toString());
+                                                                                print("BODY:" + body.toString());
                                                                                 _cartItemsUpdateBloc.cartItemsUpdate(body);
                                                                               },
                                                                               child: Icon(
@@ -931,9 +1094,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                 // width: screenHeight * .025,
                                                                                 child: Center(
                                                                                     child: Text(
-                                                                                      "${_productAmount[index0][index1][index]}",
-                                                                                      style: TextStyle(fontSize: screenWidth * .04, fontFamily: 'pop'),
-                                                                                    ))),
+                                                                                  "${_productAmount[index0][index1][index]}",
+                                                                                  style: TextStyle(fontSize: screenWidth * .04, fontFamily: 'pop'),
+                                                                                ))),
                                                                             SizedBox(width: screenWidth * .012),
                                                                             InkWell(
                                                                               onTap: () {
@@ -948,7 +1111,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                                 print(_cartItemId[index0][index1][index]);
                                                                                 print("$index1 $index");
                                                                                 print(_cartItemId);
-                                                                                print("BODY:"+body.toString());
+                                                                                print("BODY:" + body.toString());
                                                                                 _cartItemsUpdateBloc.cartItemsUpdate(body);
                                                                               },
                                                                               child: Icon(
@@ -981,12 +1144,14 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                       } else {
                         return Center(
                             child: Text(
-                              "This Shop Has No Items",
-                              style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
-                            ));
+                          "This Shop Has No Items",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold),
+                        ));
                       }
-                    }
-                    else if (snapshot.hasError) {
+                    } else if (snapshot.hasError) {
                       print(snapshot.error.toString());
                       return Text("No Data Found");
                     } else
@@ -996,14 +1161,52 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                         child: CircularProgressIndicator(
                             backgroundColor: circularBGCol,
                             strokeWidth: strokeWidth,
-                            valueColor: AlwaysStoppedAnimation<Color>(circularStrokeCol)
-                        ),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                circularStrokeCol)),
                       );
                   },
                 ),
               ),
             ],
           )),
+    );
+  }
+
+  static DateTime now = DateTime.now();
+
+  Widget currentWidget() {
+    //var hours = now.hour;
+    availableFrom = DateFormat("HH:mm:ss").parse(widget.availableFrom);
+    availableTo = DateFormat("HH:mm:ss").parse(widget.availableTo);
+
+    if (DateTime.now().compareTo(DateTime(now.year, now.month, now.day,
+                availableFrom.hour, availableFrom.minute)) >
+            0 &&
+        DateTime.now().compareTo(DateTime(now.year, now.month, now.day,
+                availableTo.hour, availableTo.minute)) <
+            0) {
+      shopOpen=true;
+      return _openShope();
+    } else{
+      shopOpen=false;
+      return _closeShope();
+
+    }
+  }
+
+  Widget _openShope() {
+    return Text(
+      "Open Now",
+      style: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green),
+    );
+  }
+
+  Widget _closeShope() {
+    return Text(
+      "Close Now",
+      style: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
     );
   }
 }

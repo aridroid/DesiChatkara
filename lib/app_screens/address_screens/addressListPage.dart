@@ -99,7 +99,7 @@ class _AddressListPageState extends State<AddressListPage> {
                 icon: Icon(
                   Icons.notifications,
                   color: Colors.white,
-                ),
+                ), onPressed: () {  },
               ),
             ]),
         backgroundColor: lightThemeWhite,
@@ -164,92 +164,100 @@ class _AddressListPageState extends State<AddressListPage> {
                             padding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 15.0),
                             margin: EdgeInsets.fromLTRB(5.0, 3.0, 5.0, 3.0),
                             // height: 160,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Radio(
-                                        value: snapshot.data.data[index].id,
-                                        groupValue: _addressId,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _addressId = value;
-                                            // _address="${snapshot.data.data[value].address}, ${snapshot.data.data[value].landmark}, ${snapshot.data.data[value].city}, ${snapshot.data.data[value].state}, ${snapshot.data.data[value].zip}";
-                                            print(_address);
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 8,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8.0, 0.0, 8.0, 0.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${snapshot.data.data[index].addressName}",
-                                              style: TextStyle(
-                                                  color: darkThemeRed,
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-
-                                            /*Text("${snapshot.data.data[index].landmark}"),
-                                          Text("${snapshot.data.data[index].city}"),
-                                          Text("${snapshot.data.data[index].state}"),
-                                          Text("${snapshot.data.data[index].zip}"),*/
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
+                            child: Theme(
+                              data: Theme.of(context).copyWith(
+                                unselectedWidgetColor: Colors.black,
+                                disabledColor: Colors.red,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
                                         flex: 1,
-                                        child: Container(
-                                          height: 32.0,
-                                          // width: 10.0,
-                                          padding: EdgeInsets.only(right: 2,bottom: 2),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: lightThemeRed, width: 1.3,style: BorderStyle.solid),
-                                            borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                            color: Colors.white,
+                                        child:Radio(
+                                          activeColor: darkThemeRed,
+                                          value: snapshot.data.data[index].id,
+                                          groupValue: _addressId,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _addressId = value;
+                                              // _address="${snapshot.data.data[value].address}, ${snapshot.data.data[value].landmark}, ${snapshot.data.data[value].city}, ${snapshot.data.data[value].state}, ${snapshot.data.data[value].zip}";
+                                              print(_address);
+                                            });
+                                          },
+                                        ),
+
+                                      ),
+                                      Expanded(
+                                        flex: 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8.0, 0.0, 8.0, 0.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${snapshot.data.data[index].addressName}",
+                                                style: TextStyle(
+                                                    color: darkThemeRed,
+                                                    fontSize: 16.0,
+                                                    fontWeight: FontWeight.w600),
+                                              ),
+
+                                              /*Text("${snapshot.data.data[index].landmark}"),
+                                            Text("${snapshot.data.data[index].city}"),
+                                            Text("${snapshot.data.data[index].state}"),
+                                            Text("${snapshot.data.data[index].zip}"),*/
+                                            ],
                                           ),
-                                          child: IconButton(
-                                            icon: Icon(Icons.edit_outlined,
-                                              color: lightThemeRed,
-                                              size: 17,
-                                            ),
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(),
-                                    ),
-                                    Expanded(
-                                      flex: 6,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            2.0, 0.0, 8.0, 5.0),
-                                        child: Text(
-                                          "${snapshot.data.data[index].address}, ${snapshot.data.data[index].landmark}, ${snapshot.data.data[index].city}, ${snapshot.data.data[index].state}, ${snapshot.data.data[index].zip}",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.w400),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            height: 32.0,
+                                            // width: 10.0,
+                                            padding: EdgeInsets.only(right: 2,bottom: 2),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: lightThemeRed, width: 1.3,style: BorderStyle.solid),
+                                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                              color: Colors.white,
+                                            ),
+                                            child: IconButton(
+                                              icon: Icon(Icons.edit_outlined,
+                                                color: lightThemeRed,
+                                                size: 17,
+                                              ),
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(),
+                                      ),
+                                      Expanded(
+                                        flex: 6,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              2.0, 0.0, 8.0, 5.0),
+                                          child: Text(
+                                            "${snapshot.data.data[index].address}, ${snapshot.data.data[index].landmark}, ${snapshot.data.data[index].city}, ${snapshot.data.data[index].state}, ${snapshot.data.data[index].zip}",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         });

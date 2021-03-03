@@ -14,7 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:desichatkara/app_screens/screens/AddressList.dart';
+import 'package:intl/intl.dart';
 import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu.dart';
 import 'package:desichatkara/app_screens/screens/UserProfile.dart';
 import 'package:desichatkara/constants.dart';
@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
   // int currentPageValue2 = 0;
   GlobalKey<ScaffoldState> _key = GlobalKey();
   var _emailFormKey = GlobalKey<FormState>();
+  KitchenDetailedMenu _kitchenDetailedMenu=KitchenDetailedMenu();
 
   Future<KitchensNearResponseModel> allKitchenNear;
   KitchensNearRepository _kitchenNearRepository;
@@ -200,13 +201,15 @@ class _HomeState extends State<Home> {
       print("Address:" + address);
     });
   }
+  DateTime availableFrom;
+  DateTime availableTo;
 
   @override
   void initState() {
     super.initState();
     createSharedPref();
     controller = PageController();
-    Map body;
+    //Map body;
 
     _kitchenNearRepository = KitchensNearRepository();
     allKitchenNear = _kitchenNearRepository.getAllKitchenNear("2");
@@ -748,7 +751,10 @@ class _HomeState extends State<Home> {
                                           categoryId: snapshot.data.data[index].categoryId,
                                           vendorId: snapshot.data.data[index].vendorId,
                                           vendorName: snapshot.data.data[index].shopName,
-                                          address: snapshot.data.data[index].address,
+                                        availableFrom: snapshot.data.data[index].availableFrom,
+                                        availableTo: snapshot.data.data[index].availableTo,
+
+                                        address: snapshot.data.data[index].address,
 
 
                                       )),
@@ -810,23 +816,23 @@ class _HomeState extends State<Home> {
                                                   color: Colors.white),
                                             ),
                                           )),
-                                      Positioned(
-                                          bottom: 10,
-                                          right: 10,
-                                          child: Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                5, 2.5, 5, 2.5),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white54,
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        5)),
-                                            child: Text(
-                                              "47 mins",
-                                              style:
-                                                  GoogleFonts.poppins(),
-                                            ),
-                                          )),
+                                      // Positioned(
+                                      //     bottom: 10,
+                                      //     right: 10,
+                                      //     child: Container(
+                                      //       padding: EdgeInsets.fromLTRB(
+                                      //           5, 2.5, 5, 2.5),
+                                      //       decoration: BoxDecoration(
+                                      //           color: Colors.white54,
+                                      //           borderRadius:
+                                      //               BorderRadius.circular(
+                                      //                   5)),
+                                      //       child: Text(
+                                      //         "47 mins",
+                                      //         style:
+                                      //             GoogleFonts.poppins(),
+                                      //       ),
+                                      //     )),
                                       Positioned(
                                           top: 10,
                                           right: 10,
@@ -883,10 +889,16 @@ class _HomeState extends State<Home> {
                                           left: 10.0,
                                           right: 10.0,
                                           top: 5.0),
-                                      child: Text(
-                                        "veg, Lunch, Dinner",
-                                        style: new TextStyle(
-                                            color: Colors.grey[700]),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "veg, Lunch, Dinner",
+                                            style: new TextStyle(
+                                                color: Colors.grey[700]),
+                                          ),
+                                          Spacer(),
+                                          currentWidget(snapshot.data.data[index].availableFrom,snapshot.data.data[index].availableTo ),
+                                        ],
                                       )),
                                 ],
                               ),
@@ -1044,6 +1056,44 @@ class _HomeState extends State<Home> {
     }
     return data;
 
+  }
+
+  static DateTime now = DateTime.now();
+
+  Widget currentWidget(String availableFrom2,String availableTo2) {
+    //var hours = now.hour;
+    availableFrom = DateFormat("HH:mm:ss").parse(availableFrom2);
+    availableTo = DateFormat("HH:mm:ss").parse(availableTo2);
+
+    if (DateTime.now().compareTo(DateTime(now.year, now.month, now.day,
+        availableFrom.hour, availableFrom.minute)) >
+        0 &&
+        DateTime.now().compareTo(DateTime(now.year, now.month, now.day,
+            availableTo.hour, availableTo.minute)) <
+            0) {
+      //shopOpen=true;
+      return _openShope();
+    } else{
+      //shopOpen=false;
+      return _closeShope();
+
+    }
+  }
+
+  Widget _openShope() {
+    return Text(
+      "Open Now",
+      style: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green),
+    );
+  }
+
+  Widget _closeShope() {
+    return Text(
+      "Close Now",
+      style: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
+    );
   }
 
 

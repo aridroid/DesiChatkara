@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import 'SearchPageModel/SearchPageModel.dart';
 
 class SearchFoodVendorPage extends StatefulWidget {
@@ -20,6 +20,8 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
 
   _SearchFoodVendorPageState(this._foodDetails);
   int _current=0;
+  DateTime availableFrom;
+  DateTime availableTo;
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +45,16 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                   "Shop Details",
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: screenWidth * 0.045),
                 )),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.notifications,
-                  color: Colors.white,
-                  size: 0,
-                ),
-              ),
-            ]),
+            // actions: <Widget>[
+            //   IconButton(
+            //     icon: Icon(
+            //       Icons.notifications,
+            //       color: Colors.white,
+            //       size: 0,
+            //     ),
+            //   ),
+            // ]
+        ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
@@ -164,7 +167,13 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                                   KitchenDetailedMenu(
                                       categoryId: _foodDetails.vendor[index].categoryId,
                                       vendorId: _foodDetails.vendor[index].vendorId,
-                                      vendorName: _foodDetails.vendor[index].shopName)),
+                                      vendorName: _foodDetails.vendor[index].shopName,
+                                    address: _foodDetails.vendor[index].address,
+                                    availableFrom: _foodDetails.vendor[index].availableFrom,
+                                    availableTo: _foodDetails.vendor[index].availableTo,
+
+                                  )),
+
                         );
                       },
                       child: Container(
@@ -235,21 +244,15 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
                                                   mainAxisAlignment:
                                                   MainAxisAlignment.end,
                                                   children: [
-                                                    Icon(
-                                                      Icons.access_time,
-                                                      color: Colors.black38,
-                                                      size: screenWidth * 0.032,
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right:5.0),
+                                                      child: Icon(
+                                                        Icons.access_time,
+                                                        color: Colors.black38,
+                                                        size: screenWidth * 0.035,
+                                                      ),
                                                     ),
-                                                    Text(
-                                                      " 9AM-7PM",
-                                                      textAlign: TextAlign.end,
-                                                      style: TextStyle(
-                                                        // fontWeight: FontWeight.bold,
-                                                          color: Colors.black38,
-                                                          fontSize:
-                                                          screenWidth *
-                                                              0.030),
-                                                    ),
+                                                    currentWidget(_foodDetails.vendor[index].availableFrom,_foodDetails.vendor[index].availableTo ),
                                                   ],
                                                 ))
                                           ],
@@ -302,6 +305,44 @@ class _SearchFoodVendorPageState extends State<SearchFoodVendorPage> {
           ),
         ),
       ),
+    );
+  }
+
+  static DateTime now = DateTime.now();
+
+  Widget currentWidget(String availableFrom2,String availableTo2) {
+    //var hours = now.hour;
+    availableFrom = DateFormat("HH:mm:ss").parse(availableFrom2);
+    availableTo = DateFormat("HH:mm:ss").parse(availableTo2);
+
+    if (DateTime.now().compareTo(DateTime(now.year, now.month, now.day,
+        availableFrom.hour, availableFrom.minute)) >
+        0 &&
+        DateTime.now().compareTo(DateTime(now.year, now.month, now.day,
+            availableTo.hour, availableTo.minute)) <
+            0) {
+      //shopOpen=true;
+      return _openShope();
+    } else{
+      //shopOpen=false;
+      return _closeShope();
+
+    }
+  }
+
+  Widget _openShope() {
+    return Text(
+      "Open Now",
+      style: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green),
+    );
+  }
+
+  Widget _closeShope() {
+    return Text(
+      "Close Now",
+      style: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
     );
   }
 }

@@ -36,16 +36,17 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
     userId=prefs.getString("user_id");
     _favoriteKitchenRepository = FavoriteKitchenRepository();
     allfavorite = _favoriteKitchenRepository.getAllFavourite(userToken);
-    //allDelete = _favoriteDeleteRepository.favoritedelete(body, token);
 
     setState(() {});
   }
   List<Data> listFavorite=[];
   removeDynamic(value) {
     listFavorite.remove(value);
-    setState(() {
-
-    });
+    if (this.mounted) {
+      setState(() {
+        // Your state change code goes here
+      });
+    }
   }
 
   @override
@@ -90,7 +91,7 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                 future: allfavorite,
            builder: (context, snapshot) {
                   if(snapshot.hasData) {
-                    if(snapshot.data.data.length>=1){
+                    if(snapshot.data.data.length!= null){
                       return Container(
                         padding: const EdgeInsets.all(10.0),
                         child: ListView.builder(
@@ -111,8 +112,13 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
                                               KitchenDetailedMenu(
                                                   categoryId: snapshot.data.data[index].sku.vendor.categoryId,
                                                   vendorId: snapshot.data.data[index].sku.vendorId,
-                                                  vendorName: snapshot.data
-                                                      .data[index].sku.vendor.shopName)),
+                                                  vendorName: snapshot.data.data[index].sku.vendor.shopName,
+                                                  address:snapshot.data.data[index].sku.vendor.address,
+                                                availableFrom: snapshot.data.data[index].sku.vendor.availableFrom,
+                                                availableTo: snapshot.data.data[index].sku.vendor.availableTo,
+
+
+                                              )),
                                     );
                                   },
                                   child: Card(
@@ -284,6 +290,7 @@ class _FavoriteKitchensState extends State<FavoriteKitchens> {
 
                   }
                   else if (snapshot.hasError) {
+                    print(snapshot.error);
                     return Padding(
                       padding: const EdgeInsets.all(50.0),
                       child: Center(child: Text("No data", style: TextStyle(

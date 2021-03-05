@@ -369,7 +369,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
                           backgroundColor: Colors.white,
                           textColor: darkThemeRed,
                           toastLength: Toast.LENGTH_LONG);
-                    } else if (700000 >= int.parse(_zip.text.trim()) || int.parse(_zip.text.trim()) >= 749999) {
+                    } else if (100000 >= int.parse(_zip.text.trim()) || int.parse(_zip.text.trim()) >= 949999) {
                       showDialog(
                           context: context,
                           barrierDismissible: false,

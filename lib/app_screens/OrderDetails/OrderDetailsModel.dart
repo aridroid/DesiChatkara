@@ -1,3 +1,5 @@
+import 'package:desichatkara/app_screens/screens/Starting.dart';
+
 class OrderDetailsModel {
   Data data;
   String message;
@@ -27,7 +29,7 @@ class Data {
   List<OrderItems> orderItems;
   Vendor vendor;
   Customer customer;
-  Null orderStatus;
+  String orderStatus;
   Carrier carrier;
 
   Data(
@@ -89,18 +91,18 @@ class OrderDetails {
   String transactionId;
   String transactionStatus;
   String paymentType;
-  Null ewalletId;
+  String ewalletId;
   String transactionAmount;
-  Null ewalletAmount;
+  String ewalletAmount;
   String codAmount;
-  Null onlineAmount;
+  String onlineAmount;
   String createdAt;
   String updatedAt;
   String isAccepted;
   String isAssigned;
-  Null couponDescripition;
+  String couponDescripition;
   String amountBeforeDiscount;
-  Null couponCode;
+  String couponCode;
   String cartId;
   String orderAmount;
   String taxAmount;
@@ -196,7 +198,7 @@ class OrderItems {
   String quantity;
   String skuName;
   String vendorId;
-  Null preparationTime;
+  String preparationTime;
   String isOutOfStock;
   String unitPrice;
   String productIdentification;
@@ -275,7 +277,7 @@ class Vendor {
   String mobileNumber;
   String mobileVerifiedFlag;
   String mobileVerifiedToken;
-  Null mobileVerifiedAt;
+  String mobileVerifiedAt;
   String address;
   String city;
   String state;
@@ -289,7 +291,7 @@ class Vendor {
   String availableFrom;
   String availableTo;
   String isActive;
-  Null parentId;
+  String parentId;
   String vendorId;
 
   Vendor(
@@ -386,10 +388,10 @@ class Customer {
 }
 
 class Carrier {
-  Null carrierName;
-  Null carrierMobileNumber;
-  Null carrierEmail;
-  Null id;
+  String carrierName;
+  String carrierMobileNumber;
+  String carrierEmail;
+  String id;
 
   Carrier(
       {this.carrierName, this.carrierMobileNumber, this.carrierEmail, this.id});

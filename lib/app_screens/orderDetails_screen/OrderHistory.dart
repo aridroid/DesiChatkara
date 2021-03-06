@@ -198,7 +198,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => OrderDetails(),
+                                                  builder: (context) => OrderDetails(orderid: snapshot.data.data[index].orderId,),
                                                 ));
                                             //OrderDetails
                                           },

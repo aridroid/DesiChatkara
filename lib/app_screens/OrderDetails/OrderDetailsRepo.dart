@@ -9,9 +9,9 @@ class OrderDetailsRepositry {
 
   ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<OrderDetailsModel> getOrderDetails(body) async {
+  Future<OrderDetailsModel> getOrderDetails(Map body,String token) async {
 
-   final response = await _helper.post("order/details",body);
+   final response = await _helper.postWithHeader("order/details", body,"Bearer $token");
     return OrderDetailsModel.fromJson(response);
   }
 }

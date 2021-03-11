@@ -191,7 +191,7 @@ class ProductDetails {
   int id;
   String name;
   String categoryId;
-  Null manufacturerId;
+  String manufacturerId;
   String productImage;
   String createdAt;
   String updatedAt;

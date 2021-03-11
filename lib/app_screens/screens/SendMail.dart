@@ -122,7 +122,9 @@ class _SendMailState extends State<SendMail> {
                     expands: true,
                     textAlignVertical: TextAlignVertical.top,
                     decoration: InputDecoration(
-                        labelText: 'Message', border: OutlineInputBorder()),
+                        labelText: 'Message',
+                        border: OutlineInputBorder()
+                    ),
                   ),
                 ),
               ),

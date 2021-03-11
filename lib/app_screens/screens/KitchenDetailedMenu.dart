@@ -552,15 +552,8 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                     .add(new List<List<bool>>());
                                 _favCheck.add(new List<List<bool>>());
 
-                                for (int i = 0;
-                                    i <
-                                        foodDetailsModelData
-                                            .productDetails.length;
-                                    i++) {
-                                  if (foodDetailsModelData
-                                          .productDetails[i].categoryId ==
-                                      foodDetailsModelData
-                                          .menu[0].subcategory[index0].id) {
+                                for (int i = 0; i < foodDetailsModelData.productDetails.length; i++) {
+                                  if (foodDetailsModelData.productDetails[i].categoryId == foodDetailsModelData.menu[0].subcategory[index0].id) {
                                     if (foodDetailsModelData
                                             .productDetails[i].skus.length >
                                         0) {
@@ -611,22 +604,15 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                       // print("_cartItemId");
 
                                       _addVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
-                                          (index) => (shopOpen?
+                                          (index) => (shopOpen?(foodDetailsModelData.productDetails[i].skus[index].isOutOfStock=="1")?false:
                                           (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)? true: false :false)));
 
                                       // print("_addVisibility");
 
                                       _moreLessVisibility[index0].add(
                                           List.generate(
-                                              foodDetailsModelData
-                                                  .productDetails[i]
-                                                  .skus
-                                                  .length,
-                                              (index) => (foodDetailsModelData
-                                                          .productDetails[i]
-                                                          .skus[index]
-                                                          .cartItem ==
-                                                      null)
+                                              foodDetailsModelData.productDetails[i].skus.length,
+                                              (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)
                                                   ? false
                                                   : true));
 
@@ -695,444 +681,447 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                     .skus
                                                     .length,
                                             itemBuilder: (context, index) {
-                                              return Card(
-                                                  elevation: 2.0,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5.0),
-                                                  ),
-                                                  margin: EdgeInsets.only(
-                                                      top: 4.0, bottom: 14.0),
-                                                  // height: screenWidth * 0.22,
-                                                  // width: screenWidth*0.05,
-                                                  // height: 100.0,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 2,
-                                                          child: Stack(
-                                                            children: [
-                                                              Container(
-                                                                height:
-                                                                    screenWidth *
-                                                                        0.2,
-                                                                width:
-                                                                    screenWidth *
-                                                                        0.2,
-                                                                // height: double.infinity,
-                                                                clipBehavior:
-                                                                    Clip.hardEdge,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius.all(
-                                                                          Radius.circular(
-                                                                              5.0)),
-                                                                ),
-                                                                child:
-                                                                    FadeInImage(
-                                                                  image:
-                                                                      NetworkImage(
-                                                                    "$imageBaseURL${(_productDetailsList[index0][index1].skus[index].image != null) ? _productDetailsList[index0][index1].skus[index].image.productImages : "null"}",
+                                              return InkWell(
+                                                onTap: openPopUp,
+                                                child: Card(
+                                                    elevation: 2.0,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5.0),
+                                                    ),
+                                                    margin: EdgeInsets.only(
+                                                        top: 4.0, bottom: 14.0),
+                                                    // height: screenWidth * 0.22,
+                                                    // width: screenWidth*0.05,
+                                                    // height: 100.0,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 2,
+                                                            child: Stack(
+                                                              children: [
+                                                                Container(
+                                                                  height:
+                                                                      screenWidth *
+                                                                          0.2,
+                                                                  width:
+                                                                      screenWidth *
+                                                                          0.2,
+                                                                  // height: double.infinity,
+                                                                  clipBehavior:
+                                                                      Clip.hardEdge,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(
+                                                                                5.0)),
                                                                   ),
-                                                                  placeholder:
-                                                                      AssetImage(
-                                                                          "images/logo.jpeg"),
-                                                                  fit: BoxFit
-                                                                      .fill,
-                                                                ),
-                                                              ),
-                                                              Positioned(
-                                                                  top: 5,
-                                                                  right: 5,
                                                                   child:
-                                                                      ClipOval(
+                                                                      FadeInImage(
+                                                                    image:
+                                                                        NetworkImage(
+                                                                      "$imageBaseURL${(_productDetailsList[index0][index1].skus[index].image != null) ? _productDetailsList[index0][index1].skus[index].image.productImages : "null"}",
+                                                                    ),
+                                                                    placeholder:
+                                                                        AssetImage(
+                                                                            "images/logo.jpeg"),
+                                                                    fit: BoxFit
+                                                                        .fill,
+                                                                  ),
+                                                                ),
+                                                                Positioned(
+                                                                    top: 5,
+                                                                    right: 5,
                                                                     child:
-                                                                        Container(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              3),
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                              color: Colors.white70),
+                                                                        ClipOval(
                                                                       child:
                                                                           Container(
-                                                                        margin: EdgeInsets.only(
-                                                                            right:
-                                                                                0),
-                                                                        child: StreamBuilder<ApiResponse<FavoriteAddModel>>(
-                                                                            stream: _favoriteAddBloc.favoriteAddStream,
-                                                                            builder: (context, snapshot1) {
-                                                                              if (snapshot1.hasData) {
-                                                                                switch (snapshot1.data.status) {
-                                                                                  case Status.LOADING:
-                                                                                    print("Loading");
-                                                                                    // print(snapshot);
-                                                                                    // return SizedBox(
-                                                                                    //   height: 17,
-                                                                                    //   width: 17,
-                                                                                    //   child: CircularProgressIndicator(
-                                                                                    //     valueColor: new AlwaysStoppedAnimation<Color>(
-                                                                                    //       Color.fromRGBO(255, 241, 232, 1),
-                                                                                    //     ),
-                                                                                    //   ),
-                                                                                    // );
-                                                                                    break;
-                                                                                  case Status.COMPLETED:
-                                                                                    print("Fav Added");
-                                                                                    // Future.delayed(Duration(seconds: 1),()
-                                                                                    // async {
-                                                                                    //
-                                                                                    //   // Navigator.pushReplacement(context,
-                                                                                    //   //     MaterialPageRoute(builder: (BuildContext context) {
-                                                                                    //   //       return Register();
-                                                                                    //   //     }));
-                                                                                    //   print("api call done");
-                                                                                    // });
-                                                                                    break;
-                                                                                  case Status.ERROR:
-                                                                                    print("Fav not added");
-                                                                                    break;
-                                                                                }
-                                                                              }
-                                                                              return InkWell(
-                                                                                onTap: () {
-                                                                                  setState(() {
-                                                                                    _favCheck[index0][index1][index] = !_favCheck[index0][index1][index];
-                                                                                    Map body = {
-                                                                                      "sku_id": "${_productDetailsList[index0][index1].skus[index].id}",
-                                                                                    };
-                                                                                    _favoriteAddBloc.favoriteAdd(body, _userToken); //
-                                                                                  });
-                                                                                },
-                                                                                child: _favCheck[index0][index1][index]
-                                                                                    ? Image.asset(
-                                                                                        "images/fav_fill.png",
-                                                                                        width: 17.0,
-                                                                                        height: 17.0,
-                                                                                      )
-                                                                                    : Image.asset(
-                                                                                        "images/fav.png",
-                                                                                        width: 17.0,
-                                                                                        height: 17.0,
-                                                                                      ),
-                                                                              );
-                                                                            }),
-                                                                      ),
-                                                                    ),
-                                                                  ))
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 7,
-                                                          child: Container(
-                                                            // color: Colors.redAccent,
-                                                            // width: screenWidth * 0.6,
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left: 15.0,
-                                                                    top: 5.0,
-                                                                    bottom: 5.0,
-                                                                    right:
-                                                                        10.0),
-
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                        "${_productDetailsList[index0][index1].skus[index].skuName}",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fontSize:
-                                                                              screenWidth * 0.04,
-                                                                        )),
-                                                                  ],
-                                                                ),
-                                                                Container(
-                                                                  // color: Colors.greenAccent,
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              8.0),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      Text(
-                                                                        "Rs. ${_productDetailsList[index0][index1].skus[index].price}/-",
-                                                                        style: TextStyle(
-                                                                            color: Colors.grey[
-                                                                                700],
-                                                                            fontWeight:
-                                                                                font_semibold,
-                                                                            fontSize:
-                                                                                screenWidth * 0.035),
-                                                                      ),
-                                                                      Spacer(),
-
-                                                                      Visibility(
-                                                                        visible:
-                                                                            _circularProgressVisibility[index0][index1][index],
+                                                                        padding:
+                                                                            EdgeInsets.all(
+                                                                                3),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                                color: Colors.white70),
                                                                         child:
-                                                                            Row(
-                                                                          children: [
-                                                                            SizedBox(
-                                                                              width: 17.0,
-                                                                              height: 17.0,
-                                                                              child: CircularProgressIndicator(
-                                                                                backgroundColor: circularBGCol,
-                                                                                strokeWidth: 4,
-                                                                                valueColor: AlwaysStoppedAnimation<Color>(circularStrokeCol),
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: screenWidth * 0.05,
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-
-                                                                      //addVisibility Product Icon
-                                                                      Visibility(
-                                                                        visible:
-                                                                            _addVisibility[index0][index1][index],
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            InkWell(
-                                                                                onTap: () {
-                                                                                  if (prefs.getString("cart_id") != "" && currentVendorId != vendorId) {
-                                                                                    showDialog(
-                                                                                        context: context,
-                                                                                        barrierDismissible: false,
-                                                                                        builder: (context) {
-                                                                                          return AlertDialog(
-                                                                                            // title: Text("Give the code?"),
-                                                                                            content: Padding(
-                                                                                              padding: const EdgeInsets.only(top: 10.0),
-                                                                                              child: Text(
-                                                                                                "You Have Product in Your Cart of Another Seller.\n"
-                                                                                                "Do You Want to Clear Your Cart?",
-                                                                                                style: TextStyle(
-                                                                                                  color: Colors.black,
-                                                                                                  fontSize: 14.0,
-                                                                                                  // fontWeight: FontWeight.bold
-                                                                                                ),
-                                                                                              ),
-                                                                                            ),
-                                                                                            actions: [
-                                                                                              new FlatButton(
-                                                                                                  child: const Text(
-                                                                                                    "Yes, I want",
-                                                                                                    style: TextStyle(
-                                                                                                      color: lightThemeRed,
-                                                                                                      fontSize: 14.0,
-                                                                                                      // fontWeight: FontWeight.bold
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  onPressed: () {
-                                                                                                    Map _body = {
-                                                                                                      "cartid": prefs.getString("cart_id")
-                                                                                                    };
-                                                                                                    _cartEmptyBloc.cartItemsEmpty(_body);
-                                                                                                    currentVendorId = "";
-                                                                                                    currentCategoryId = "";
-                                                                                                    prefs.setString("cart_id", "");
-                                                                                                    prefs.setString("vendor_id", "");
-                                                                                                    prefs.setString("parent_category_id", "");
-                                                                                                    Navigator.pop(context);
-                                                                                                  }),
-                                                                                              new FlatButton(
-                                                                                                  child: const Text(
-                                                                                                    "No, I Dont",
-                                                                                                    style: TextStyle(
-                                                                                                      color: lightThemeRed,
-                                                                                                      fontSize: 14.0,
-                                                                                                      // fontWeight: FontWeight.bold
-                                                                                                    ),
-                                                                                                  ),
-                                                                                                  onPressed: () {
-                                                                                                    Navigator.pop(context);
-                                                                                                  }),
-                                                                                            ],
-                                                                                          );
-                                                                                        });
-                                                                                  } else {
-                                                                                    setState(() {
-                                                                                      ++_productAmount[index0][index1][index];
-                                                                                      _circularProgressVisibility[index0][index1][index] = !_circularProgressVisibility[index0][index1][index];
-
-                                                                                      _addVisibility[index0][index1][index] = !_addVisibility[index0][index1][index];
-
-                                                                                      setStateCheck = true;
-                                                                                      cartAdded = true;
-                                                                                      _index0 = index0;
-                                                                                      _index = index;
-                                                                                      _index1 = index1;
-                                                                                      currentVendorId = vendorId;
-                                                                                      currentCategoryId = categoryId;
-                                                                                      prefs.setString("vendor_id", vendorId);
-                                                                                      prefs.setString("parent_category_id", categoryId);
-                                                                                    });
-                                                                                    Map body;
-                                                                                    if (prefs.getString("cart_id") != "") {
-                                                                                      if (prefs.getString("user_id") == "") {
-                                                                                        body = {
-                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
-                                                                                          "quantity": "${_productAmount[index0][index1][index]}",
-                                                                                          "cartid": prefs.getString("cart_id")
-                                                                                        };
-                                                                                      } else if (prefs.getString("user_id") != "") {
-                                                                                        body = {
-                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
-                                                                                          "quantity": "${_productAmount[index0][index1][index]}",
-                                                                                          "userid": "${prefs.getString("user_id")}",
-                                                                                          "cartid": prefs.getString("cart_id")
-                                                                                        };
-                                                                                      }
-                                                                                    } else if (prefs.getString("cart_id") == "") {
-                                                                                      if (prefs.getString("user_id") == "") {
-                                                                                        body = {
-                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
-                                                                                          "quantity": "${_productAmount[index0][index1][index]}"
-                                                                                        };
-                                                                                      } else if (prefs.getString("user_id") != "") {
-                                                                                        body = {
-                                                                                          "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
-                                                                                          "quantity": "${_productAmount[index0][index1][index]}",
-                                                                                          "userid": "${prefs.getString("user_id")}"
-                                                                                        };
-                                                                                      }
-                                                                                    }
-                                                                                    print("BODY:" + body.toString());
-                                                                                    _cartItemsAddBloc.cartItemsAdd(body);
-                                                                                  }
-                                                                                },
-                                                                                child: Card(
-                                                                                  margin: EdgeInsets.only(left: 15.0),
-                                                                                  elevation: 2.0,
-                                                                                  shape: RoundedRectangleBorder(
-                                                                                    borderRadius: BorderRadius.circular(5.0),
-                                                                                  ),
-                                                                                  child: Container(
-                                                                                    decoration: BoxDecoration(border: Border.all(color: Colors.red[900], width: 1), borderRadius: BorderRadius.all(Radius.circular(5))),
-                                                                                    child: Row(
-                                                                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                                                      children: [
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.all(3.0),
-                                                                                          child: Icon(
-                                                                                            Icons.add,
-                                                                                            color: Colors.red[900],
-                                                                                            size: 16.0,
-                                                                                          ),
-                                                                                        ),
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.fromLTRB(3.0, 3.0, 5.0, 3.0),
-                                                                                          child: Text(
-                                                                                            "ADD",
-                                                                                            style: new TextStyle(color: Colors.red[900], fontSize: 13.0, fontWeight: FontWeight.bold),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ),
-                                                                                )),
-                                                                            SizedBox(
-                                                                              width: screenWidth * 0.02,
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-
-                                                                      //addVisibility and Less Product 2 Icons and Number
-                                                                      Visibility(
-                                                                        visible:
-                                                                            _moreLessVisibility[index0][index1][index],
-                                                                        child:
-                                                                            Row(
-                                                                          children: [
-                                                                            InkWell(
-                                                                              onTap: () {
-                                                                                setState(() {
-                                                                                  if (_productAmount[index0][index1][index] == 1) {
-                                                                                    _moreLessVisibility[index0][index1][index] = !_moreLessVisibility[index0][index1][index];
-                                                                                    _addVisibility[index0][index1][index] = !_addVisibility[index0][index1][index];
-                                                                                  }
-                                                                                  cartUpdated = true;
-                                                                                  --_productAmount[index0][index1][index];
-                                                                                });
-                                                                                Map body = {
-                                                                                  "cart_item_id": "${_cartItemId[index0][index1][index]}",
-                                                                                  "quantity": "${_productAmount[index0][index1][index]}"
-                                                                                };
-                                                                                print("BODY:" + body.toString());
-                                                                                _cartItemsUpdateBloc.cartItemsUpdate(body);
-                                                                              },
-                                                                              child: Icon(
-                                                                                Icons.remove_circle_outline,
-                                                                                color: lightThemeRed,
-                                                                                size: screenWidth * .07,
-                                                                              ),
-                                                                            ),
-                                                                            SizedBox(width: screenWidth * .012),
                                                                             Container(
-                                                                                alignment: Alignment.topCenter,
-                                                                                // height: screenHeight * .025,
-                                                                                // width: screenHeight * .025,
-                                                                                child: Center(
-                                                                                    child: Text(
-                                                                                  "${_productAmount[index0][index1][index]}",
-                                                                                  style: TextStyle(fontSize: screenWidth * .04, fontFamily: 'pop'),
-                                                                                ))),
-                                                                            SizedBox(width: screenWidth * .012),
-                                                                            InkWell(
-                                                                              onTap: () {
-                                                                                setState(() {
-                                                                                  cartUpdated = true;
-                                                                                  ++_productAmount[index0][index1][index];
-                                                                                });
-                                                                                Map body = {
-                                                                                  "cart_item_id": "${_cartItemId[index0][index1][index]}",
-                                                                                  "quantity": "${_productAmount[index0][index1][index]}"
-                                                                                };
-                                                                                print(_cartItemId[index0][index1][index]);
-                                                                                print("$index1 $index");
-                                                                                print(_cartItemId);
-                                                                                print("BODY:" + body.toString());
-                                                                                _cartItemsUpdateBloc.cartItemsUpdate(body);
-                                                                              },
-                                                                              child: Icon(
-                                                                                Icons.add_circle_outline,
-                                                                                color: lightThemeRed,
-                                                                                size: screenWidth * .07,
-                                                                              ),
-                                                                            ),
-                                                                          ],
+                                                                          margin: EdgeInsets.only(
+                                                                              right:
+                                                                                  0),
+                                                                          child: StreamBuilder<ApiResponse<FavoriteAddModel>>(
+                                                                              stream: _favoriteAddBloc.favoriteAddStream,
+                                                                              builder: (context, snapshot1) {
+                                                                                if (snapshot1.hasData) {
+                                                                                  switch (snapshot1.data.status) {
+                                                                                    case Status.LOADING:
+                                                                                      print("Loading");
+                                                                                      // print(snapshot);
+                                                                                      // return SizedBox(
+                                                                                      //   height: 17,
+                                                                                      //   width: 17,
+                                                                                      //   child: CircularProgressIndicator(
+                                                                                      //     valueColor: new AlwaysStoppedAnimation<Color>(
+                                                                                      //       Color.fromRGBO(255, 241, 232, 1),
+                                                                                      //     ),
+                                                                                      //   ),
+                                                                                      // );
+                                                                                      break;
+                                                                                    case Status.COMPLETED:
+                                                                                      print("Fav Added");
+                                                                                      // Future.delayed(Duration(seconds: 1),()
+                                                                                      // async {
+                                                                                      //
+                                                                                      //   // Navigator.pushReplacement(context,
+                                                                                      //   //     MaterialPageRoute(builder: (BuildContext context) {
+                                                                                      //   //       return Register();
+                                                                                      //   //     }));
+                                                                                      //   print("api call done");
+                                                                                      // });
+                                                                                      break;
+                                                                                    case Status.ERROR:
+                                                                                      print("Fav not added");
+                                                                                      break;
+                                                                                  }
+                                                                                }
+                                                                                return InkWell(
+                                                                                  onTap: () {
+                                                                                    setState(() {
+                                                                                      _favCheck[index0][index1][index] = !_favCheck[index0][index1][index];
+                                                                                      Map body = {
+                                                                                        "sku_id": "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                      };
+                                                                                      _favoriteAddBloc.favoriteAdd(body, _userToken); //
+                                                                                    });
+                                                                                  },
+                                                                                  child: _favCheck[index0][index1][index]
+                                                                                      ? Image.asset(
+                                                                                          "images/fav_fill.png",
+                                                                                          width: 17.0,
+                                                                                          height: 17.0,
+                                                                                        )
+                                                                                      : Image.asset(
+                                                                                          "images/fav.png",
+                                                                                          width: 17.0,
+                                                                                          height: 17.0,
+                                                                                        ),
+                                                                                );
+                                                                              }),
                                                                         ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
+                                                                      ),
+                                                                    ))
                                                               ],
                                                             ),
                                                           ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ));
+                                                          Expanded(
+                                                            flex: 7,
+                                                            child: Container(
+                                                              // color: Colors.redAccent,
+                                                              // width: screenWidth * 0.6,
+                                                              margin:
+                                                                  EdgeInsets.only(
+                                                                      left: 15.0,
+                                                                      top: 5.0,
+                                                                      bottom: 5.0,
+                                                                      right:
+                                                                          10.0),
+
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Text(
+                                                                          "${_productDetailsList[index0][index1].skus[index].skuName}",
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontSize:
+                                                                                screenWidth * 0.04,
+                                                                          )),
+                                                                    ],
+                                                                  ),
+                                                                  Container(
+                                                                    // color: Colors.greenAccent,
+                                                                    margin: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                8.0),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          "Rs. ${_productDetailsList[index0][index1].skus[index].price}/-",
+                                                                          style: TextStyle(
+                                                                              color: Colors.grey[
+                                                                                  700],
+                                                                              fontWeight:
+                                                                                  font_semibold,
+                                                                              fontSize:
+                                                                                  screenWidth * 0.035),
+                                                                        ),
+                                                                        Spacer(),
+
+                                                                        Visibility(
+                                                                          visible:
+                                                                              _circularProgressVisibility[index0][index1][index],
+                                                                          child:
+                                                                              Row(
+                                                                            children: [
+                                                                              SizedBox(
+                                                                                width: 17.0,
+                                                                                height: 17.0,
+                                                                                child: CircularProgressIndicator(
+                                                                                  backgroundColor: circularBGCol,
+                                                                                  strokeWidth: 4,
+                                                                                  valueColor: AlwaysStoppedAnimation<Color>(circularStrokeCol),
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                width: screenWidth * 0.05,
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+
+                                                                        //addVisibility Product Icon
+                                                                        Visibility(
+                                                                          visible:
+                                                                              _addVisibility[index0][index1][index],
+                                                                          child:
+                                                                              Row(
+                                                                            children: [
+                                                                              InkWell(
+                                                                                  onTap: () {
+                                                                                    if (prefs.getString("cart_id") != "" && currentVendorId != vendorId) {
+                                                                                      showDialog(
+                                                                                          context: context,
+                                                                                          barrierDismissible: false,
+                                                                                          builder: (context) {
+                                                                                            return AlertDialog(
+                                                                                              // title: Text("Give the code?"),
+                                                                                              content: Padding(
+                                                                                                padding: const EdgeInsets.only(top: 10.0),
+                                                                                                child: Text(
+                                                                                                  "You Have Product in Your Cart of Another Seller.\n"
+                                                                                                  "Do You Want to Clear Your Cart?",
+                                                                                                  style: TextStyle(
+                                                                                                    color: Colors.black,
+                                                                                                    fontSize: 14.0,
+                                                                                                    // fontWeight: FontWeight.bold
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              actions: [
+                                                                                                new FlatButton(
+                                                                                                    child: const Text(
+                                                                                                      "Yes, I want",
+                                                                                                      style: TextStyle(
+                                                                                                        color: lightThemeRed,
+                                                                                                        fontSize: 14.0,
+                                                                                                        // fontWeight: FontWeight.bold
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    onPressed: () {
+                                                                                                      Map _body = {
+                                                                                                        "cartid": prefs.getString("cart_id")
+                                                                                                      };
+                                                                                                      _cartEmptyBloc.cartItemsEmpty(_body);
+                                                                                                      currentVendorId = "";
+                                                                                                      currentCategoryId = "";
+                                                                                                      prefs.setString("cart_id", "");
+                                                                                                      prefs.setString("vendor_id", "");
+                                                                                                      prefs.setString("parent_category_id", "");
+                                                                                                      Navigator.pop(context);
+                                                                                                    }),
+                                                                                                new FlatButton(
+                                                                                                    child: const Text(
+                                                                                                      "No, I Dont",
+                                                                                                      style: TextStyle(
+                                                                                                        color: lightThemeRed,
+                                                                                                        fontSize: 14.0,
+                                                                                                        // fontWeight: FontWeight.bold
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    onPressed: () {
+                                                                                                      Navigator.pop(context);
+                                                                                                    }),
+                                                                                              ],
+                                                                                            );
+                                                                                          });
+                                                                                    } else {
+                                                                                      setState(() {
+                                                                                        ++_productAmount[index0][index1][index];
+                                                                                        _circularProgressVisibility[index0][index1][index] = !_circularProgressVisibility[index0][index1][index];
+
+                                                                                        _addVisibility[index0][index1][index] = !_addVisibility[index0][index1][index];
+
+                                                                                        setStateCheck = true;
+                                                                                        cartAdded = true;
+                                                                                        _index0 = index0;
+                                                                                        _index = index;
+                                                                                        _index1 = index1;
+                                                                                        currentVendorId = vendorId;
+                                                                                        currentCategoryId = categoryId;
+                                                                                        prefs.setString("vendor_id", vendorId);
+                                                                                        prefs.setString("parent_category_id", categoryId);
+                                                                                      });
+                                                                                      Map body;
+                                                                                      if (prefs.getString("cart_id") != "") {
+                                                                                        if (prefs.getString("user_id") == "") {
+                                                                                          body = {
+                                                                                            "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                            "quantity": "${_productAmount[index0][index1][index]}",
+                                                                                            "cartid": prefs.getString("cart_id")
+                                                                                          };
+                                                                                        } else if (prefs.getString("user_id") != "") {
+                                                                                          body = {
+                                                                                            "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                            "quantity": "${_productAmount[index0][index1][index]}",
+                                                                                            "userid": "${prefs.getString("user_id")}",
+                                                                                            "cartid": prefs.getString("cart_id")
+                                                                                          };
+                                                                                        }
+                                                                                      } else if (prefs.getString("cart_id") == "") {
+                                                                                        if (prefs.getString("user_id") == "") {
+                                                                                          body = {
+                                                                                            "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                            "quantity": "${_productAmount[index0][index1][index]}"
+                                                                                          };
+                                                                                        } else if (prefs.getString("user_id") != "") {
+                                                                                          body = {
+                                                                                            "skuid": "${_productDetailsList[index0][index1].skus[index].id}",
+                                                                                            "quantity": "${_productAmount[index0][index1][index]}",
+                                                                                            "userid": "${prefs.getString("user_id")}"
+                                                                                          };
+                                                                                        }
+                                                                                      }
+                                                                                      print("BODY:" + body.toString());
+                                                                                      _cartItemsAddBloc.cartItemsAdd(body);
+                                                                                    }
+                                                                                  },
+                                                                                  child: Card(
+                                                                                    margin: EdgeInsets.only(left: 15.0),
+                                                                                    elevation: 2.0,
+                                                                                    shape: RoundedRectangleBorder(
+                                                                                      borderRadius: BorderRadius.circular(5.0),
+                                                                                    ),
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(border: Border.all(color: Colors.red[900], width: 1), borderRadius: BorderRadius.all(Radius.circular(5))),
+                                                                                      child: Row(
+                                                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                        children: [
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.all(3.0),
+                                                                                            child: Icon(
+                                                                                              Icons.add,
+                                                                                              color: Colors.red[900],
+                                                                                              size: 16.0,
+                                                                                            ),
+                                                                                          ),
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.fromLTRB(3.0, 3.0, 5.0, 3.0),
+                                                                                            child: Text(
+                                                                                              "ADD",
+                                                                                              style: new TextStyle(color: Colors.red[900], fontSize: 13.0, fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  )),
+                                                                              SizedBox(
+                                                                                width: screenWidth * 0.02,
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+
+                                                                        //addVisibility and Less Product 2 Icons and Number
+                                                                        Visibility(
+                                                                          visible:
+                                                                              _moreLessVisibility[index0][index1][index],
+                                                                          child:
+                                                                              Row(
+                                                                            children: [
+                                                                              InkWell(
+                                                                                onTap: () {
+                                                                                  setState(() {
+                                                                                    if (_productAmount[index0][index1][index] == 1) {
+                                                                                      _moreLessVisibility[index0][index1][index] = !_moreLessVisibility[index0][index1][index];
+                                                                                      _addVisibility[index0][index1][index] = !_addVisibility[index0][index1][index];
+                                                                                    }
+                                                                                    cartUpdated = true;
+                                                                                    --_productAmount[index0][index1][index];
+                                                                                  });
+                                                                                  Map body = {
+                                                                                    "cart_item_id": "${_cartItemId[index0][index1][index]}",
+                                                                                    "quantity": "${_productAmount[index0][index1][index]}"
+                                                                                  };
+                                                                                  print("BODY:" + body.toString());
+                                                                                  _cartItemsUpdateBloc.cartItemsUpdate(body);
+                                                                                },
+                                                                                child: Icon(
+                                                                                  Icons.remove_circle_outline,
+                                                                                  color: lightThemeRed,
+                                                                                  size: screenWidth * .07,
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: screenWidth * .012),
+                                                                              Container(
+                                                                                  alignment: Alignment.topCenter,
+                                                                                  // height: screenHeight * .025,
+                                                                                  // width: screenHeight * .025,
+                                                                                  child: Center(
+                                                                                      child: Text(
+                                                                                    "${_productAmount[index0][index1][index]}",
+                                                                                    style: TextStyle(fontSize: screenWidth * .04, fontFamily: 'pop'),
+                                                                                  ))),
+                                                                              SizedBox(width: screenWidth * .012),
+                                                                              InkWell(
+                                                                                onTap: () {
+                                                                                  setState(() {
+                                                                                    cartUpdated = true;
+                                                                                    ++_productAmount[index0][index1][index];
+                                                                                  });
+                                                                                  Map body = {
+                                                                                    "cart_item_id": "${_cartItemId[index0][index1][index]}",
+                                                                                    "quantity": "${_productAmount[index0][index1][index]}"
+                                                                                  };
+                                                                                  print(_cartItemId[index0][index1][index]);
+                                                                                  print("$index1 $index");
+                                                                                  print(_cartItemId);
+                                                                                  print("BODY:" + body.toString());
+                                                                                  _cartItemsUpdateBloc.cartItemsUpdate(body);
+                                                                                },
+                                                                                child: Icon(
+                                                                                  Icons.add_circle_outline,
+                                                                                  color: lightThemeRed,
+                                                                                  size: screenWidth * .07,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )),
+                                              );
                                             });
                                         // );
                                       }),
@@ -1209,4 +1198,43 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
           fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
     );
   }
+
+    openPopUp() {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            screenHeight = MediaQuery.of(context).size.height;
+            screenWidth = MediaQuery.of(context).size.width;
+            return AlertDialog(
+              content: InkWell(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Stack(
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "hi"
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("data"),
+                        )
+
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+    }
+
 }

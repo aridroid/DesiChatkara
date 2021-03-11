@@ -37,6 +37,8 @@ class _AddressPageState extends State<AddressPage> {
   AddressRepository _addressRepository;
   Map _response;
   OrderPlaceBloc _orderPlaceBloc;
+  TextEditingController _description = TextEditingController();
+
 
   String _name;
   String cartId;
@@ -203,7 +205,9 @@ class _AddressPageState extends State<AddressPage> {
                             "cartid":"$cartId",
                             "addressid":"$addressId",
                             "payment_type":"$_paymentMode",
-                            "coupon_code": coupon_code
+                            "coupon_code": coupon_code,
+                            "order_remarks": _description.text.toString(),
+
                           };
                           _orderPlaceBloc.orderPlace(_body, userToken);
                         }else{
@@ -453,6 +457,36 @@ class _AddressPageState extends State<AddressPage> {
                         //   ],
                         // ),
 
+
+                        Text(
+                          'Remarks',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, right: 15),
+                          child: Container(
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(),
+                            child: TextField(
+                              maxLines: 8,
+                              controller: _description,
+                              // keyboardType: TextInputType.number,
+                              decoration: new InputDecoration(
+
+                                hintText: "Order remarks",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Colors.blue.shade800),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1, color: Colors.grey.shade800),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                         SizedBox(height: screenHeight * 0.04,),
 
                         Text(" Select Payment Mode",
@@ -569,7 +603,7 @@ class _AddressPageState extends State<AddressPage> {
                           ),
                         ),
 
-                        SizedBox(height: screenHeight * .2)
+                       // SizedBox(height: screenHeight * .2)
                       ],
                     );
                   } else if (snapshot.hasError) {

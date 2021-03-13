@@ -11,6 +11,9 @@ double screenHeight=0;
 double screenWidth=0;
 bool userLogin;
 String changeAddress;
+double userLat;
+double userLong;
+String address;
 
 const darkThemeRed=Color.fromRGBO(130, 2, 14, 1);
 const lightThemeRed=Color.fromRGBO(143, 23, 35, 1);

@@ -30,11 +30,11 @@ class KitchenByCategoryResponseModel {
 class Data {
   String productName;
   String productImage;
-  Null manufacturerName;
+  String manufacturerName;
   String categoryName;
   String productId;
   String categoryId;
-  Null manufacturerId;
+  String manufacturerId;
   String parentCategoryId;
   List<Vendor> vendor;
 
@@ -89,16 +89,21 @@ class Vendor {
   String mobileNumber;
   String mobileVerifiedFlag;
   String mobileVerifiedToken;
-  Null mobileVerifiedAt;
+  String mobileVerifiedAt;
   String address;
   String city;
   String state;
   String zip;
+  String longitude;
+  String latitude;
+  String vendorImage;
   String categoryId;
   String createdAt;
   String updatedAt;
+  String availableFrom;
+  String availableTo;
   String isActive;
-  String vendorImage;
+  String parentId;
   String vendorId;
 
   Vendor(
@@ -112,11 +117,16 @@ class Vendor {
         this.city,
         this.state,
         this.zip,
+        this.longitude,
+        this.latitude,
+        this.vendorImage,
         this.categoryId,
         this.createdAt,
         this.updatedAt,
+        this.availableFrom,
+        this.availableTo,
         this.isActive,
-        this.vendorImage,
+        this.parentId,
         this.vendorId});
 
   Vendor.fromJson(Map<String, dynamic> json) {
@@ -130,11 +140,16 @@ class Vendor {
     city = json['city'];
     state = json['state'];
     zip = json['zip'];
+    longitude = json['longitude'];
+    latitude = json['latitude'];
+    vendorImage = json['vendor_image'];
     categoryId = json['category_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    availableFrom = json['available_from'];
+    availableTo = json['available_to'];
     isActive = json['is_active'];
-    vendorImage = json['vendor_image'];
+    parentId = json['parent_id'];
     vendorId = json['vendor_id'];
   }
 
@@ -150,11 +165,16 @@ class Vendor {
     data['city'] = this.city;
     data['state'] = this.state;
     data['zip'] = this.zip;
+    data['longitude'] = this.longitude;
+    data['latitude'] = this.latitude;
+    data['vendor_image'] = this.vendorImage;
     data['category_id'] = this.categoryId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['available_from'] = this.availableFrom;
+    data['available_to'] = this.availableTo;
     data['is_active'] = this.isActive;
-    data['vendor_image'] = this.vendorImage;
+    data['parent_id'] = this.parentId;
     data['vendor_id'] = this.vendorId;
     return data;
   }

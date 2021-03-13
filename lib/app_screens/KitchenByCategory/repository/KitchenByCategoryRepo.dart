@@ -6,10 +6,10 @@ class KitchenByCategoryRepository {
 
   ApiBaseHelper _helper = ApiBaseHelper();
 
-  Future<KitchenByCategoryResponseModel> getKitchenByCategory(String cid) async {
+  Future<KitchenByCategoryResponseModel> getKitchenByCategory(String categoryid) async {
 
     Map body={
-      "categoryid":cid
+      "categoryid":categoryid.toString()
     };
     final response = await _helper.post("productbycategoryid",body);
     return KitchenByCategoryResponseModel.fromJson(response);

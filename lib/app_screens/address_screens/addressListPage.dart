@@ -31,8 +31,6 @@ class _AddressListPageState extends State<AddressListPage> {
     setState(() {});
   }
 
-  Map _body;
-
   @override
   void initState() {
     super.initState();
@@ -229,7 +227,7 @@ class _AddressListPageState extends State<AddressListPage> {
                                               icon: Icon(Icons.edit_outlined,
                                                 color: lightThemeRed,
                                                 size: 17,
-                                              ),
+                                              ), onPressed: () {  },
                                             ),
                                           ))
                                     ],

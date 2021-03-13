@@ -27,8 +27,11 @@ class _CartState extends State<Cart> {
 
   bool cartChangeCheck = false;
   String _userToken = "";
+  // ignore: non_constant_identifier_names
   String cart_id = "";
+  // ignore: non_constant_identifier_names
   String user_id = "";
+  // ignore: non_constant_identifier_names
   String coupon_code = "";
 
   @override

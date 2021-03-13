@@ -16,7 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sticky_headers/sticky_headers.dart';
+//import 'package:sticky_headers/sticky_headers.dart';
 import 'package:custom_switch/custom_switch.dart';
 import 'package:intl/intl.dart';
 
@@ -210,7 +210,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                       children: [
                         Expanded(
                           child: Text(
-                            "${vendorName}",
+                            "$vendorName",
                             style: new TextStyle(
                                 color: Colors.black,
                                 fontSize: 14.0,
@@ -682,7 +682,100 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                     .length,
                                             itemBuilder: (context, index) {
                                               return InkWell(
-                                                onTap: openPopUp,
+                                                onTap: (){
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) {
+                                                        screenHeight = MediaQuery.of(context).size.height;
+                                                        screenWidth = MediaQuery.of(context).size.width;
+                                                        return AlertDialog(
+                                                          content: InkWell(
+                                                            onTap: (){
+                                                              Navigator.pop(context);
+                                                            },
+                                                            child: Stack(
+                                                              overflow: Overflow.visible,
+                                                              children: <Widget>[
+                                                                Row(
+                                                                  children: [
+                                                                    Expanded(
+                                                                      flex:2,
+                                                                      child: Container(
+                                                                        height:
+                                                                        screenWidth *
+                                                                            0.2,
+                                                                        width:
+                                                                        screenWidth *
+                                                                            0.2,
+                                                                        // height: double.infinity,
+                                                                        clipBehavior:
+                                                                        Clip.hardEdge,
+                                                                        decoration:
+                                                                        BoxDecoration(
+                                                                          borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(
+                                                                                  5.0)),
+                                                                        ),
+                                                                        child:
+                                                                        FadeInImage(
+                                                                          image:
+                                                                          NetworkImage(
+                                                                            "$imageBaseURL${(_productDetailsList[index0][index1].skus[index].image != null) ? _productDetailsList[index0][index1].skus[index].image.productImages : "null"}",
+                                                                          ),
+                                                                          placeholder:
+                                                                          AssetImage(
+                                                                              "images/logo.jpeg"),
+                                                                          fit: BoxFit
+                                                                              .fill,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(
+                                                                      flex:4,
+                                                                      child: Column(
+                                                                        mainAxisSize: MainAxisSize.min,
+                                                                        children: <Widget>[
+                                                                          Padding(
+                                                                            padding: EdgeInsets.all(8.0),
+                                                                            child: Text(
+                                                                                "${_productDetailsList[index0][index1].skus[index].skuName}",
+                                                                                style:
+                                                                                TextStyle(
+                                                                                  fontWeight:
+                                                                                  FontWeight.bold,
+                                                                                  color:
+                                                                                  Colors.black,
+                                                                                  fontSize:
+                                                                                  screenWidth * 0.04,
+                                                                                )),
+                                                                          ),
+
+                                                                          Padding(
+                                                                            padding: const EdgeInsets.only(left:20.0),
+                                                                            child: Text(
+                                                                                "${_productDetailsList[index0][index1].skus[index].skuDescription}",
+                                                                                style:
+                                                                                TextStyle(
+
+                                                                                  color:
+                                                                                  Colors.black,
+                                                                                  fontSize:
+                                                                                  screenWidth * 0.035,
+                                                                                )),
+                                                                          )
+
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      });
+                                                },
                                                 child: Card(
                                                     elevation: 2.0,
                                                     shape: RoundedRectangleBorder(
@@ -837,17 +930,36 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                 children: [
                                                                   Row(
                                                                     children: [
-                                                                      Text(
-                                                                          "${_productDetailsList[index0][index1].skus[index].skuName}",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                            color:
-                                                                                Colors.black,
-                                                                            fontSize:
-                                                                                screenWidth * 0.04,
-                                                                          )),
+                                                                      Expanded(
+                                                                        flex:6,
+                                                                        child: Text(
+                                                                            "${_productDetailsList[index0][index1].skus[index].skuName}",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontWeight:
+                                                                                  FontWeight.w600,
+                                                                              color:
+                                                                                  Colors.black,
+                                                                              fontSize:
+                                                                                  screenWidth * 0.04,
+                                                                            )),
+                                                                      ),
+                                                                      Expanded(
+                                                                        flex:3,
+                                                                        child: outofStock(_productDetailsList[index0][index1].skus[index].isOutOfStock),
+
+                                                                        // Text(
+                                                                        //   "Out of stock",//${_productDetailsList[index0][index1].skus[index].isOutOfStock}",
+                                                                        //   style:
+                                                                        //   TextStyle(
+                                                                        //     fontWeight:
+                                                                        //     FontWeight.w600,
+                                                                        //     color:Colors.red,
+                                                                        //     fontSize:
+                                                                        //     screenWidth * 0.035,
+                                                                        //   )),
+
+                                                                      ),
                                                                     ],
                                                                   ),
                                                                   Container(
@@ -1199,42 +1311,26 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
     );
   }
 
-    openPopUp() {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            screenHeight = MediaQuery.of(context).size.height;
-            screenWidth = MediaQuery.of(context).size.width;
-            return AlertDialog(
-              content: InkWell(
-                onTap: (){
-                  Navigator.pop(context);
-                },
-                child: Stack(
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "hi"
-                          ),
-                        ),
+  Widget outofStock(String outOffStock) {
+    if ((outOffStock)=="1") {
+      return _outoffstock();
+    } else{
+      return _outoffstock2();
 
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text("data"),
-                        )
-
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          });
     }
+  }
+  Widget _outoffstock() {
+    return Text(
+      "Out of stock",
+      style: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
+    );
+  }
+
+  Widget _outoffstock2() {
+    return Text("");
+  }
+
+
 
 }

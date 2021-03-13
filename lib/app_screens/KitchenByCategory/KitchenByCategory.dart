@@ -1,11 +1,11 @@
 import 'package:desichatkara/app_screens/KitchenByCategory/model/KitchenByCategoryModel.dart';
 import 'package:desichatkara/app_screens/KitchenByCategory/repository/KitchenByCategoryRepo.dart';
 import 'package:desichatkara/app_screens/screens/KitchenDetailedMenu.dart';
-import 'package:desichatkara/app_screens/screens/KitchensNearYou.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class KitchenByCategory extends StatefulWidget{
   String categoryid;
 
@@ -54,8 +54,7 @@ class _KitchenByCategoryState extends State<KitchenByCategory> {
                        physics: NeverScrollableScrollPhysics(),
                        shrinkWrap: true,
                        itemBuilder: (BuildContext ctxt, int index1) {
-                         return
-                           InkWell(
+                         return InkWell(
                              onTap: () {
                                Navigator.push(
                                  context,
@@ -63,7 +62,11 @@ class _KitchenByCategoryState extends State<KitchenByCategory> {
                                      builder: (context) => KitchenDetailedMenu(
                                          categoryId: snapshot.data.data[index].categoryId,
                                          vendorId: snapshot.data.data[index].vendor[index1].id,
-                                         vendorName: snapshot.data.data[index].vendor[index1].shopName)
+                                         vendorName: snapshot.data.data[index].vendor[index1].shopName,
+                                         address: snapshot.data.data[index].vendor[index1].address,
+                                       availableTo: snapshot.data.data[index].vendor[index1].availableTo,
+                                       availableFrom: snapshot.data.data[index].vendor[index1].availableFrom,
+                                     )
                                  ),
                                );
                              },
@@ -146,7 +149,7 @@ class _KitchenByCategoryState extends State<KitchenByCategory> {
                  });
            }
            else if(snapshot.hasError){
-             print("hello");
+             print("Error:- ${snapshot.error}");
              return Container(
                child: Center(
                    child: Text(

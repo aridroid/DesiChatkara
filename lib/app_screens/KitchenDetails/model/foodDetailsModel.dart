@@ -258,6 +258,7 @@ class Skus {
   String deletedAt;
   String isActive;
   String isOutOfStock;
+  String skuDescription;
   Vendor vendor;
   Image image;
   List<SkuVariant> skuVariant;
@@ -279,6 +280,7 @@ class Skus {
         this.deletedAt,
         this.isActive,
         this.isOutOfStock,
+        this.skuDescription,
         this.vendor,
         this.image,
         this.skuVariant,
@@ -300,6 +302,7 @@ class Skus {
     deletedAt = json['deleted_at'];
     isActive = json['is_active'];
     isOutOfStock = json['is_out_of_stock'];
+    skuDescription = json['sku_description'];
     vendor =
     json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
     image = json['image'] != null ? new Image.fromJson(json['image']) : null;
@@ -333,6 +336,7 @@ class Skus {
     data['deleted_at'] = this.deletedAt;
     data['is_active'] = this.isActive;
     data['is_out_of_stock'] = this.isOutOfStock;
+    data['sku_description'] = this.skuDescription;
     if (this.vendor != null) {
       data['vendor'] = this.vendor.toJson();
     }
@@ -358,7 +362,7 @@ class Vendor {
   String mobileNumber;
   String mobileVerifiedFlag;
   String mobileVerifiedToken;
-  Null mobileVerifiedAt;
+  String mobileVerifiedAt;
   String address;
   String city;
   String state;
@@ -372,7 +376,7 @@ class Vendor {
   String availableFrom;
   String availableTo;
   String isActive;
-  Null parentId;
+  String parentId;
 
   Vendor(
       {this.id,

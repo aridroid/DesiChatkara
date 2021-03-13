@@ -11,6 +11,7 @@ import 'package:desichatkara/app_screens/orderDetails_screen/OrderHistory.dart';
 import 'package:desichatkara/app_screens/screens/PickLocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -58,7 +59,9 @@ class _HomeState extends State<Home> {
   String name = "";
   String email = "";
   String userPhoto = "";
-  String address;
+
+  List<double> shopDistance=new List<double>();
+
   List<String> bannerImages = [
     'images/diet.png',
     'images/beverages.png',
@@ -192,6 +195,8 @@ class _HomeState extends State<Home> {
         desiredAccuracy: LocationAccuracy.high);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
+    userLat=position.latitude;
+    userLong=position.longitude;
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
@@ -728,6 +733,7 @@ class _HomeState extends State<Home> {
                 fontSize: 16,),
               ),
             ),
+            (address!=null)?
             FutureBuilder<KitchensNearResponseModel>(
               future: allKitchenNear,
               builder: (context, snapshot) {
@@ -741,24 +747,56 @@ class _HomeState extends State<Home> {
                       // physics: NeverScrollableScrollPhysics(),
                      physics: ScrollPhysics(),
                       itemBuilder: (BuildContext ctxt, int index) {
+
+                        double totalDistance = calculateDistance(
+                            userLat,
+                            userLong,
+                            (snapshot.data.data[index].latitude != null)
+                                ? double.parse(snapshot.data.data[index].latitude)
+                                : userLat,
+                            (snapshot.data.data[index].longitude != null)
+                                ? double.parse(snapshot.data.data[index].longitude)
+                                : userLong);
+                        shopDistance.add(totalDistance);
+
+
+
                         return InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      KitchenDetailedMenu(
-                                          categoryId: snapshot.data.data[index].categoryId,
-                                          vendorId: snapshot.data.data[index].vendorId,
-                                          vendorName: snapshot.data.data[index].shopName,
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => KitchenDetailedMenu(
+                            //               categoryId: snapshot.data.data[index].categoryId,
+                            //               vendorId: snapshot.data.data[index].vendorId,
+                            //               vendorName: snapshot.data.data[index].shopName,
+                            //             availableFrom: snapshot.data.data[index].availableFrom,
+                            //             availableTo: snapshot.data.data[index].availableTo,
+                            //             address: snapshot.data.data[index].address,
+                            //           )),);
+
+
+                            if (shopDistance[index] <= 10.0) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>KitchenDetailedMenu(
+                                        categoryId: snapshot.data.data[index].categoryId,
+                                        vendorId: snapshot.data.data[index].vendorId,
+                                        vendorName: snapshot.data.data[index].shopName,
                                         availableFrom: snapshot.data.data[index].availableFrom,
                                         availableTo: snapshot.data.data[index].availableTo,
 
                                         address: snapshot.data.data[index].address,
 
 
-                                      )),
-                            );
+                                      )),);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "${snapshot.data.data[index].shopName} is Undeliverable at your location",
+                                  fontSize: 14,
+                                  backgroundColor: Colors.orange[100],
+                                  textColor: darkThemeRed,
+                                  toastLength: Toast.LENGTH_LONG);
+                            }
+
                           },
                           child: Container(
                             height: 220,
@@ -920,7 +958,35 @@ class _HomeState extends State<Home> {
                   return Center(child: CircularProgressIndicator());
                 }
               },
-            ),
+            )
+              :
+          Container(
+          margin: EdgeInsets.fromLTRB(15, 20, 15, 20),
+      padding: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: lightThemeRed,
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.error_outline_rounded,
+            color: Colors.white,
+            size: 28,),
+          SizedBox(
+            width: 2,
+          ),
+          Flexible(
+            child: Text("  Please Select Delivery Location",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600
+              ),),
+          ),
+        ],
+      ),
+    ),
             Padding(
               padding: EdgeInsets.fromLTRB(13, 10, 0, 5),
               child: Text(
@@ -940,8 +1006,7 @@ class _HomeState extends State<Home> {
                       return GridView.builder(
                         // cacheExtent: 10,
                         shrinkWrap: true,
-                        itemCount:
-                        snapshot.data.data[0].subcategory.length,
+                        itemCount:snapshot.data.data[0].subcategory.length,
                         physics: ScrollPhysics(),
                         // physics: NeverScrollableScrollPhysics(),
                         gridDelegate:
@@ -957,7 +1022,7 @@ class _HomeState extends State<Home> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        KitchenByCategory(snapshot.data.data[0].subcategory[index].id.toString())),
+                                        KitchenByCategory(snapshot.data.data[0].subcategory[index].id)),
                               );
                             },
                             child: Card(

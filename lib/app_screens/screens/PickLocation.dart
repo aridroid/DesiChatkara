@@ -55,8 +55,6 @@ class MapHomePage1 extends StatefulWidget {
 class _MapHomePageState extends State<MapHomePage1> {
   PickResult selectedPlace;
   String userAddress;
-  double userLat;
-  double userLong;
   _MapHomePageState();
 
 

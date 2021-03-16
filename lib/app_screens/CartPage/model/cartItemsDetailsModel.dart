@@ -1,3 +1,6 @@
+
+
+
 class CartItemsDetailsModel {
   Data data;
   String message;
@@ -81,10 +84,18 @@ class CartItems {
   String productId;
   String quantity;
   String skuName;
+  String preparationTime;
+  String isOutOfStock;
   String unitPrice;
   String productIdentification;
   String productName;
   String productImage;
+  String shopName;
+  String availableTo;
+  String availableFrom;
+  String vendorImage;
+  String latitude;
+  String longitude;
   String totalprice;
   String detailedProductImages;
   String productDescription;
@@ -96,10 +107,18 @@ class CartItems {
         this.productId,
         this.quantity,
         this.skuName,
+        this.preparationTime,
+        this.isOutOfStock,
         this.unitPrice,
         this.productIdentification,
         this.productName,
         this.productImage,
+        this.shopName,
+        this.availableTo,
+        this.availableFrom,
+        this.vendorImage,
+        this.latitude,
+        this.longitude,
         this.totalprice,
         this.detailedProductImages,
         this.productDescription});
@@ -111,10 +130,18 @@ class CartItems {
     productId = json['product_id'];
     quantity = json['quantity'];
     skuName = json['sku_name'];
+    preparationTime = json['preparation_time'];
+    isOutOfStock = json['is_out_of_stock'];
     unitPrice = json['unit_price'];
     productIdentification = json['product_identification'];
     productName = json['product_name'];
     productImage = json['product_image'];
+    shopName = json['shop_name'];
+    availableTo = json['available_to'];
+    availableFrom = json['available_from'];
+    vendorImage = json['vendor_image'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
     totalprice = json['totalprice'];
     detailedProductImages = json['detailed_product_images'];
     productDescription = json['product_description'];
@@ -128,13 +155,23 @@ class CartItems {
     data['product_id'] = this.productId;
     data['quantity'] = this.quantity;
     data['sku_name'] = this.skuName;
+    data['preparation_time'] = this.preparationTime;
+    data['is_out_of_stock'] = this.isOutOfStock;
     data['unit_price'] = this.unitPrice;
     data['product_identification'] = this.productIdentification;
     data['product_name'] = this.productName;
     data['product_image'] = this.productImage;
+    data['shop_name'] = this.shopName;
+    data['available_to'] = this.availableTo;
+    data['available_from'] = this.availableFrom;
+    data['vendor_image'] = this.vendorImage;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     data['totalprice'] = this.totalprice;
     data['detailed_product_images'] = this.detailedProductImages;
     data['product_description'] = this.productDescription;
     return data;
   }
 }
+
+

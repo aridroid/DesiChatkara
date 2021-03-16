@@ -9,6 +9,11 @@ import 'address_page.dart';
 import 'model/addressShowAllModel.dart';
 
 class AddressListPage extends StatefulWidget {
+  final String latitude;
+  final String longitude;
+
+  const AddressListPage({Key key, this.latitude, this.longitude}) : super(key: key);
+
   @override
   _AddressListPageState createState() => _AddressListPageState();
 }
@@ -18,6 +23,10 @@ class _AddressListPageState extends State<AddressListPage> {
   String userToken = "";
   Map body;
   String userId = "";
+ // List<double> shopDistance=new List<double>();
+
+  double shopDistance;
+
   Future<AddressShowAllModel> _addressApi;
 
   Future<void> createSharedPref() async {
@@ -50,18 +59,40 @@ class _AddressListPageState extends State<AddressListPage> {
         floatingActionButton: FloatingActionButton.extended(
           backgroundColor: lightThemeRed,
           onPressed: () {
-            if(_addressId!=""){
-              Navigator.push(context,
+            double totalDistance = calculateDistance2(
+                userLat,
+                userLong,
+                (widget.latitude != null)
+                    ? double.parse(widget.latitude)
+                    : userLat,
+                (widget.longitude != null)
+                    ? double.parse(widget.longitude)
+                    : userLong);
+            shopDistance=totalDistance;
+
+            if (shopDistance <= 10.0) {
+              if(_addressId!=""){
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AddressPage(addressId: _addressId,)));
-            }
-            else{
+              }
+              else{
+                Fluttertoast.showToast(
+                    msg: "Please Select a Address",
+                    fontSize: 16,
+                    backgroundColor: Colors.white,
+                    textColor: darkThemeRed,
+                    toastLength: Toast.LENGTH_LONG);
+              }
+            } else {
               Fluttertoast.showToast(
-                  msg: "Please Select a Address",
-                  fontSize: 16,
-                  backgroundColor: Colors.white,
+                  msg: "This shop is Undeliverable at your location",
+                  fontSize: 14,
+                  backgroundColor: Colors.orange[100],
                   textColor: darkThemeRed,
                   toastLength: Toast.LENGTH_LONG);
             }
+
+
           },
           label: Container(
             height: 35.0,

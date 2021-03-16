@@ -409,7 +409,10 @@ class _CartState extends State<Cart> {
                                     textColor: darkThemeRed,
                                     toastLength: Toast.LENGTH_LONG);
                               } else {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AddressListPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => AddressListPage(
+                                  latitude: snapshot.data.data.cartItems[0].latitude,
+                                  longitude: snapshot.data.data.cartItems[0].longitude,
+                                )));
                               }
                             },
                             child: Container(

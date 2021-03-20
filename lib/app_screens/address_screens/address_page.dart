@@ -459,7 +459,7 @@ class _AddressPageState extends State<AddressPage> {
 
 
                         Text(
-                          'Remarks',
+                          'Special Instruction',
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                         Padding(
@@ -474,7 +474,7 @@ class _AddressPageState extends State<AddressPage> {
                               // keyboardType: TextInputType.number,
                               decoration: new InputDecoration(
 
-                                hintText: "Order remarks",
+                                hintText: "Instruction for Cooking",
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                       width: 1, color: Colors.blue.shade800),

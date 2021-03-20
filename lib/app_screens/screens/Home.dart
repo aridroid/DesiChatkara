@@ -1,5 +1,7 @@
 import 'package:desichatkara/app_screens/Home/model/ActiveCuponModel.dart' as acm;
+import 'package:desichatkara/app_screens/Home/model/ActiveCuponModel.dart';
 import 'package:desichatkara/app_screens/Home/model/AllCategoryModel.dart';
+import 'package:desichatkara/app_screens/Home/model/KitchenNearModel.dart'as rlm;
 import 'package:desichatkara/app_screens/Home/model/KitchenNearModel.dart';
 import 'package:desichatkara/app_screens/Home/repository/ActiveCuponRepo.dart';
 import 'package:desichatkara/app_screens/Home/repository/AllCategoryRepo.dart';
@@ -26,6 +28,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'SendMail.dart';
 import 'WhatsapSendMssage.dart';
 import 'favoriteKitchens.dart';
+import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   // String address;
@@ -61,6 +65,14 @@ class _HomeState extends State<Home> {
   String userPhoto = "";
 
   List<double> shopDistance=new List<double>();
+  List<rlm.Data> restroList=[];
+  List<rlm.Data> availableRestroList=[];
+  DateTime startTime;
+  DateTime endTime;
+  DateTime nowTime=DateTime.now();
+  List<bool> shopTimingAvailability=new List<bool>();
+  int restroIndex=0;
+  int offerIndex=0;
 
   List<String> bannerImages = [
     'images/diet.png',
@@ -187,7 +199,21 @@ class _HomeState extends State<Home> {
     email = prefs.getString("email");
     print(prefs.getString("name"));
     userPhoto = prefs.getString("user_photo");
-    setState(() {});
+
+    _kitchenNearRepository = KitchensNearRepository();
+    allKitchenNear = _kitchenNearRepository.getAllKitchenNear("2");
+
+    _activeCuponRepository = ActiveCuponRepository();
+    activeCupon = _activeCuponRepository.getactiveCupon();
+
+
+    _allCategoryRepository = AllCategoryRepository();
+    allCategory = _allCategoryRepository.getAllCategory();
+    if (this.mounted) {
+      setState(() {
+        // Your state change code goes here
+      });
+    }
   }
 
   getLocation() async {
@@ -209,6 +235,7 @@ class _HomeState extends State<Home> {
   DateTime availableFrom;
   DateTime availableTo;
 
+
   @override
   void initState() {
     super.initState();
@@ -216,15 +243,7 @@ class _HomeState extends State<Home> {
     controller = PageController();
     //Map body;
 
-    _kitchenNearRepository = KitchensNearRepository();
-    allKitchenNear = _kitchenNearRepository.getAllKitchenNear("2");
 
-    _activeCuponRepository = ActiveCuponRepository();
-    activeCupon = _activeCuponRepository.getactiveCupon();
-
-
-    _allCategoryRepository = AllCategoryRepository();
-    allCategory = _allCategoryRepository.getAllCategory();
     if (changeAddress == null) {
       getLocation();
     } else {
@@ -693,34 +712,241 @@ class _HomeState extends State<Home> {
             Container(
               height: 160.0,
               padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-              child: ListView.builder(
-                // cacheExtent: 10,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  //itemCount: snapshot.data.data.length,
-                  itemCount: 3,
-                  physics: ScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      width: 140.0,
-                      height: 160.0,
-                      margin: EdgeInsets.only(left: 3.0, right: 3.0),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        elevation: 2.0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Image.asset(
-                            "images/${CouponImages[index]}",
-                            //fit: BoxFit.fill,
-                          ),
+              child: FutureBuilder<ActiveCuponResponseModel>(
+                  future: activeCupon,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data.data != null) {
+                        return ListView.builder(
+                          // cacheExtent: 10,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            //itemCount: snapshot.data.data.length,
+                            itemCount: snapshot.data.data.length,//3,
+                            physics: ScrollPhysics(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: (){
+                                  showDialog(
+                                      context: context,
+                                      barrierDismissible: true,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          // title: Text("Give the code?"),
+                                          content: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: <Widget>[
 
+                                                Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: InkWell(
+                                                      child: Icon(Icons.cancel,color: darkThemeRed,),
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                      }),
+                                                ),
+
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Container(
+                                                        padding: const EdgeInsets.only(top: 12.0,),
+                                                        clipBehavior: Clip.hardEdge,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(2))),
+                                                        child: FadeInImage(
+                                                          height: 110.0,
+                                                          width: 90.0,
+                                                          image: NetworkImage(
+                                                            "$imageBaseURL${snapshot.data.data[index].couponBannerUrl}",
+                                                          ),
+                                                          placeholder: AssetImage("images/veg_meal.png"),
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: Column(
+                                                       // crossAxisAlignment: CrossAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 10.0,left: 8),
+                                                            child: Text(
+                                                              "${snapshot.data.data[index].couponDescription}",
+                                                              style: TextStyle(color: Colors.black, fontSize: 15.0, fontWeight: FontWeight.bold),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 8.0,left: 10),
+                                                            child: Text(
+                                                              "Valid From : ${snapshot.data.data[index].couponValidFrom}",
+                                                              style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 12.0,
+                                                                // fontWeight: FontWeight.bold
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 5.0,left: 1),
+                                                            child: Text(
+                                                              "Valid To : ${snapshot.data.data[index].couponValidTo}",
+                                                              style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 12.0,
+                                                                // fontWeight: FontWeight.bold
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 10.0,left: 10),
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Vendors : ",
+                                                                  style: TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: 12.0,
+                                                                    // fontWeight: FontWeight.bold
+                                                                  ),
+                                                                ),
+                                                                Flexible(
+                                                                  child: Text(
+                                                                    (snapshot.data.data[index].vendors.length > 0)
+                                                                        ? "${snapshot.data.data[index].vendors[0].shopName}"
+                                                                        : "For All Vendors",
+                                                                    style: TextStyle(color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w500),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(top: 10.0,left: 10),
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                  "Coupon Code : ",
+                                                                  style: TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: 12.0,
+                                                                    // fontWeight: FontWeight.bold
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  "${snapshot.data.data[index].couponCode}",
+                                                                  style: TextStyle(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                Divider(
+                                                  color: Colors.red,
+                                                ),
+                                                Center(
+                                                  child: new FlatButton(
+                                                      shape: RoundedRectangleBorder(
+                                                          side: BorderSide(color: Colors.deepOrange, width: 1, style: BorderStyle.solid),
+                                                          borderRadius: BorderRadius.circular(5)),
+                                                      child: const Text(
+                                                        "Copy Coupon Code",
+                                                        style: TextStyle(
+                                                          color: Colors.deepOrangeAccent,
+                                                          fontSize: 14.0,
+                                                          // fontWeight: FontWeight.bold
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        ClipboardManager.copyToClipBoard("${snapshot.data.data[index].couponCode}").then((result) {
+                                                          Fluttertoast.showToast(
+                                                              msg: "${snapshot.data.data[index].couponCode} Copied to Your ClipBoard",
+                                                              fontSize: 14,
+                                                              //webBgColor: Colors.red,
+
+                                                              backgroundColor: Colors.white,
+                                                              textColor: darkThemeRed,
+                                                              toastLength: Toast.LENGTH_LONG);
+                                                          Navigator.pop(context);
+                                                        });
+                                                      }),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      });
+
+                                },
+                                child: Container(
+                                  width: 140.0,
+                                  height: 160.0,
+                                  margin: EdgeInsets.only(left: 3.0, right: 3.0),
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    elevation: 2.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: FadeInImage(
+                                        image: NetworkImage(
+                                          // imageBaseURL + snapshot.data.data[index].couponBannerUrl,
+                                          imageBaseURL+ snapshot.data.data[index].couponBannerUrl,
+                                        ),
+
+                                        placeholder: AssetImage("images/veg_meal.png"),
+                                        fit: BoxFit.fill,
+                                      ),
+
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                      } else {
+                        return Center(
+                          child: Text(
+                            "No offer",
+                            style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      }
+                    } else if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return Center(
+                        child: Text(
+                          "No Data.",
+                          style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    } else
+                      return Center(
+                        child: SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: CircularProgressIndicator(
+                              backgroundColor: circularBGCol,
+                              strokeWidth: strokeWidth,
+                              valueColor: AlwaysStoppedAnimation<Color>(circularStrokeCol)),
+                        ),
+                      );
+                  }
+              ),
+
+
             ),
             Padding(
               padding:
@@ -738,207 +964,241 @@ class _HomeState extends State<Home> {
               future: allKitchenNear,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  restroList=snapshot.data.data;
+                  for(int i=0;i<restroList.length;i++){
+
+                    double totalDistance = calculateDistance(
+                        userLat,
+                        userLong,
+                        (restroList[i].latitude != null)
+                            ? double.parse(restroList[i].latitude)
+                            : userLat,
+                        (restroList[i].longitude != null)
+                            ? double.parse(restroList[i].longitude)
+                            : userLong);
+
+
+                    restroList[i].distance=totalDistance;
+
+                    availableFrom=DateFormat("HH:mm:ss").parse(restroList[i].availableFrom);
+                    availableTo=DateFormat("HH:mm:ss").parse(restroList[i].availableTo);
+
+                    if(DateTime.now(). compareTo(DateTime(nowTime.year,nowTime.month,nowTime.day,availableFrom.hour,availableFrom.minute))>0 &&
+                        DateTime.now(). compareTo(DateTime(nowTime.year,nowTime.month,nowTime.day,availableTo.hour,availableTo.minute))<0){
+                      shopTimingAvailability.add(true);
+                      availableRestroList.add(snapshot.data.data[i]);
+
+                    }else{
+                    }
+
+                  }
+
+                  availableRestroList.sort((a,b)=> a.distance.compareTo(b.distance));
                   return ListView.builder(
                       // cacheExtent: 10,
                       // scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data.data.length,
+                      itemCount: availableRestroList.length,
                       shrinkWrap: true,
 
                       // physics: NeverScrollableScrollPhysics(),
                      physics: ScrollPhysics(),
                       itemBuilder: (BuildContext ctxt, int index) {
 
-                        double totalDistance = calculateDistance(
-                            userLat,
-                            userLong,
-                            (snapshot.data.data[index].latitude != null)
-                                ? double.parse(snapshot.data.data[index].latitude)
-                                : userLat,
-                            (snapshot.data.data[index].longitude != null)
-                                ? double.parse(snapshot.data.data[index].longitude)
-                                : userLong);
-                        shopDistance.add(totalDistance);
+                        restroIndex=(index-((index/vendorImages.length).floor()*vendorImages.length));
+
+                        // double totalDistance = calculateDistance(
+                        //     userLat,
+                        //     userLong,
+                        //     (snapshot.data.data[index].latitude != null)
+                        //         ? double.parse(snapshot.data.data[index].latitude)
+                        //         : userLat,
+                        //     (snapshot.data.data[index].longitude != null)
+                        //         ? double.parse(snapshot.data.data[index].longitude)
+                        //         : userLong);
+                        // shopDistance.add(totalDistance);
 
 
 
-                        return InkWell(
-                          onTap: () {
-                            // Navigator.push(context, MaterialPageRoute(builder: (context) => KitchenDetailedMenu(
-                            //               categoryId: snapshot.data.data[index].categoryId,
-                            //               vendorId: snapshot.data.data[index].vendorId,
-                            //               vendorName: snapshot.data.data[index].shopName,
-                            //             availableFrom: snapshot.data.data[index].availableFrom,
-                            //             availableTo: snapshot.data.data[index].availableTo,
-                            //             address: snapshot.data.data[index].address,
-                            //           )),);
+                        return Visibility(
+                          visible: (availableRestroList[index].distance <= 8.0),
+                          child: InkWell(
+                            onTap: () {
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => KitchenDetailedMenu(
+                              //               categoryId: snapshot.data.data[index].categoryId,
+                              //               vendorId: snapshot.data.data[index].vendorId,
+                              //               vendorName: snapshot.data.data[index].shopName,
+                              //             availableFrom: snapshot.data.data[index].availableFrom,
+                              //             availableTo: snapshot.data.data[index].availableTo,
+                              //             address: snapshot.data.data[index].address,
+                              //           )),);
 
 
-                            if (shopDistance[index] <= 10.0) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>KitchenDetailedMenu(
-                                        categoryId: snapshot.data.data[index].categoryId,
-                                        vendorId: snapshot.data.data[index].vendorId,
-                                        vendorName: snapshot.data.data[index].shopName,
-                                        availableFrom: snapshot.data.data[index].availableFrom,
-                                        availableTo: snapshot.data.data[index].availableTo,
+                            //  if (shopDistance[index] <= 10.0) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>KitchenDetailedMenu(
+                                          categoryId: availableRestroList[index].categoryId,
+                                          vendorId: availableRestroList[index].vendorId,
+                                          vendorName: availableRestroList[index].shopName,
+                                          availableFrom: availableRestroList[index].availableFrom,
+                                          availableTo: availableRestroList[index].availableTo,
 
-                                        address: snapshot.data.data[index].address,
+                                          address:availableRestroList[index].address,
 
 
-                                      )),);
-                            } else {
-                              Fluttertoast.showToast(
-                                  msg: "${snapshot.data.data[index].shopName} is Undeliverable at your location",
-                                  fontSize: 14,
-                                  backgroundColor: Colors.orange[100],
-                                  textColor: darkThemeRed,
-                                  toastLength: Toast.LENGTH_LONG);
-                            }
+                                        )),);
+                              // } else {
+                              //   Fluttertoast.showToast(
+                              //       msg: "${availableRestroList[index].shopName} is Undeliverable at your location",
+                              //       fontSize: 14,
+                              //       backgroundColor: Colors.orange[100],
+                              //       textColor: darkThemeRed,
+                              //       toastLength: Toast.LENGTH_LONG);
+                              // }
 
-                          },
-                          child: Container(
-                            height: 220,
-                            margin: /*index == snapshot.data.data.length - 1
-                                ? EdgeInsets.only(
-                                    left: 10.0, right: 10.0, bottom: 0)
-                                : */EdgeInsets.only(
-                                    left: 10.0, right: 10.0, bottom: 10,top:10),
-                            child: Card(
-                              margin: EdgeInsets.zero,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              elevation: 2.0,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                               // mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        height: 150.0,
-                                        width: screenWidth,
-                                        clipBehavior: Clip.hardEdge,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft:
-                                                Radius.circular(15.0),
-                                            topRight:
-                                                Radius.circular(15.0),
+                            },
+                            child: Container(
+                              height: 220,
+                              margin: /*index == snapshot.data.data.length - 1
+                                  ? EdgeInsets.only(
+                                      left: 10.0, right: 10.0, bottom: 0)
+                                  : */EdgeInsets.only(
+                                      left: 10.0, right: 10.0, bottom: 10,top:10),
+                              child: Card(
+                                margin: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                elevation: 2.0,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                 // mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          height: 150.0,
+                                          width: screenWidth,
+                                          clipBehavior: Clip.hardEdge,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              topLeft:
+                                                  Radius.circular(15.0),
+                                              topRight:
+                                                  Radius.circular(15.0),
+                                            ),
+                                          ),
+                                          child: FadeInImage(
+                                            image:
+                                                // NetworkImage(
+                                                //imageBaseURL+ snapshot.data.data[index].vendorImage,
+                                                // ),
+                                                AssetImage(vendorImages[
+                                                    index % 3]),
+                                            placeholder: AssetImage(
+                                                "images/logo.jpeg"),
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
-                                        child: FadeInImage(
-                                          image:
-                                              // NetworkImage(
-                                              //imageBaseURL+ snapshot.data.data[index].vendorImage,
-                                              // ),
-                                              AssetImage(vendorImages[
-                                                  index % 3]),
-                                          placeholder: AssetImage(
-                                              "images/logo.jpeg"),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                      Positioned(
-                                          bottom: 0,
-                                          left: 0,
-                                          child: Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                5, 2.5, 5, 2.5),
-                                            color: Color.fromRGBO(130, 2, 14, 1),
-                                            child: Text(
-                                              "Flat 30% OFF",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          )),
-                                      // Positioned(
-                                      //     bottom: 10,
-                                      //     right: 10,
-                                      //     child: Container(
-                                      //       padding: EdgeInsets.fromLTRB(
-                                      //           5, 2.5, 5, 2.5),
-                                      //       decoration: BoxDecoration(
-                                      //           color: Colors.white54,
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(
-                                      //                   5)),
-                                      //       child: Text(
-                                      //         "47 mins",
-                                      //         style:
-                                      //             GoogleFonts.poppins(),
-                                      //       ),
-                                      //     )),
-                                      Positioned(
-                                          top: 10,
-                                          right: 10,
-                                          child: ClipOval(
+                                        Positioned(
+                                            bottom: 0,
+                                            left: 0,
                                             child: Container(
-                                              padding: EdgeInsets.all(3),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white70),
-                                              child: Icon(
-                                                Icons.bookmark_border,
-                                                size: 20,
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 2.5, 5, 2.5),
+                                              color: Color.fromRGBO(130, 2, 14, 1),
+                                              child: Text(
+                                                "Flat 30% OFF",
+                                                style: TextStyle(
+                                                    color: Colors.white),
                                               ),
-                                            ),
-                                          ))
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10.0,
-                                        top: 10.0,
-                                        right: 10.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          snapshot
-                                          .data.data[index].shopName,
-                                          style: new TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,fontWeight: font_semibold),
-                                        ),
-                                        Spacer(),
-                                        Icon(
-                                          Icons.star,
-                                          color: Color.fromRGBO(
-                                              255, 165, 0, 1),
-                                          size: 15.0,
-                                        ),
-                                        Text(
-                                          "4.2",
-                                          style: new TextStyle(
-                                              fontWeight:
-                                                  FontWeight.bold),
-                                        ),
-                                        // Text(
-                                        //   "/5",
-                                        //   style: new TextStyle(
-                                        //       color: Colors.grey),
-                                        // ),
+                                            )),
+                                        // Positioned(
+                                        //     bottom: 10,
+                                        //     right: 10,
+                                        //     child: Container(
+                                        //       padding: EdgeInsets.fromLTRB(
+                                        //           5, 2.5, 5, 2.5),
+                                        //       decoration: BoxDecoration(
+                                        //           color: Colors.white54,
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(
+                                        //                   5)),
+                                        //       child: Text(
+                                        //         "47 mins",
+                                        //         style:
+                                        //             GoogleFonts.poppins(),
+                                        //       ),
+                                        //     )),
+                                        Positioned(
+                                            top: 10,
+                                            right: 10,
+                                            child: ClipOval(
+                                              child: Container(
+                                                padding: EdgeInsets.all(3),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white70),
+                                                child: Icon(
+                                                  Icons.bookmark_border,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ))
                                       ],
                                     ),
-                                  ),
-                                  Padding(
+                                    Padding(
                                       padding: EdgeInsets.only(
                                           left: 10.0,
-                                          right: 10.0,
-                                          top: 5.0),
+                                          top: 10.0,
+                                          right: 10.0),
                                       child: Row(
                                         children: [
                                           Text(
-                                            "veg, Lunch, Dinner",
+                                            availableRestroList[index].shopName,
                                             style: new TextStyle(
-                                                color: Colors.grey[700]),
+                                            color: Colors.black,
+                                            fontSize: 14,fontWeight: font_semibold),
                                           ),
                                           Spacer(),
-                                          currentWidget(snapshot.data.data[index].availableFrom,snapshot.data.data[index].availableTo ),
+                                          Icon(
+                                            Icons.star,
+                                            color: Color.fromRGBO(
+                                                255, 165, 0, 1),
+                                            size: 15.0,
+                                          ),
+                                          Text(
+                                            "4.2",
+                                            style: new TextStyle(
+                                                fontWeight:
+                                                    FontWeight.bold),
+                                          ),
+                                          // Text(
+                                          //   "/5",
+                                          //   style: new TextStyle(
+                                          //       color: Colors.grey),
+                                          // ),
                                         ],
-                                      )),
-                                ],
+                                      ),
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            top: 5.0),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "veg, Lunch, Dinner",
+                                              style: new TextStyle(
+                                                  color: Colors.grey[700]),
+                                            ),
+                                            Spacer(),
+                                            currentWidget(availableRestroList[index].availableFrom,availableRestroList[index].availableTo ),
+                                          ],
+                                        )),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

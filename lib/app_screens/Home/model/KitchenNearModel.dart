@@ -1,3 +1,5 @@
+//KitchensNearResponseModel
+
 class KitchensNearResponseModel {
   List<Data> data;
   String message;
@@ -49,6 +51,7 @@ class Data {
   String parentId;
   String totalNumberOfFeedback;
   String averageRating;
+  double distance;
 
   Data(
       {this.userId,
@@ -71,7 +74,8 @@ class Data {
         this.availableTo,
         this.parentId,
         this.totalNumberOfFeedback,
-        this.averageRating});
+        this.averageRating,
+        this.distance});
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
@@ -95,6 +99,7 @@ class Data {
     parentId = json['parent_id'];
     totalNumberOfFeedback = json['total_number_of_feedback'];
     averageRating = json['average_rating'];
+    distance = json['distance'];
   }
 
   Map<String, dynamic> toJson() {
@@ -120,6 +125,7 @@ class Data {
     data['parent_id'] = this.parentId;
     data['total_number_of_feedback'] = this.totalNumberOfFeedback;
     data['average_rating'] = this.averageRating;
+    data['distance'] = this.distance;
     return data;
   }
 }

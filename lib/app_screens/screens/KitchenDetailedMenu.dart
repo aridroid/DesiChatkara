@@ -50,6 +50,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
   final String vendorName;
   bool _isVeg = false;
   var filtered = [];
+  //bool status = false;
 
   _KitchenDetailedMenuState(this.vendorId, this.categoryId, this.vendorName);
 
@@ -355,13 +356,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                     Spacer(),
                     Padding(
                       padding: EdgeInsets.only(right: 10.0),
-                      child: Text(
-                        "Onion",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: font_bold),
-                      ),
+                      child: onion(),
                     ),
                     SizedBox(
                       width: 70,
@@ -370,19 +365,25 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                         activeColor: darkThemeRed, //Colors.pinkAccent,
                         value: _isVeg,
                         onChanged: (value) {
-                          if (_isVeg == false) {
-                            _isVeg = true;
-                            filtered.clear();
-                            _foodDetailsFuture =
-                                _foodHomeRepository.foodDetails(categoryId,
-                                    vendorId, _cartId, _userId, _userToken);
-                          } else {
-                            _isVeg = false;
-                            filtered.clear();
-                            _foodDetailsFuture =
-                                _foodHomeRepository.foodDetails(categoryId,
-                                    vendorId, _cartId, _userId, _userToken);
-                          }
+                          print("value : $value");
+                          setState(() {
+                           // status = value;
+                            _isVeg=value;
+                          });
+                          // if (_isVeg == false) {
+                          //   _isVeg = true;
+                          //   filtered.clear();
+                          //   _foodDetailsFuture =
+                          //       _foodHomeRepository.foodDetails(categoryId,
+                          //           vendorId, _cartId, _userId, _userToken);
+                          // }
+                          // else {
+                          //   _isVeg = false;
+                          //   filtered.clear();
+                          //   _foodDetailsFuture =
+                          //       _foodHomeRepository.foodDetails(categoryId,
+                          //           vendorId, _cartId, _userId, _userToken);
+                          // }
                         },
                       ),
                     ),
@@ -518,6 +519,8 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                       if (snapshot.data.data.menu.isNotEmpty) {
                         foodDetailsModelData = snapshot.data.data;
                         if (firstEntry) {
+
+
                           Future.delayed(Duration.zero, () async {
                             setState(() {
                               print("Hello" +
@@ -554,12 +557,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
 
                                 for (int i = 0; i < foodDetailsModelData.productDetails.length; i++) {
                                   if (foodDetailsModelData.productDetails[i].categoryId == foodDetailsModelData.menu[0].subcategory[index0].id) {
-                                    if (foodDetailsModelData
-                                            .productDetails[i].skus.length >
-                                        0) {
-                                      _productDetailsList[index0].add(
-                                          foodDetailsModelData
-                                              .productDetails[i]);
+                                    if (foodDetailsModelData.productDetails[i].skus.length >0) {
+                                      _productDetailsList[index0].add(foodDetailsModelData.productDetails[i]
+                                      );
 
                                       // Dynamically List Data Generate...
                                       // productsNumber = foodDetailsModelData.productDetails[i].skus.length;
@@ -586,20 +586,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
 
                                       // print("_productAmount");
                                       _cartItemId[index0].add(List.generate(
-                                          foodDetailsModelData
-                                              .productDetails[i].skus.length,
-                                          (index) => (foodDetailsModelData
-                                                      .productDetails[i]
-                                                      .skus[index]
-                                                      .cartItem ==
-                                                  null)
-                                              ? "0"
-                                              : foodDetailsModelData
-                                                  .productDetails[i]
-                                                  .skus[index]
-                                                  .cartItem
-                                                  .cartItemId
-                                                  .toString()));
+                                          foodDetailsModelData.productDetails[i].skus.length,
+                                          (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? "0"
+                                              : foodDetailsModelData.productDetails[i].skus[index].cartItem.cartItemId.toString()));
 
                                       // print("_cartItemId");
 
@@ -612,29 +601,14 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                       _moreLessVisibility[index0].add(
                                           List.generate(
                                               foodDetailsModelData.productDetails[i].skus.length,
-                                              (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null)
-                                                  ? false
-                                                  : true));
+                                              (index) => (foodDetailsModelData.productDetails[i].skus[index].cartItem == null) ? false : true));
 
-                                      _favCheck[index0].add(List.generate(
-                                          foodDetailsModelData
-                                              .productDetails[i].skus.length,
-                                          (index) => (foodDetailsModelData
-                                                      .productDetails[i]
-                                                      .skus[index]
-                                                      .wishlist ==
-                                                  null)
-                                              ? false
-                                              : true));
+                                      _favCheck[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
+                                          (index) => (foodDetailsModelData.productDetails[i].skus[index].wishlist == null) ? false : true));
 
                                       // print("_moreLessVisibility");
 
-                                      _circularProgressVisibility[index0].add(
-                                          List.generate(
-                                              foodDetailsModelData
-                                                  .productDetails[i]
-                                                  .skus
-                                                  .length,
+                                      _circularProgressVisibility[index0].add(List.generate(foodDetailsModelData.productDetails[i].skus.length,
                                               (index) => false));
 
                                       // _favCheck[index0]
@@ -642,12 +616,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                     }
                                   }
                                 }
-                                if (foodDetailsModelData
-                                            .menu[0].subcategory.length -
-                                        1 ==
-                                    index0) {
-                                  check = false;
-                                }
+                                if (foodDetailsModelData.menu[0].subcategory.length - 1 == index0) {check = false;}
                               }
 
                               print(_productDetailsList[0][0].id);
@@ -672,110 +641,26 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                       itemCount:
                                           _productDetailsList[index0].length,
                                       itemBuilder: (context, index1) {
+                                        // if(_isVeg==true){
+                                        //   for(int i=0;i<_productDetailsList[index0].length;i++)
+                                        //   {
+                                        //     if(_productDetailsList[index0][index1].skus[i].isVeg=="1")
+                                        //     {
+                                        //       filtered.add(_productDetailsList[index0][index1].skus[i]);
+                                        //     }
+                                        //
+                                        //   }
+                                        // }else{
+                                        //   filtered.add(_productDetailsList[index0][index1].skus);
+                                        // }
                                         return ListView.builder(
                                             shrinkWrap: true,
                                             physics: ScrollPhysics(),
-                                            itemCount:
-                                                _productDetailsList[index0]
-                                                        [index1]
-                                                    .skus
-                                                    .length,
+                                            itemCount://filtered.length,
+                                                _productDetailsList[index0][index1].skus.length,
                                             itemBuilder: (context, index) {
-                                              return InkWell(
-                                                onTap: (){
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext context) {
-                                                        screenHeight = MediaQuery.of(context).size.height;
-                                                        screenWidth = MediaQuery.of(context).size.width;
-                                                        return AlertDialog(
-                                                          content: InkWell(
-                                                            onTap: (){
-                                                              Navigator.pop(context);
-                                                            },
-                                                            child: Stack(
-                                                              overflow: Overflow.visible,
-                                                              children: <Widget>[
-                                                                Row(
-                                                                  children: [
-                                                                    Expanded(
-                                                                      flex:2,
-                                                                      child: Container(
-                                                                        height:
-                                                                        screenWidth *
-                                                                            0.2,
-                                                                        width:
-                                                                        screenWidth *
-                                                                            0.2,
-                                                                        // height: double.infinity,
-                                                                        clipBehavior:
-                                                                        Clip.hardEdge,
-                                                                        decoration:
-                                                                        BoxDecoration(
-                                                                          borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(
-                                                                                  5.0)),
-                                                                        ),
-                                                                        child:
-                                                                        FadeInImage(
-                                                                          image:
-                                                                          NetworkImage(
-                                                                            "$imageBaseURL${(_productDetailsList[index0][index1].skus[index].image != null) ? _productDetailsList[index0][index1].skus[index].image.productImages : "null"}",
-                                                                          ),
-                                                                          placeholder:
-                                                                          AssetImage(
-                                                                              "images/logo.jpeg"),
-                                                                          fit: BoxFit
-                                                                              .fill,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Expanded(
-                                                                      flex:4,
-                                                                      child: Column(
-                                                                        mainAxisSize: MainAxisSize.min,
-                                                                        children: <Widget>[
-                                                                          Padding(
-                                                                            padding: EdgeInsets.all(8.0),
-                                                                            child: Text(
-                                                                                "${_productDetailsList[index0][index1].skus[index].skuName}",
-                                                                                style:
-                                                                                TextStyle(
-                                                                                  fontWeight:
-                                                                                  FontWeight.bold,
-                                                                                  color:
-                                                                                  Colors.black,
-                                                                                  fontSize:
-                                                                                  screenWidth * 0.04,
-                                                                                )),
-                                                                          ),
-
-                                                                          Padding(
-                                                                            padding: const EdgeInsets.only(left:20.0),
-                                                                            child: Text(
-                                                                                "${_productDetailsList[index0][index1].skus[index].skuDescription}",
-                                                                                style:
-                                                                                TextStyle(
-
-                                                                                  color:
-                                                                                  Colors.black,
-                                                                                  fontSize:
-                                                                                  screenWidth * 0.035,
-                                                                                )),
-                                                                          )
-
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        );
-                                                      });
-                                                },
+                                              return Visibility(
+                                                visible: _isVeg?_productDetailsList[index0][index1].skus[index].isVeg=="1":true,
                                                 child: Card(
                                                     elevation: 2.0,
                                                     shape: RoundedRectangleBorder(
@@ -929,7 +814,9 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                         .start,
                                                                 children: [
                                                                   Row(
+                                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: [
+                                                                       Expanded(flex:1,child:  vegicon(_productDetailsList[index0][index1].skus[index].isVeg)),
                                                                       Expanded(
                                                                         flex:6,
                                                                         child: Text(
@@ -945,7 +832,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                             )),
                                                                       ),
                                                                       Expanded(
-                                                                        flex:3,
+                                                                        flex:2,
                                                                         child: outofStock(_productDetailsList[index0][index1].skus[index].isOutOfStock),
 
                                                                         // Text(
@@ -964,17 +851,13 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                   ),
                                                                   Container(
                                                                     // color: Colors.greenAccent,
-                                                                    margin: EdgeInsets
-                                                                        .only(
-                                                                            top:
-                                                                                8.0),
+                                                                    margin: EdgeInsets.only(top: 2.0),
                                                                     child: Row(
                                                                       children: [
                                                                         Text(
                                                                           "Rs. ${_productDetailsList[index0][index1].skus[index].price}/-",
                                                                           style: TextStyle(
-                                                                              color: Colors.grey[
-                                                                                  700],
+                                                                              color: Colors.blue[900],
                                                                               fontWeight:
                                                                                   font_semibold,
                                                                               fontSize:
@@ -1225,7 +1108,20 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                         )
                                                                       ],
                                                                     ),
-                                                                  )
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsets.only(top:10.0),
+                                                                    child: Text(
+                                                                        "${_productDetailsList[index0][index1].skus[index].skuDescription}",
+                                                                        style:
+                                                                        TextStyle(
+                                                                          color:
+                                                                          Colors.grey[700],
+                                                                          fontSize:
+                                                                          screenWidth * 0.031,
+                                                                          fontWeight: FontWeight.w500
+                                                                        )),
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
@@ -1323,12 +1219,43 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
     return Text(
       "Out of stock",
       style: TextStyle(
-          fontSize: 14, fontWeight: FontWeight.bold, color: Colors.red),
+          fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red),
     );
   }
 
   Widget _outoffstock2() {
     return Text("");
+  }
+
+  onion() {
+    if(_isVeg== true){
+      return Text("With Out Onion",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+            fontWeight: font_bold),
+      );
+    }
+    else{
+      return  Text(" ",
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 18.0,
+            fontWeight: font_bold),
+      );
+    }
+  }
+
+  vegicon(String veg) {
+    // ignore: unrelated_type_equality_checks
+    if(veg=="1"){
+      return Icon(
+          Icons.adjust_rounded,size:18, color:Colors.green
+      );
+    }else{
+      return
+      Icon(Icons.adjust_rounded,size:18, color:Colors.red);
+      }
   }
 
 

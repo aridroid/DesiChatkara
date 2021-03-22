@@ -4,6 +4,7 @@ import 'package:desichatkara/app_screens/CartPage/model/cartItemsUpdateModel.dar
 import 'package:desichatkara/app_screens/CartPage/repository/cartRepository.dart';
 import 'package:desichatkara/app_screens/address_screens/addressListPage.dart';
 import 'package:desichatkara/app_screens/screens/Login.dart';
+import 'package:desichatkara/app_screens/screens/SignUpLogin.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:desichatkara/helper/api_response.dart';
 import 'package:desichatkara/utility/Error.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'ApplyCoupon.dart';
 
 class Cart extends StatefulWidget {
   @override
@@ -268,7 +271,29 @@ class _CartState extends State<Cart> {
                               );
                             }),
                         SizedBox(
-                          height: 50,
+                          height: 35,
+                        ),
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PromoCodePage(),
+                                ));
+                            //OrderDetails
+                          },
+                          child: Container(
+                              padding: EdgeInsets.all(screenWidth * .03),
+
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12.0)), color: Colors.white),
+                              child: Row(
+
+                            children: [
+                              Text("APPLY COUPON",style: TextStyle(fontSize: 14,color: Colors.black ,fontWeight: font_bold),),
+                              Spacer(),
+                              Text("View offers",style: TextStyle(color: lightThemeRed,fontSize: 10,fontWeight: font_semibold),)
+                            ],
+                          )),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: screenHeight * .02, right: 5, left: 5),
@@ -401,7 +426,7 @@ class _CartState extends State<Cart> {
                           child: InkWell(
                             onTap: () {
                               if (_userToken == "") {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpLogin()));
                                 Fluttertoast.showToast(
                                     msg: "Please Login First",
                                     fontSize: 16,

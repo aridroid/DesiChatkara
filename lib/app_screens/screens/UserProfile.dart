@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
+import 'SignUpLogin.dart';
 
 class UserProfile extends StatefulWidget {
   @override
@@ -176,7 +177,7 @@ class _UserProfileState extends State<UserProfile> {
                 userLogin=false;
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (BuildContext context) {
-                      return Starting();
+                      return SignUpLogin();
                     }));
                 /* react to the tile being tapped */
               }),

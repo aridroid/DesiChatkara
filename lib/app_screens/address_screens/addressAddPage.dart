@@ -31,6 +31,9 @@ class _AddressAddPageState extends State<AddressAddPage> {
   String userName = "";
   String userId = "";
   String userToken = "";
+  double userLati;
+  double userLongi;
+
 
   @override
   void initState() {
@@ -184,7 +187,7 @@ class _AddressAddPageState extends State<AddressAddPage> {
                 decoration: InputDecoration(
                     suffixIcon: Icon(Icons.person,
                     color: lightThemeRed,),
-                    hintText: "Full Name of Address",
+                    hintText: "Full Name",
                     hintStyle: TextStyle(
                       color: Colors.black38,
                       fontSize: 14.0,
@@ -414,7 +417,9 @@ class _AddressAddPageState extends State<AddressAddPage> {
                         "zip": "${_zip.text.trim()}",
                         "landmark": "${_landmark.text.trim()}",
                         "userid": "$userId",
-                        "address_name": "${_nameAddress.text.trim()}"
+                        "address_name": "${_nameAddress.text.trim()}",
+                        "latitude" : "$userLat",
+                        "longitude" : "$userLong"
                       };
 
                       _addressAddBloc.addressAdd(body, userToken);
@@ -450,6 +455,8 @@ class _AddressAddPageState extends State<AddressAddPage> {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     debugPrint('location: ${position.latitude}');
     final coordinates = new Coordinates(position.latitude, position.longitude);
+    userLati=position.latitude;
+    userLongi=position.longitude;
     var addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
 

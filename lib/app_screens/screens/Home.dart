@@ -289,7 +289,8 @@ class _HomeState extends State<Home> {
                           height: 75.0,
                           width: 75.0,
                           image: NetworkImage(
-                            "$imageBaseURL$userPhoto",
+                           // "$imageBaseURL$userPhoto",
+                            "$imageBaseURL${(userPhoto!= "") ? userPhoto : "null"}",
                           ),
                           placeholder: AssetImage("images/profile.png"),
                           fit: BoxFit.fill,

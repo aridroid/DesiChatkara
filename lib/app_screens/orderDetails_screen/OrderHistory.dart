@@ -1,6 +1,7 @@
 import 'package:desichatkara/app_screens/orderDetails_screen/model/orderDetailsModel.dart';
 import 'package:desichatkara/app_screens/orderDetails_screen/repository/orderDetailsRepository.dart';
 import 'package:desichatkara/app_screens/screens/OrderDetails.dart';
+import 'package:desichatkara/app_screens/tracking_screen/mapTrackingPage.dart';
 import 'package:desichatkara/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         centerTitle: true,
         title: Text(
           "Order History",
-          style: new TextStyle(color: Colors.white, fontSize: 17.0),
+          style: new TextStyle(color: Colors.white, fontSize: 17.0,fontWeight: font_semibold),
         ),
         actions: [
           IconButton(
@@ -214,6 +215,30 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             height: 50.0,
                                             // padding: EdgeInsets.symmetric(horizontal: 20.0),
                                             child: Center(child: Text("Order Details", style: new TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: font_bold))),
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        InkWell(
+                                          onTap: (){
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => MapTrackingPage(orderData: snapshot.data.data[index]),
+                                                ));
+                                            //OrderDetails
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width * .29,
+                                            margin: EdgeInsets.only(left: 5.0, right: 5.0, top: 13.0,),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                              color: lightThemeRed,
+                                            ),
+
+                                            // color: Colors.white,
+                                            height: 50.0,
+                                            // padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                            child: Center(child: Text("Order Tracking", style: new TextStyle(color: Colors.white, fontSize: 16.0,fontWeight: font_bold))),
                                           ),
                                         ),
                                       ],

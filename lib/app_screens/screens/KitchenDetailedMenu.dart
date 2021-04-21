@@ -1119,7 +1119,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
                                                                           Colors.grey[700],
                                                                           fontSize:
                                                                           screenWidth * 0.031,
-                                                                          fontWeight: FontWeight.w500
+                                                                          fontWeight: FontWeight.w600
                                                                         )),
                                                                   ),
                                                                 ],
@@ -1237,7 +1237,7 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
       );
     }
     else{
-      return  Text(" ",
+      return  Text("With Out Onion",
         style: TextStyle(
             color: Colors.black,
             fontSize: 18.0,
@@ -1254,7 +1254,11 @@ class _KitchenDetailedMenuState extends State<KitchenDetailedMenu> {
       );
     }else{
       return
-      Icon(Icons.adjust_rounded,size:18, color:Colors.red);
+        Image.asset(
+          "images/onions.png",
+          height: 18.0,
+          width: 18.0,
+        );
       }
   }
 

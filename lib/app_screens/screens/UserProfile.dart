@@ -1,5 +1,6 @@
 import 'package:desichatkara/app_screens/profile_screen/profileManage.dart';
 import 'package:desichatkara/app_screens/screens/Starting.dart';
+import 'package:desichatkara/app_screens/walletScreen/walletPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -91,7 +92,8 @@ class _UserProfileState extends State<UserProfile> {
                    child: FadeInImage(
                     image: NetworkImage(
                       // imageBaseURL + snapshot.data.data[index].couponBannerUrl,
-                      "$imageBaseURL$userPhoto",
+                     // "$imageBaseURL$userPhoto",
+                      "$imageBaseURL${(userPhoto!= "") ? userPhoto : "null"}",
                     ),
                     width: 110.0,
                     height: 110.0,
@@ -118,7 +120,7 @@ class _UserProfileState extends State<UserProfile> {
           ListTile(
               leading: const Icon(
                 Icons.person_outline,
-                color: Colors.red,
+                color:lightThemeRed,
               ),
               title: const Text("Manage Profile"),
               onTap: () {
@@ -132,7 +134,7 @@ class _UserProfileState extends State<UserProfile> {
           ListTile(
               leading: const Icon(
                 Icons.notifications_on_outlined,
-                color: Colors.red,
+                color:lightThemeRed,
               ),
               title: const Text("Notifications"),
               onTap: () {
@@ -141,16 +143,22 @@ class _UserProfileState extends State<UserProfile> {
           ListTile(
               leading: const Icon(
                 Icons.payment_outlined,
-                color: Colors.red,
+                color:lightThemeRed,
               ),
-              title: const Text("Payment"),
+              title: const Text("Wallet"),
               onTap: () {
-                /* react to the tile being tapped */
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WalletPage(),
+                    ));
+
+                /* react to the tile being tapped  WalletPage */
               }),
           ListTile(
               leading: const Icon(
                 Icons.lock_outline,
-                color: Colors.red,
+                color: lightThemeRed,
               ),
               title: const Text("Change Password"),
               onTap: () {
@@ -159,7 +167,7 @@ class _UserProfileState extends State<UserProfile> {
           ListTile(
               leading: const Icon(
                 Icons.login_outlined,
-                color: Colors.red,
+                color:lightThemeRed,
               ),
               title: const Text("Logout"),
               onTap: () {

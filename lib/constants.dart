@@ -17,6 +17,7 @@ String address;
 
 const darkThemeRed=Color.fromRGBO(130, 2, 14, 1);
 const lightThemeRed=Color.fromRGBO(143, 23, 35, 1);
+const darkThemeDeepRed=Color.fromRGBO(81, 1, 0, 1);
 const lightThemeWhite=Color.fromRGBO(243, 243, 243, 1);
 const mapApiKey = 'AIzaSyC6hMR5kMX8Y5M0BgxCzZji81nhxf_uLmM';
 const circularBGCol=Color.fromRGBO(143, 23, 35, 1);

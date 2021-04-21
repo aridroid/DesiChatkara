@@ -473,7 +473,7 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
           builder: (context) => CameraScreen(),
         ));
     this.setState(() {
-      imageFile1 = File(widget.imgPath);//
+      imageFile1 = File(widget.imgPath);//(convert String to File)
     });
     Navigator.of(context).pop();
   }
@@ -506,7 +506,8 @@ class _ProfileManagePageState extends State<ProfileManagePage> {
         height: 180.0,
         width: 130.0,
         image: NetworkImage(
-          "$imageBaseURL$userPhoto",
+          //"$imageBaseURL$userPhoto",
+          "$imageBaseURL${(userPhoto!= "") ? userPhoto : "null"}",
         ),
         placeholder: AssetImage("images/profile.png"),
         fit: BoxFit.fill,
